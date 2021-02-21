@@ -2,7 +2,7 @@
 
 ## Title
 
-Docker Playground (tentative)
+Calcifer
 
 ## Team Members
 
