@@ -23,8 +23,8 @@ For the beta we plan to complete:
 
 - Docker environments on demand
   - Docker in Docker
-  - SSH
   - Dynamic Nginx reverse proxy
+  - SSH + SFTP solution
 - Terminal
   - navigate the file system
   - execute OS (alpine linux) commands
