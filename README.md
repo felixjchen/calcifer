@@ -30,13 +30,13 @@ For the beta we plan to complete:
 - Terminal
   - navigate the file system
   - execute OS (alpine linux) commands
-  - execute Docker commands
+  - execute Docker (build run) commands
 - File System
   - navigate the file system within the playground environment
   - CRUD files and directories
 - Code editor
-  - To edit code and have changes propagate to the filesystem inside the playground environment
-  - Synax highlighting
+  - edit code and have changes propagate to the filesystem
+  - Syntax highlighting
 
 ## Final
 
@@ -56,7 +56,8 @@ For the final deliverable, we plan to have:
 - TypeScript, Express, SocketIO and SSH2 on our backend services
 - SocketIO and Angular for our frontend
 - MongoDB for our database
-- Docker in Docker, Docker Compose and Sysbox for playgrounds
+- Docker Compose for services
+- Docker in Docker and Sysbox Runtime for playgrounds
 - JWilder’s Nginx-Proxy for dynamic routes
 - Google Cloud Platform Virtual Machine
 - Namecheap domain
@@ -69,8 +70,10 @@ For the final deliverable, we plan to have:
 - Code Editor: Developing a nice UI for the code editor and the backend routes to sync up virtual files on the browser with the actual files inside the playground environment. Virtual files would also have to be synced to other sessions so that changes appear on the fly to enable collaborative programming.
 - File explorer: Similar challenges as the ones for the Code Editor. We would also have to implement a way for files to be created and deleted on the virtual browser and then have that sync with the filesystem inside the playground environment.
 
-
 ## Network Diagram
+
 ![networkdiagram](https://user-images.githubusercontent.com/31393977/108618090-32b18100-73e9-11eb-8ef6-9ff5796f62f9.png)
-- red are services we need to write
-- yellow are playgrounds
+
+- red containers are services
+- yellow containers are playgrounds
+- nginx routes traffic to the appropriate container
