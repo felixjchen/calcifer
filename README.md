@@ -15,7 +15,7 @@ On demand sandbox Docker environments for prototyping and sharing Docker images.
 
 - Browser IDE (terminal, file explorer and code editor)
 - Docker environment to run Alpine linux commands, build images and run containers
-- Path on the domain, to test out containerized services (e.g. https://www.calcifer/playground/001)
+- Path on the domain, to test out containerized services (e.g. https://www.calcifer.com/playground/001)
 - Sharing, given a link users can see an environment
 - Realtime, multiple user can collaboratively work on a sandbox
 
