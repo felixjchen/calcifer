@@ -13,7 +13,7 @@ On demand sandbox Docker environments for prototyping and sharing Docker images.
 
 - a browser IDE (terminal, file explorer and code editor)
 - Docker environment to build images and run containers
-- a path on the domain, to test out containerized services (e.g. https://www.calcifer/sandboxes/001)
+- a path on the domain, to test out containerized services (e.g. https://www.calcifer/playground/001)
 - persistenance and sharing, given a link, users can see an environment
 - realtime, multiple user can collaboratively work on a sandbox
 
@@ -21,7 +21,20 @@ On demand sandbox Docker environments for prototyping and sharing Docker images.
 
 For the beta we plan to complete:
 
-- t
+- Docker environments on demand
+  - Docker in Docker
+  - SSH
+  - Dynamic Nginx reverse proxy
+- Terminal
+  - navigate the file system
+  - execute OS (alpine linux) commands
+  - execute Docker commands
+- File System
+  - navigate the file system within the playground environment
+  - CRUD files and directories
+- Code editor
+  - To edit code and have changes propagate to the filesystem inside the playground environment
+  - Synax highlighting
 
 ## Final
 
