@@ -2,6 +2,8 @@
 
 ## Title
 
+Docker Playground (tentative)
+
 ## Team Members
 
 - Felix Chen (1003331628)
@@ -11,11 +13,11 @@
 
 On demand sandbox Docker environments for prototyping and sharing Docker images. Includes:
 
-- a browser IDE (terminal, file explorer and code editor)
-- Docker environment to build images and run containers
-- a path on the domain, to test out containerized services (e.g. https://www.calcifer/playground/001)
-- persistenance and sharing, given a link, users can see an environment
-- realtime, multiple user can collaboratively work on a sandbox
+- Browser IDE (terminal, file explorer and code editor)
+- Docker environment to run Alpine linux commands, build images and run containers
+- Path on the domain, to test out containerized services (e.g. https://www.calcifer/playground/001)
+- Sharing, given a link users can see an environment
+- Realtime, multiple user can collaboratively work on a sandbox
 
 ## Beta
 
@@ -23,7 +25,7 @@ For the beta we plan to complete:
 
 - Docker environments on demand
   - Docker in Docker
-  - Dynamic Nginx reverse proxy
+  - dynamic Nginx reverse proxy
   - SSH + SFTP solution
 - Terminal
   - navigate the file system
@@ -40,12 +42,29 @@ For the beta we plan to complete:
 
 For the final deliverable, we plan to have:
 
-- t
+- Sharing
+  - sessions can be retrieved by url
+  - sessions persist for a few days and are cleaned up
+- Cooperative Realtime
+  - users can see each other's changes if they share session
+- Security
+  - Docker in Docker sessions without the priveleged flag
+  - restrict terminal executions
 
 ## Technology
 
-- t
+- TypeScript, Express and SSH2 on our backend services
+- Angular for our frontend
+- MongoDB for our database
+- Docker in Docker, Docker Compose and Sysbox for playgrounds
+- JWilder’s Nginx-Proxy for dynamic routes
+- Google Cloud Platform Virtual Machine
+- Namecheap domain
 
 ## Challenges
 
--
+- Docker playgrounds on demand. We will have to spin up a Docker in Docker container for every playground that is created, create a route and attach SSH.
+- Docker in Docker without the --privileged flag, this is a security issue since this option gives the child container’s access to the host’s resources (“the container can then do almost everything that the host can do.”).
+- Terminal: we will need to create some sort of HTTP to SSH style adapter, syncing commands with the backend services will require keeping track of where the user is executing commands from on the virtual browser terminal.
+- Code Editor: Developing a nice UI for the code editor and the backend routes to sync up virtual files on the browser with the actual files inside the playground environment. Virtual files would also have to be synced to other sessions so that changes appear on the fly to enable collaborative programming.
+- File explorer: Similar challenges as the ones for the Code Editor. We would also have to implement a way for files to be created and deleted on the virtual browser and then have that sync with the filesystem inside the playground environment.
