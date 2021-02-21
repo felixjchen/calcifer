@@ -53,8 +53,8 @@ For the final deliverable, we plan to have:
 
 ## Technology
 
-- TypeScript, Express and SSH2 on our backend services
-- Angular for our frontend
+- TypeScript, Express, SocketIO and SSH2 on our backend services
+- SocketIO and Angular for our frontend
 - MongoDB for our database
 - Docker in Docker, Docker Compose and Sysbox for playgrounds
 - JWilder’s Nginx-Proxy for dynamic routes
