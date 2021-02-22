@@ -68,11 +68,4 @@ For the final deliverable, we plan to have:
 - File explorer: Similar challenges as the ones for the Code Editor. We would also have to implement a way for files to be created and deleted on the virtual browser and then have that sync with the filesystem inside the playground environment.
 - Realtime: Collaborative realtime between users 
 - Docker in Docker without the --privileged flag, this is a security issue since this option gives the child container’s access to the host’s resources (“the container can then do almost everything that the host can do.”).
-- 
-## Network Diagram
 
-![networkdiagram](https://user-images.githubusercontent.com/31393977/108618090-32b18100-73e9-11eb-8ef6-9ff5796f62f9.png)
-
-- red containers are services
-- yellow containers are playgrounds
-- nginx routes traffic to the appropriate container
