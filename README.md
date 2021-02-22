@@ -11,7 +11,7 @@ Calcifer
 
 ## Description
 
-On demand sandbox Docker environments for prototyping and sharing Docker images. Includes:
+On demand sandbox Docker environments for prototyping Docker images. Includes:
 
 - Browser IDE (terminal, file explorer and code editor)
 - Docker environment to run Alpine linux commands, build images and run containers
