@@ -45,7 +45,7 @@ For the final deliverable, we plan to have:
   - sessions persist for a few days and are cleaned up
 - Cooperative Realtime
   - users can see each other's changes if they share session
-- Security
+- Improved Security
   - Docker in Docker sessions without the privileged flag
   - restrict terminal executions
 
