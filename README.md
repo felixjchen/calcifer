@@ -62,12 +62,13 @@ For the final deliverable, we plan to have:
 
 ## Challenges
 
-- Docker playgrounds on demand. We will have to spin up a Docker in Docker container for every playground that is created, create a route and attach SSH.
-- Docker in Docker without the --privileged flag, this is a security issue since this option gives the child container’s access to the host’s resources (“the container can then do almost everything that the host can do.”).
+- Docker playgrounds on demand. We will have to spin up a Docker in Docker container for every playground that is created, create a route and have SSH working.
 - Terminal: we will need to create some sort of HTTP to SSH style adapter, syncing commands with the backend services will require keeping track of where the user is executing commands from on the virtual browser terminal.
 - Code Editor: Developing a nice UI for the code editor and the backend routes to sync up virtual files on the browser with the actual files inside the playground environment. Virtual files would also have to be synced to other sessions so that changes appear on the fly to enable collaborative programming.
 - File explorer: Similar challenges as the ones for the Code Editor. We would also have to implement a way for files to be created and deleted on the virtual browser and then have that sync with the filesystem inside the playground environment.
-
+- Realtime: Collaborative realtime between users 
+- Docker in Docker without the --privileged flag, this is a security issue since this option gives the child container’s access to the host’s resources (“the container can then do almost everything that the host can do.”).
+- 
 ## Network Diagram
 
 ![networkdiagram](https://user-images.githubusercontent.com/31393977/108618090-32b18100-73e9-11eb-8ef6-9ff5796f62f9.png)
