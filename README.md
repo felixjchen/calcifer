@@ -46,7 +46,7 @@ For the final deliverable, we plan to have:
 - Cooperative Realtime
   - users can see each other's changes if they share session
 - Security
-  - Docker in Docker sessions without the priveleged flag
+  - Docker in Docker sessions without the privileged flag
   - restrict terminal executions
 
 ## Technology
