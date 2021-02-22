@@ -67,5 +67,5 @@ For the final deliverable, we plan to have:
 - Code Editor: Developing a nice UI for the code editor and the backend routes to sync up virtual files on the browser with the actual files inside the playground environment. Virtual files would also have to be synced to other sessions so that changes appear on the fly to enable collaborative programming.
 - File explorer: Similar challenges as the ones for the Code Editor. We would also have to implement a way for files to be created and deleted on the virtual browser and then have that sync with the filesystem inside the playground environment.
 - Realtime: Collaborative realtime between users, syncing the code editor, file browser and terminal between users
-- Docker in Docker without the --privileged flag, this is a security issue since this option gives the child container’s access to the host’s resources (“the container can then do almost everything that the host can do.”).
+- Docker in Docker without the --privileged flag, this is a security issue since this option gives the child container’s access to the host’s resources 
 
