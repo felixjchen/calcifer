@@ -1,5 +1,3 @@
-# project-calcifer
-
 ## Title
 
 Calcifer
