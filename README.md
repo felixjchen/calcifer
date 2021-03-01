@@ -16,9 +16,8 @@ On demand sandbox Docker environments for prototyping Docker images. Includes:
 - Path on the domain, to test out containerized services (e.g. https://www.calcifer.com/playground/001)
 - Sharing, given a link users can see a playground's code, files, etc.
 - Realtime, multiple user can collaboratively work on a sandbox
-- 
+
 ## Network Diagram
-- for now...
 - needs https 
 - also SSH and API services communicate with http
 
