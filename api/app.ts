@@ -11,17 +11,17 @@ const port = 8080;
 const app = express();
 let Playgrounds;
 
-app.get("/api/", (req, res) => {
+app.get("/", (req, res) => {
   res.send("Hello from playgrounds");
 });
 
-app.get("/api/playgrounds", async (req, res) => {
+app.get("/playgrounds", async (req, res) => {
   let playgrounds = await Playgrounds.find({});
 
   res.json(playgrounds);
 });
 
-app.post("/api/playgrounds", async (req, res) => {
+app.post("/playgrounds", async (req, res) => {
   // Create document in MongoDB
   let { _id } = await Playgrounds.create({});
 

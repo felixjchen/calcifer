@@ -27,10 +27,6 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
-  # docker run -d \
-  # --network calcifer_default --network-alias docker \
-  # 35366f0606e6
-
   # docker run -d -p 80:80 nginx:latest
 
   # stream {
