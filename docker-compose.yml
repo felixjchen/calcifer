@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  nginx-proxy:
+    build: nginx-proxy/.
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  ssh:
+    build: ssh/.
+    environment:
+      - VIRTUAL_PATH=/ssh
+
+  api:
+    build: api/.
+    environment:
+      - VIRTUAL_PATH=/api
+
+  # docker run -d \
+  # --network calcifer_default --network-alias docker \
+  # 35366f0606e6
+
+  # docker run -d -p 80:80 nginx:latest
+
+  # stream {
+  #     upstream ssh {
+  #         server 172.25.4.4:22;
+  #     }
+  #     server {
+  #         listen        2200;
+  #         proxy_pass    ssh;
+  #     }
+  # }
