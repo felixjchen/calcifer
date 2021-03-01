@@ -1,8 +1,13 @@
 version: "3"
 
+networks:
+  calcifer:
+
 services:
   nginx-proxy:
     build: nginx-proxy/.
+    networks:
+      - calcifer
     ports:
       - "80:80"
     volumes:
@@ -10,11 +15,15 @@ services:
 
   ssh:
     build: ssh/.
+    networks:
+      - calcifer
     environment:
       - VIRTUAL_PATH=/ssh
 
   api:
     build: api/.
+    networks:
+      - calcifer
     environment:
       - VIRTUAL_PATH=/api
 
