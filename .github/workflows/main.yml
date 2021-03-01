@@ -1,4 +1,5 @@
 # This is a basic workflow to help you get started with Actions
+# SOURCE: https://github.com/marcel-dempers/docker-development-youtube-series/blob/master/.github/workflows/docker._yaml
 
 name: CI
 
@@ -29,7 +30,7 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_API_KEY }}  
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-    - name: docker build golang
+    - name: docker build playground
       run: |
         docker build ./playground -t felixchen1998/calcifer-playground:latest
     - name: docker push
