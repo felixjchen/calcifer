@@ -1,0 +1,1 @@
+docker exec -it project-calcifer_nginx-proxy_1 sh
