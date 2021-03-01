@@ -106,3 +106,6 @@ secrets.json
 
 # Mac
 *.DS_Store
+
+# Mine
+*config.ts

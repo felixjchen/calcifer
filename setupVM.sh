@@ -28,3 +28,6 @@ rm sysbox_0.2.1-0.ubuntu-focal_amd64.deb
 
 # Clone repo 
 git clone https://github.com/felixjchen/calcifer
+
+# Set environment variable
+export CALCIFER_PRODUCTION=TRUE
