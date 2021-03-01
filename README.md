@@ -1,3 +1,5 @@
+![Docker Build](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)
+
 ## Title
 
 Calcifer
@@ -18,11 +20,11 @@ On demand sandbox Docker environments for prototyping Docker images. Includes:
 - Realtime, multiple user can collaboratively work on a sandbox
 
 ## Network Diagram
-- needs https 
+
+- needs https
 - also SSH and API services communicate with http
 
-![Network Diagram](https://user-images.githubusercontent.com/31393977/108618090-32b18100-73e9-11eb-8ef6-9ff5796f62f9.png
-)
+![Network Diagram](https://user-images.githubusercontent.com/31393977/108618090-32b18100-73e9-11eb-8ef6-9ff5796f62f9.png)
 
 ## Beta
 
@@ -74,5 +76,4 @@ For the final deliverable, we plan to have:
 - Code Editor: Developing a nice UI for the code editor and the backend routes to sync up virtual files on the browser with the actual files inside the playground environment. Virtual files would also have to be synced to other sessions so that changes appear on the fly to enable collaborative programming.
 - File explorer: Similar challenges as the ones for the Code Editor. We would also have to implement a way for files to be created and deleted on the virtual browser and then have that sync with the filesystem inside the playground environment.
 - Realtime: Collaborative realtime between users, syncing the code editor, file browser and terminal between users
-- Docker in Docker without the --privileged flag, this is a security issue since this option gives the child container’s access to the host’s resources 
-
+- Docker in Docker without the --privileged flag, this is a security issue since this option gives the child container’s access to the host’s resources
