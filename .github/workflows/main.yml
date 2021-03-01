@@ -19,16 +19,26 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-
-      # Runs a single command using the runners shell
-      - name: 
-        env:
-          apikey: ${{ secrets.DOCKER_API_KEY }}
-          username: ${{ secrets.DOCKER_USERNAME }}
-        run: |
-          docker login -u $username -p $apikey
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_API_KEY }}
+          password: ${{ secrets.DOCKER_USERNAME }}
+      -
+        name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./playground
+          push: true
+          tags: felixchen1998/calcifer-playground:latest
