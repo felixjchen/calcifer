@@ -39,6 +39,6 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: ./playground
+          context: ./playground/
           push: true
           tags: felixchen1998/calcifer-playground:latest
