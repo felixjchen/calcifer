@@ -1,10 +1,12 @@
 FROM docker:dind
 
-# We want just VIRTUAL_PATH
 EXPOSE 8080
+
+# We want just VIRTUAL_PATH
 ENV VIRTUAL_PATH=/api/
 ENV VIRTUAL_PORT=8080
 ENV VIRTUAL_HOST=localhost
+
 WORKDIR /usr/app
 
 # OS packages
