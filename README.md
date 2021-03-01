@@ -21,6 +21,7 @@ On demand sandbox Docker environments for prototyping Docker images. Includes:
 - for now...
 - needs https 
 - also SSH and API services communicate with http
+
 ![Network Diagram](https://user-images.githubusercontent.com/31393977/108618090-32b18100-73e9-11eb-8ef6-9ff5796f62f9.png
 )
 
