@@ -3,6 +3,7 @@ version: "3"
 networks:
   calcifer:
 
+# https://github.com/nginx-proxy/nginx-proxy/pull/1083
 services:
   nginx-proxy:
     build: nginx-proxy/.
@@ -17,15 +18,14 @@ services:
     build: ssh/.
     networks:
       - calcifer
-    environment:
-      - VIRTUAL_PATH=/ssh
 
   api:
     build: api/.
     networks:
       - calcifer
-    environment:
-      - VIRTUAL_PATH=/api
+    privileged: true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 
   # docker run -d \
   # --network calcifer_default --network-alias docker \

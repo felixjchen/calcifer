@@ -11,17 +11,17 @@ const port = 8080;
 const app = express();
 let Playgrounds;
 
-app.get("/", (req, res) => {
+app.get("/api/", (req, res) => {
   res.send("Hello from playgrounds");
 });
 
-app.get("/playgrounds", async (req, res) => {
+app.get("/api/playgrounds", async (req, res) => {
   let playgrounds = await Playgrounds.find({});
 
   res.json(playgrounds);
 });
 
-app.post("/playgrounds", async (req, res) => {
+app.post("/api/playgrounds", async (req, res) => {
   // Create document in MongoDB
   let { _id } = await Playgrounds.create({});
 
@@ -33,7 +33,7 @@ app.post("/playgrounds", async (req, res) => {
   // trim newline off..
   stdout = stdout.trim();
 
-  console.log(`Created container ${_id}`);
+  console.log(`Created container with ID ${stdout}, with playground ID ${_id}`);
   res.json({ stdout, stderr, _id });
 });
 
