@@ -30,10 +30,14 @@ jobs:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_API_KEY }}  
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-    - name: docker build playground
+    - name: docker builds
       run: |
         docker build ./playground -t felixchen1998/calcifer-playground:latest
+        docker build ./ssh -t felixchen1998/calcifer-ssh:latest
+        docker build ./api -t felixchen1998/calcifer-api:latest
     - name: docker push
       run: |
         docker push felixchen1998/calcifer-playground:latest
+        docker push felixchen1998/calcifer-ssh:latest
+        docker push felixchen1998/calcifer-api:latest
 
