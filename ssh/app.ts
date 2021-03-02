@@ -1,24 +1,27 @@
-import * as socketio from "socket.io";
 import * as express from "express";
+import * as http from "http";
+import { Server } from "socket.io";
+import * as ssh2 from "ssh2";
 
 const app = express();
-app.set("port", process.env.PORT || 8000);
+const server = http.createServer(app);
+const io = new Server(server, { cors: { origin: "*" } });
+const PORT = process.env.PORT || 8000;
 
-let http = require("http").Server(app);
-let io = require("socket.io")(http, { cors: { origin: "*" } });
-let SSHClient = require("ssh2").Client;
+const SSHClient = ssh2.Client;
 
 io.on("connection", function (socket) {
-  var conn = new SSHClient();
+  let conn = new SSHClient();
   conn
     .on("ready", function () {
       socket.emit("data", "\r\n*** SSH CONNECTION ESTABLISHED ***\r\n");
       conn.shell(function (err, stream) {
-        if (err)
+        if (err) {
           return socket.emit(
             "data",
             "\r\n*** SSH SHELL ERROR: " + err.message + " ***\r\n"
           );
+        }
         socket.on("data", function (data) {
           stream.write(data);
         });
@@ -48,6 +51,6 @@ io.on("connection", function (socket) {
     });
 });
 
-const server = http.listen(8000, function () {
-  console.log("listening on *:8000");
+server.listen(PORT, function () {
+  console.log(`ssh server at 0.0.0.0:${PORT}`);
 });

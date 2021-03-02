@@ -39,20 +39,18 @@ export class TerminalComponent implements OnInit {
     let socket = io('0.0.0.0:8000', {
       path: '/socket.io',
     });
+
     socket.on('connect', () => {
       this.term.write('\r\n*** Connected to backend ***\r\n');
     });
-
     // Browser -> Backend
     this.term.onKey((ev) => {
       socket.emit('data', ev.key);
     });
-
     // Backend -> Browser
     socket.on('data', (data: string) => {
       this.term.write(data);
     });
-
     socket.on('disconnect', () => {
       this.term.write('\r\n*** Disconnected from backend ***\r\n');
     });
