@@ -10,34 +10,34 @@ const PORT = process.env.PORT || 8000;
 
 const SSHClient = ssh2.Client;
 
-io.on("connection", function (socket) {
+io.on("connection", (socket) => {
   let conn = new SSHClient();
   conn
-    .on("ready", function () {
+    .on("ready", () => {
       socket.emit("data", "\r\n*** SSH CONNECTION ESTABLISHED ***\r\n");
-      conn.shell(function (err, stream) {
+      conn.shell((err, stream) => {
         if (err) {
           return socket.emit(
             "data",
             "\r\n*** SSH SHELL ERROR: " + err.message + " ***\r\n"
           );
         }
-        socket.on("data", function (data) {
+        socket.on("data", (data) => {
           stream.write(data);
         });
         stream
-          .on("data", function (d) {
-            socket.emit("data", d.toString("binary"));
+          .on("data", (data) => {
+            socket.emit("data", data.toString("binary"));
           })
-          .on("close", function () {
+          .on("close", () => {
             conn.end();
           });
       });
     })
-    .on("close", function () {
+    .on("close", () => {
       socket.emit("data", "\r\n*** SSH CONNECTION CLOSED ***\r\n");
     })
-    .on("error", function (err) {
+    .on("error", (err) => {
       socket.emit(
         "data",
         "\r\n*** SSH CONNECTION ERROR: " + err.message + " ***\r\n"
