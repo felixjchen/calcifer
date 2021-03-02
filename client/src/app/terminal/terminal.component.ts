@@ -36,8 +36,8 @@ export class TerminalComponent implements OnInit {
     this.term.writeln('Welcome to xterm.js');
     this.fitAddOn.fit();
 
-    let socket = io('0.0.0.0', {
-      path: '/ssh/socket.io',
+    let socket = io('0.0.0.0:8000', {
+      path: '/socket.io',
     });
     socket.on('connect', () => {
       this.term.write('\r\n*** Connected to backend ***\r\n');

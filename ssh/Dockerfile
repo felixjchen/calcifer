@@ -1,9 +1,9 @@
 # https://hub.docker.com/_/node/
 FROM node:alpine
 
-EXPOSE 8080
+EXPOSE 8000
 ENV VIRTUAL_PATH=/ssh/
-ENV VIRTUAL_PORT=8080
+ENV VIRTUAL_PORT=8000
 ENV VIRTUAL_HOST=localhost
 WORKDIR /usr/app
 
