@@ -27,7 +27,7 @@ app.post("/playgrounds", async (req, res) => {
 
   // Start a DIND
   let { stdout, stderr } = await exec(
-    `docker run --privileged -d --network project-calcifer_default --network-alias=playground_${_id} --env VIRTUAL_PATH=/playgrounds/${_id} felixchen1998/calcifer-playground:latest`
+    `docker run --privileged -d --network project-calcifer_default --name=${_id} --network-alias=${_id} --env VIRTUAL_PATH=/playgrounds/${_id}/ felixchen1998/calcifer-playground:latest`
   );
 
   // trim newline off..
