@@ -1,28 +1,39 @@
-version: "3"
-
-networks:
-  calcifer:
+version: "2"
 
 # https://github.com/nginx-proxy/nginx-proxy/pull/1083
 services:
   nginx-proxy:
     build: nginx-proxy/.
-    networks:
-      - calcifer
+    container_name: nginx-proxy
     ports:
       - "80:80"
+      - "443:443"
     volumes:
+      - conf:/etc/nginx/conf.d
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - dhparam:/etc/nginx/dhparam
+      - certs:/etc/nginx/certs:ro
       - /var/run/docker.sock:/tmp/docker.sock:ro
+    # network_mode: bridge
+
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    volumes_from:
+      - nginx-proxy
+    volumes:
+      - certs:/etc/nginx/certs:rw
+      - acme:/etc/acme.sh
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - NGINX_PROXY_CONTAINER= project-calcifer_nginx-proxy_1
+    # network_mode: bridge
 
   ssh:
     build: ssh/.
-    networks:
-      - calcifer
 
   api:
     build: api/.
-    networks:
-      - calcifer
     privileged: true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -38,3 +49,14 @@ services:
   #         proxy_pass    ssh;
   #     }
   # }
+
+# networks:
+#   calcifer:
+
+volumes:
+  conf:
+  vhost:
+  html:
+  dhparam:
+  certs:
+  acme:
