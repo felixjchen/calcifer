@@ -1,4 +1,6 @@
-# sandbox
+The playground environment, comes with docker, ssh, vim and curl.
+
+Notes:
 
 - felixchen1998/calcifer-playground:latest
 - for development, docker:dind
