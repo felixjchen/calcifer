@@ -11,6 +11,8 @@ const PORT = process.env.PORT || 8000;
 const SSHClient = ssh2.Client;
 
 io.on("connection", (socket) => {
+  let { host, username, password } = socket.handshake.query;
+  console.log({ host });
   let conn = new SSHClient();
   conn
     .on("ready", () => {
@@ -44,10 +46,9 @@ io.on("connection", (socket) => {
       );
     })
     .connect({
-      host: "172.26.0.4",
-      port: 22,
-      username: "root",
-      password: "abc123",
+      host,
+      username,
+      password,
     });
 });
 

@@ -36,8 +36,10 @@ export class TerminalComponent implements OnInit {
     this.term.writeln('Welcome to xterm.js');
     this.fitAddOn.fit();
 
-    let socket = io('0.0.0.0:8000', {
-      path: '/socket.io',
+    let host = window.prompt('enter host name', 'playground_') || '';
+    let socket = io('0.0.0.0', {
+      path: '/ssh/socket.io',
+      query: { host, username: 'root', password: 'abc123' },
     });
 
     socket.on('connect', () => {
