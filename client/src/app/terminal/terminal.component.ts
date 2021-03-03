@@ -39,7 +39,11 @@ export class TerminalComponent implements OnInit {
     let host = window.prompt('enter host name', 'playground_') || '';
     let socket = io('0.0.0.0', {
       path: '/ssh/socket.io',
-      query: { host, username: 'root', password: 'abc123' },
+      query: {
+        host,
+        username: 'root',
+        password: 'playgroundpwWXuHbdwcwEVmyhnJVpYt',
+      },
     });
 
     socket.on('connect', () => {
