@@ -10,8 +10,6 @@ services:
     volumes:
       - ~/certs:/etc/nginx/certs
       - /var/run/docker.sock:/tmp/docker.sock:ro
-    # network_mode: bridge
-
 
   ssh:
     build: ssh/.
@@ -33,7 +31,3 @@ services:
   #         proxy_pass    ssh;
   #     }
   # }
-
-# networks:
-#   calcifer:
-
