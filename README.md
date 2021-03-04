@@ -1,6 +1,7 @@
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/ssh.yml/badge.svg)
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/playground.yml/badge.svg)
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/api.yml/badge.svg)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/79032bc4-4004-4584-be88-5564977ec4ab/deploy-status)](https://app.netlify.com/sites/project-calcifer/deploys)
 
 ## Title
 
@@ -20,7 +21,6 @@ On demand sandbox Docker environments for prototyping Docker images. Includes:
 - Path on the domain, to test out containerized services (e.g. https://www.calcifer.com/playground/001)
 - Sharing, given a link users can see a playground's code, files, etc.
 - Realtime, multiple user can collaboratively work on a sandbox
-
 
 ## Beta
 
