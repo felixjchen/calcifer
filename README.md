@@ -21,12 +21,6 @@ On demand sandbox Docker environments for prototyping Docker images. Includes:
 - Sharing, given a link users can see a playground's code, files, etc.
 - Realtime, multiple user can collaboratively work on a sandbox
 
-## Network Diagram
-
-- needs https
-- also SSH and API services communicate with http
-
-![Network Diagram](https://user-images.githubusercontent.com/31393977/108618090-32b18100-73e9-11eb-8ef6-9ff5796f62f9.png)
 
 ## Beta
 
