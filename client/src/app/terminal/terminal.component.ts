@@ -36,7 +36,7 @@ export class TerminalComponent implements OnInit {
     this.term.writeln('Welcome to xterm.js');
     this.fitAddOn.fit();
 
-    let socket = io('0.0.0.0', {
+    let socket = io('https://project-calcifer.ml', {
       path: '/ssh/socket.io',
       query: {
         host: '68.183.197.185',

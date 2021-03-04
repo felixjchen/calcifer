@@ -11,7 +11,7 @@ export class FileSystemComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    let socket = io('0.0.0.0', {
+    let socket = io('https://project-calcifer.ml', {
       path: '/ssh/socket.io',
       query: {
         host: '68.183.197.185',
