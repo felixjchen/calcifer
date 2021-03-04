@@ -9,11 +9,7 @@ const io = new Server(server, { cors: { origin: "*" } });
 const PORT = process.env.PORT || 8000;
 
 io.on("connection", (socket) => {
-  try {
-    adapter(socket);
-  } catch (error) {
-    console.log(error);
-  }
+  adapter(socket);
 });
 
 server.listen(PORT, function () {

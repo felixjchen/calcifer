@@ -18,20 +18,27 @@ export const adapter = async (socket) => {
   let { host, username, password } = socket.handshake.query;
   let config = { host, username, password };
   let ssh = new SSH2Promise(config);
-  let shell = await ssh.shell();
 
-  socket.on("data", (data) => {
-    shell.write(data);
-  });
-  shell
-    .on("data", (data) => {
-      socket.emit("data", data.toString("binary"));
-    })
-    .on("close", () => {
-      ssh.close();
-    });
-
+  // SFTP
   let sftp = ssh.sftp();
   let list = await readdir_r(sftp, "/root");
   socket.emit("list", JSON.stringify(list, undefined, 2));
+
+  // Shell
+  let shell = await ssh.shell();
+  socket.on("data", (data) => {
+    shell.write(data);
+  });
+  shell.on("data", (data) => {
+    socket.emit("data", data.toString("binary"));
+  });
+  socket.on("disconnect", async () => {
+    await ssh.close();
+  });
+  shell.on("close", async () => {
+    await ssh.close();
+  });
+  shell.on("error", async () => {
+    await ssh.close();
+  });
 };
