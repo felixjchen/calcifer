@@ -8,10 +8,14 @@ export class SocketioService {
   socket: Socket;
 
   constructor() {
-    this.socket = io('0.0.0.0:8000/68.183.197.185', {
+    const urlParams = new URLSearchParams(window.location.search);
+    let host = urlParams.get('h');
+    host = host ? host : '';
+
+    this.socket = io(`0.0.0.0:8000/${host}`, {
       path: '/socket.io',
       query: {
-        host: '68.183.197.185',
+        host,
         username: 'root',
         password: 'KJ7rNn5yyz321321321z',
       },

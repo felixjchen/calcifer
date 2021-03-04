@@ -14,7 +14,9 @@ let readdir_r = async (sftp, path) => {
   return list;
 };
 
-export const adapter = async (socket) => {
+// Socket listens to one client
+// Broadcast across namespace
+export const adapter = async (socket, namespace) => {
   let { host, username, password } = socket.handshake.query;
   let config = { host, username, password };
   let ssh = new SSH2Promise(config);
@@ -22,16 +24,21 @@ export const adapter = async (socket) => {
   // SFTP
   let sftp = ssh.sftp();
   let list = await readdir_r(sftp, "/root");
-  socket.emit("list", JSON.stringify(list, undefined, 2));
+  namespace.emit("list", JSON.stringify(list, undefined, 2));
 
   // Shell
   let shell = await ssh.shell();
-  socket.on("data", (data) => {
-    console.log({ data });
+  socket.on("data", async (data) => {
     shell.write(data);
+    console.log({ data });
+    // If shell modifies FS... the frontend should know!
+    if (data === "\r") {
+      let list = await readdir_r(sftp, "/root");
+      namespace.emit("list", JSON.stringify(list, undefined, 2));
+    }
   });
   shell.on("data", (data) => {
-    socket.emit("data", data.toString("binary"));
+    namespace.emit("data", data.toString("binary"));
   });
   socket.on("disconnect", async () => {
     await ssh.close();
