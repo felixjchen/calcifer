@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
+import { environment } from '../environments/environment';
 
+const { path, ssh_url } = environment;
 @Injectable({
   providedIn: 'root',
 })
@@ -12,8 +14,8 @@ export class SocketioService {
     let host = urlParams.get('h');
     host = host ? host : '';
 
-    this.socket = io(`0.0.0.0:8000/${host}`, {
-      path: '/socket.io',
+    this.socket = io(`${ssh_url}/${host}`, {
+      path,
       query: {
         host,
         username: 'root',
