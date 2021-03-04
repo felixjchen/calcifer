@@ -19,7 +19,7 @@ import { io } from 'socket.io-client';
   ],
 })
 export class TerminalComponent implements OnInit {
-  @ViewChild('myTerminal', { static: true }) terminalDiv: ElementRef;
+  @ViewChild('terminal', { static: true }) terminalDiv: ElementRef;
 
   public term: Terminal;
   public fitAddOn: FitAddon;
@@ -36,13 +36,12 @@ export class TerminalComponent implements OnInit {
     this.term.writeln('Welcome to xterm.js');
     this.fitAddOn.fit();
 
-    let host = window.prompt('enter host name', '') || '';
-    let socket = io('https://project-calcifer.ml', {
+    let socket = io('0.0.0.0', {
       path: '/ssh/socket.io',
       query: {
-        host,
+        host: '68.183.197.185',
         username: 'root',
-        password: 'playgroundpwWXuHbdwcwEVmyhnJVpYt',
+        password: 'KJ7rNn5yyz321321321z',
       },
     });
 
