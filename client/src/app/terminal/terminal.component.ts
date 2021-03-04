@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { Terminal } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
-import { io } from 'socket.io-client';
+import { SocketioService } from '../socketio.service';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -24,7 +24,7 @@ export class TerminalComponent implements OnInit {
   public term: Terminal;
   public fitAddOn: FitAddon;
 
-  constructor() {}
+  constructor(private socketService: SocketioService) {}
 
   ngOnInit(): void {
     // https://www.npmjs.com/package/xterm-addon-fit
@@ -33,24 +33,15 @@ export class TerminalComponent implements OnInit {
     this.fitAddOn = new FitAddon();
     this.term.loadAddon(this.fitAddOn);
     this.term.open(this.terminalDiv.nativeElement);
-    this.term.writeln('Welcome to xterm.js');
     this.fitAddOn.fit();
 
-    let socket = io('https://project-calcifer.ml', {
-      path: '/ssh/socket.io',
-      query: {
-        host: '68.183.197.185',
-        username: 'root',
-        password: 'KJ7rNn5yyz321321321z',
-      },
-    });
+    let { socket } = this.socketService;
 
     socket.on('connect', () => {
       this.term.write('\r\n*** Connected to backend ***\r\n');
     });
-    // Browser -> Backend
-    this.term.onKey((ev) => {
-      socket.emit('data', ev.key);
+    this.term.onData((data) => {
+      socket.emit('data', data);
     });
     // Backend -> Browser
     socket.on('data', (data: string) => {

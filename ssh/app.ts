@@ -8,7 +8,11 @@ const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });
 const PORT = process.env.PORT || 8000;
 
-io.on("connection", (socket) => {
+const namespaces = io.of(/[a-fA-F0-9]+$/);
+
+namespaces.on("connection", (socket) => {
+  const namespace = socket.nsp;
+  console.log(namespace);
   adapter(socket);
 });
 

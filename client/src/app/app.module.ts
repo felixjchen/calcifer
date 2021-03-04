@@ -5,11 +5,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TerminalComponent } from './terminal/terminal.component';
 import { FileSystemComponent } from './file-system/file-system.component';
+import { SocketioService } from './socketio.service';
 
 @NgModule({
   declarations: [AppComponent, TerminalComponent, FileSystemComponent],
   imports: [BrowserModule, AppRoutingModule],
-  providers: [],
+  providers: [SocketioService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

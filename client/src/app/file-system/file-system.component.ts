@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { io } from 'socket.io-client';
+import { SocketioService } from '../socketio.service';
 
 @Component({
   selector: 'app-file-system',
@@ -8,18 +8,11 @@ import { io } from 'socket.io-client';
 })
 export class FileSystemComponent implements OnInit {
   @ViewChild('fileSystem', { static: true }) fileSystemDiv: ElementRef;
-  constructor() {}
+
+  constructor(private socketService: SocketioService) {}
 
   ngOnInit(): void {
-    let socket = io('https://project-calcifer.ml', {
-      path: '/ssh/socket.io',
-      query: {
-        host: '68.183.197.185',
-        username: 'root',
-        password: 'KJ7rNn5yyz321321321z',
-      },
-    });
-
+    let { socket } = this.socketService;
     socket.on('list', (list: string) => {
       this.fileSystemDiv.nativeElement.innerHTML = list;
     });

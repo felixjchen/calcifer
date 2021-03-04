@@ -27,6 +27,7 @@ export const adapter = async (socket) => {
   // Shell
   let shell = await ssh.shell();
   socket.on("data", (data) => {
+    console.log({ data });
     shell.write(data);
   });
   shell.on("data", (data) => {
