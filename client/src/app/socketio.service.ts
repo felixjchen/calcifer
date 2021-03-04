@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
-import { io } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SocketioService {
-  // I cant figure out this typing
-  socket: any;
+  socket: Socket;
 
   constructor() {
-    this.socket = io('0.0.0.0:8000/60411d3c0bf6417bc83924eb', {
+    this.socket = io('0.0.0.0:8000/68.183.197.185', {
       path: '/socket.io',
       query: {
         host: '68.183.197.185',
