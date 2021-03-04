@@ -30,7 +30,7 @@ export const adapter = async (socket, namespace) => {
   let shell = await ssh.shell();
   socket.on("data", async (data) => {
     shell.write(data);
-    console.log({ data });
+    // console.log({ data });
     // If shell modifies FS... the frontend should know!
     if (data === "\r") {
       let list = await readdir_r(sftp, "/root");
