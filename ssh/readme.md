@@ -3,5 +3,5 @@ The ssh service is responsible for how clients will interact with their playgrou
 - original vanilla js code from this thread
   https://stackoverflow.com/a/66163844/5482077
 
-- this package seems to be lacking streams?
+- Used promise wrapped ssh2
   https://www.npmjs.com/package/ssh2-promise
