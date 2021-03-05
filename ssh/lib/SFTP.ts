@@ -37,9 +37,7 @@ export default class mySFTP extends SFTP {
     let stream = await this.createWriteStream(path);
     stream.write(content);
     return new Promise((resolve) => {
-      stream.end(() => {
-        resolve();
-      });
+      stream.end(resolve);
     });
   }
 }
