@@ -1,0 +1,49 @@
+.collapsed-node {
+    display: none;
+}
+
+.example-tree-node {
+    display: block;
+}
+
+.tree-node {
+    font-size: 12px;
+    cursor: pointer;
+
+    mat-icon {
+        $icon-size: 22px;
+        font-size: $icon-size;
+        height: $icon-size;
+        width: $icon-size;
+    }
+
+    .file, .directory {
+        display: flex;
+        align-items: center;
+        background-color: transparent;
+        width: 100%;
+        padding: 0 0 0 1rem;
+        height: 32px;
+
+        &:hover {
+            background-color: #2a2d2e;
+        }
+
+        &.active {
+            background-color: #303030;
+        }
+    }
+}
+
+:host {
+    background-color: #252626;
+    display: block;
+    height: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 1rem 0 0;
+}
+
+.file-icon {
+    padding-right: 6px;
+}

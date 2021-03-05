@@ -9,7 +9,12 @@ const { path, ssh_url } = environment;
 export class SocketioService {
   socket: Socket;
 
-  constructor() {
+
+  init(): void {
+    window.addEventListener('beforeunload', () => {
+      this.socket?.disconnect?.();
+    });
+
     const urlParams = new URLSearchParams(window.location.search);
     let host = urlParams.get('h');
     host = host ? host : '';

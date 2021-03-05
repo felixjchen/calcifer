@@ -1,0 +1,13 @@
+.calcifer-home {
+    height: 100vh;
+
+    $nav-bar-height: 40px;
+    app-nav {
+        height: $nav-bar-height;
+        display: block;
+    }
+
+    .calcifer-content {
+        height: calc(100% - #{$nav-bar-height});
+    }
+}

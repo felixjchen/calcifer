@@ -1,0 +1,27 @@
+<cdk-tree [dataSource]="dataSource" [treeControl]="treeControl">
+
+    <cdk-tree-node *cdkTreeNodeDef="let node" class="tree-node">
+
+        <div class="file" [class.active]="node === activeFileNode" [style.padding-left]="20 + 20 * node.level + 'px'" (click)="onNodeClick(node)">
+            <i class="file-icon" [class]="fileIcons.getClassWithColor(node.filename)"></i>
+            {{ node.filename }}
+        </div>
+
+    </cdk-tree-node>
+
+    <cdk-tree-node *cdkTreeNodeDef="let node; when: hasChild" class="tree-node">
+
+        <div [class.active]="node === activeFileNode" class="directory" [style.padding-left]="20 + 20 * node.level + 'px'" cdkTreeNodeToggle (click)="onNodeClick(node)">
+            <mat-icon class="mat-icon-rtl-mirror">
+                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+            </mat-icon>
+            {{ node.filename }}
+        </div>
+
+        <div [class.collapsed-node]="!treeControl.isExpanded(node)">
+            <ng-container cdkTreeNodeOutlet></ng-container>
+        </div>
+
+    </cdk-tree-node>
+
+</cdk-tree>
