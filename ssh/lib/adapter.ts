@@ -1,10 +1,6 @@
 import SSH2Promise from "ssh2-promise";
 import mySFTP from "./SFTP";
 
-let writefile = async (sftp, path, content) => {
-  let stream = await sftp;
-};
-
 // Socket listens to one client
 // Broadcast across namespace
 export const adapter = async (socket, namespace) => {
@@ -39,7 +35,6 @@ export const adapter = async (socket, namespace) => {
     await ssh.close();
   });
 
-  // sftp.writeFile()
-  await sftp.writefile("/root/testing_read_write.txt", "yesssirrr2yesssir");
-  console.log(await sftp.readfile("/root/testing_read_write.txt"));
+  // await sftp.writefile("/root/testing_read_write.txt", "yesssirrr2yesssir");
+  // console.log(await sftp.readfile("/root/testing_read_write.txt"));
 };
