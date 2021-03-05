@@ -9,7 +9,7 @@
 
     </cdk-tree-node>
 
-    <cdk-tree-node *cdkTreeNodeDef="let node; when: hasChild" class="tree-node">
+    <cdk-tree-node *cdkTreeNodeDef="let node; when: isDirectory;" class="tree-node">
 
         <div [class.active]="node === activeFileNode" class="directory" [style.padding-left]="20 + 20 * node.level + 'px'" cdkTreeNodeToggle (click)="onNodeClick(node)">
             <mat-icon class="mat-icon-rtl-mirror">

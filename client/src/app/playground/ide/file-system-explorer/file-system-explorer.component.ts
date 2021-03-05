@@ -25,7 +25,7 @@ export class FileSystemExplorerComponent {
     (node) => node.expandable
   );
   readonly dataSource = new FileDataSource(this.treeControl);
-  hasChild = (_: number, node: any) => node.expandable;
+  isDirectory = (_: number, node: any) => node.original.longname[0] === "d";
 
   activeFileNode: FileFlatNode;
 
