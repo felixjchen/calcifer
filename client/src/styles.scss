@@ -1,1 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { 
+    height: 100%;
+    overscroll-behavior: none;
+ }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+* * {
+    box-sizing: border-box;
+}
+
+@import "~@angular/material/theming";
+@import "app-theme";
+
+$custom-typography: mat-typography-config(
+    $body-1: mat-typography-level(18px, 24px, 400),
+    $headline: mat-typography-level(3.5rem, 3.7rem, 400),
+);
+
+@include mat-core($custom-typography); 
+
+$blog-primary: mat-palette($mat-green, 700, 600, 800);
+$blog-accent: mat-palette($mat-amber, 700, 600, 800);
+$blog-warn: mat-palette($mat-red);
+$blog-theme: mat-dark-theme($blog-primary, $blog-accent, $blog-warn);
+
+@include angular-material-theme($blog-theme);
+@include calcifer-theme($blog-theme);

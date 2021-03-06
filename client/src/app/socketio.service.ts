@@ -9,17 +9,23 @@ const { path, ssh_url } = environment;
 export class SocketioService {
   socket: Socket;
 
-  constructor() {
+
+  init(): void {
+    window.addEventListener('beforeunload', () => {
+      this.socket?.disconnect?.();
+    });
+
     const urlParams = new URLSearchParams(window.location.search);
-    let host = urlParams.get('h');
-    host = host ? host : '';
+    let host = urlParams.get('h') || '68.183.197.185';
+    let username = urlParams.get('u') || 'root';
+    let password = urlParams.get('p') || 'KJ7rNn5yyz321321321z';
 
     this.socket = io(`${ssh_url}/${host}`, {
       path,
       query: {
         host,
-        username: 'root',
-        password: 'KJ7rNn5yyz321321321z',
+        username,
+        password,
       },
     });
   }

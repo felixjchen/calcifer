@@ -1,0 +1,20 @@
+
+@import './app/nav/nav.component.theme';
+@import './app/playground/menu/menu.component.theme';
+
+@mixin calcifer-theme($theme) {
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+
+    
+    body {
+        background-color: mat-color($background, background);
+        color: mat-color($foreground, text);
+    }
+
+    @include nav-component-theme($theme);
+    @include menu-component-theme($theme);
+}

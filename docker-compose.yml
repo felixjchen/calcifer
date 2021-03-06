@@ -1,7 +1,20 @@
-version: "2"
+version: "3.7"
 
 # https://github.com/nginx-proxy/nginx-proxy/pull/1083
 services:
+  calcifer-mongo:
+    restart: always
+    image: mongo:4.2.7-bionic
+    ports:
+      # Different port in case host has MongoDB installed already
+      - 27018:27017
+    volumes:
+      - calcifer-mongo-volume:/data/db/
+      - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGO_INITDB_DATABASE: calcifer
   nginx-proxy:
     build: nginx-proxy/.
     ports:
@@ -19,6 +32,9 @@ services:
     privileged: true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+volumes:
+  calcifer-mongo-volume:
+
 
   # docker run -d -p 80:80 nginx:latest
 
