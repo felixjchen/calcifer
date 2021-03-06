@@ -25,12 +25,15 @@ export class FileSystemExplorerComponent {
     (node) => node.expandable
   );
   readonly dataSource = new FileDataSource(this.treeControl);
-  isDirectory = (_: number, node: any) => node.original.longname[0] === "d";
+  isDirectory = (_: number, node: any) => node.isDirectory;
 
   activeFileNode: FileFlatNode;
 
   onNodeClick(node: FileFlatNode): void {
-    this.selectFile.emit(node.original);
     this.activeFileNode = node;
+    // We don't want to fetch directories
+    if (!node.isDirectory) {
+      this.selectFile.emit(node.original);
+    }
   }
 }
