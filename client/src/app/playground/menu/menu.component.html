@@ -1,0 +1,8 @@
+<aside class="menu">
+    <button *ngFor="let button of menuButtons" (click)="onMenuButtonClick.emit(button)"
+        [ngClass]="{ 'active': button === activeButton }" mat-flat-button disableRipple>
+        <mat-icon>
+            {{ button.matIcon }}
+        </mat-icon>
+    </button>
+</aside>

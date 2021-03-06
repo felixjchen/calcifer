@@ -11,6 +11,7 @@ export default class mySFTP extends SFTP {
     // Fill sub directories
     for (let i in list) {
       let file = list[i];
+      file.path = `${path}/${file.filename}`;
       // If this is a directory
       if (file.longname[0] === "d") {
         file.children = await this.readdir_r(`${path}/${file.filename}`);

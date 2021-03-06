@@ -6,11 +6,12 @@ import mySFTP from "./SFTP";
 export const adapter = async (socket, namespace) => {
   let { host, username, password } = socket.handshake.query;
   let config = { host, username, password };
+  console.log({ host, username, password })
   let ssh = new SSH2Promise(config);
   // SFTP
   let sftp = new mySFTP(ssh);
   let list = await sftp.readdir_r("/root");
-  namespace.emit("list", JSON.stringify(list, undefined, 2));
+  namespace.emit("list", list);
 
   // Shell
   let shell = await ssh.shell();
@@ -19,9 +20,16 @@ export const adapter = async (socket, namespace) => {
     // If shell modifies FS... the frontend should know!
     if (data === "\r") {
       let list = await sftp.readdir_r("/root");
-      namespace.emit("list", JSON.stringify(list, undefined, 2));
+      namespace.emit("list", list);
     }
   });
+
+  socket.on('getFile', async (file) => {
+    console.log(file);
+    const content = await sftp.readfile(file.path);
+    socket.emit('sendFile', { node: file, content })
+  })
+
   shell.on("data", (data) => {
     namespace.emit("data", data.toString("binary"));
   });
