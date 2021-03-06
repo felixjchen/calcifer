@@ -10,6 +10,7 @@ export interface FileFlatNode {
     filename: string;
     level: number;
     path: string;
+    isDirectory : boolean;
     attrs: {
         longname: string;
     };
@@ -22,14 +23,15 @@ export class FileDataSource extends DataSource<FileFlatNode> {
     expandedData = new BehaviorSubject<FileFlatNode[]>([]);
 
     private _treeFlattener = new MatTreeFlattener(
-        (node: FileNode, level: number) => {
+        (node: any, level: number) => {
             const flatNode: FileFlatNode = {
-                filename: node.filename,
-                attrs: node.attrs,
-                path: node.path,
-                expandable: !!node.children && node.children.length > 0,
-                original: node,
-                level,
+              filename: node.filename,
+              attrs: node.attrs,
+              path: node.path,
+              isDirectory: node.longname[0] === "d",
+              expandable: !!node.children && node.children.length > 0,
+              original: node,
+              level,
             };
             return flatNode;
         },
