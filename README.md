@@ -1,7 +1,6 @@
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/ssh.yml/badge.svg)
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/playground.yml/badge.svg)
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/api.yml/badge.svg)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/79032bc4-4004-4584-be88-5564977ec4ab/deploy-status)](https://app.netlify.com/sites/project-calcifer/deploys)
 
 ## Title
 
