@@ -1,11 +1,6 @@
 # https://hub.docker.com/_/node/
 FROM node:alpine
-
-EXPOSE 8000
-ENV VIRTUAL_PATH=/ssh/
-ENV VIRTUAL_PORT=8000
-ENV VIRTUAL_HOST=localhost
-WORKDIR /usr/app
+WORKDIR /app
 
 # OS packages
 RUN apk update
@@ -15,6 +10,12 @@ COPY package*.json ./
 RUN npm install
 RUN npm install ts-node -g
 
-COPY . .
+# Environment vars
+EXPOSE 8000
+ENV VIRTUAL_PATH=/ssh/
+ENV VIRTUAL_PORT=8000
+ENV VIRTUAL_HOST=localhost
 
+# Start service
+COPY . .
 CMD [ "ts-node", "app.ts" ]
