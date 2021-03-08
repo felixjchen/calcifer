@@ -1,6 +1,7 @@
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/ssh.yml/badge.svg)
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/playground.yml/badge.svg)
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/api.yml/badge.svg)
+![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/client.yml/badge.svg)
 
 ## Title
 
