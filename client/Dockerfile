@@ -1,19 +1,18 @@
-FROM node:12.2.0
-WORKDIR /app 
-
-COPY package.json package.json
+### STAGE 1: Build ###
+FROM node:12.7-alpine AS build
+WORKDIR /usr/src/app
+COPY package.json package-lock.json ./
 RUN npm install
-RUN npm install -g @angular/cli@7.3.9
-RUN npm install lite-server -g
-
 COPY . .
+RUN npm run build
+
+### STAGE 2: Run ###
+FROM nginx:1.17.1-alpine
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY --from=build /usr/src/app/dist/client /usr/share/nginx/html
 
 # We want just VIRTUAL_PATH
 EXPOSE 3000
 ENV VIRTUAL_PATH=/
 ENV VIRTUAL_PORT=3000
 ENV VIRTUAL_HOST=localhost
-
-# start app
-RUN ng build --prod
-CMD lite-server --baseDir="dist/client"
