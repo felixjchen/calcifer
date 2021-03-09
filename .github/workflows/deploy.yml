@@ -23,7 +23,7 @@ jobs:
           port: ${{ secrets.PORT }}
           script: 
             cd ~/project-calcifer ;
-            git pull https://felixjchen:9d538f44e0da1e1646dc51e8fbc79cc814040817@github.com/UTSCC09/project-calcifer.git ;
+            git pull https://felixjchen:${{ secrets.PAT }}@github.com/UTSCC09/project-calcifer.git ;
             docker-compose down ;
             docker-compose -f docker-compose-prod.yml up
             
