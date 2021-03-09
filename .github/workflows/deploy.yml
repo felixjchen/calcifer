@@ -25,6 +25,6 @@ jobs:
             cd ~/project-calcifer ;
             git pull https://felixjchen:${{ secrets.PAT }}@github.com/UTSCC09/project-calcifer.git ;
             docker-compose down ;
-            docker-compose -f docker-compose-prod.yml up
+            docker-compose -f docker-compose-prod.yml up -d
             
           
