@@ -1,0 +1,31 @@
+version: "3.7"
+
+# https://github.com/nginx-proxy/nginx-proxy/pull/1083
+services:
+  nginx-proxy:
+    image: felixchen1998/calcifer-nginx-proxy:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ~/certs:/etc/nginx/certs
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    restart: always
+
+  api:
+    image: felixchen1998/calcifer-api:latest
+    privileged: true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+
+  ssh:
+    image: felixchen1998/calcifer-ssh:latest
+    restart: always
+
+  client:
+    image: felixchen1998/calcifer-client:latest
+    restart: always
+
+
+  # docker run -d -p 80:80 nginx:latest
