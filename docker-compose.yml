@@ -2,9 +2,6 @@ version: "3.7"
 
 # https://github.com/nginx-proxy/nginx-proxy/pull/1083
 services:
-  client:
-    build: client/.
-
   nginx-proxy:
     build: nginx-proxy/.
     ports:
@@ -14,14 +11,17 @@ services:
       - ~/certs:/etc/nginx/certs
       - /var/run/docker.sock:/tmp/docker.sock:ro
 
-  ssh:
-    build: ssh/.
-
   api:
     build: api/.
     privileged: true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+
+  ssh:
+    build: ssh/.
+
+  client:
+    build: client/.
 
 
   # docker run -d -p 80:80 nginx:latest
