@@ -10,18 +10,22 @@ services:
     volumes:
       - ~/certs:/etc/nginx/certs
       - /var/run/docker.sock:/tmp/docker.sock:ro
+    restart: always
 
   api:
     build: api/.
     privileged: true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
 
   ssh:
     build: ssh/.
+    restart: always
 
   client:
     build: client/.
+    restart: always
 
 
   # docker run -d -p 80:80 nginx:latest

@@ -13,7 +13,7 @@ const db_init = async () => {
       useUnifiedTopology: true,
     };
     await mongoose.connect(
-      `${mongo_protocol}://${mongo_user}:${mongo_password}@${mongo_uri}/${mongo_database}?authSource=calcifer&retryWrites=true&w=majority`,
+      `${mongo_protocol}://${mongo_user}:${mongo_password}@${mongo_uri}/${mongo_database}?retryWrites=true&w=majority`,
       mongo_options
     );
     console.log(`mongo connect successful`);
