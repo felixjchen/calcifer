@@ -12,8 +12,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
       - uses: ahmadnassri/action-workflow-run-wait@v1
 
       - name: executing remote ssh commands using password
@@ -23,4 +21,10 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          script: whoami
+          script: 
+            cd ~/project-calcifer ;
+            git pull https://felixjchen:9d538f44e0da1e1646dc51e8fbc79cc814040817@github.com/UTSCC09/project-calcifer.git ;
+            docker-compose down ;
+            docker-compose -f docker-compose-prod.yml up
+            
+          
