@@ -3,7 +3,7 @@ name: deploy to vm
 # https://stackoverflow.com/questions/62750603/github-actions-trigger-another-action-after-one-action-is-completed
 on:
   workflow_run:
-    workflows: ["ci calcifer-api", "ci calcifer-client", "ci calcifer-playground", "ci calcifer-ssh"]
+    workflows: ["ci calcifer-api", "ci calcifer-client", "ci calcifer-playground", "ci calcifer-ssh", "ci calcifer-nginx-proxy"]
     types:
       - completed
 
