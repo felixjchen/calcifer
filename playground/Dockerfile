@@ -7,7 +7,7 @@ ENV VIRTUAL_HOST=localhost
 
 # Quality of life
 # https://platformengineer.com/install-vi-bash-curl-on-alpine-linux/
-RUN apk --update add --no-cache curl vim
+RUN apk --update add --no-cache curl vim git
 
 # SSH
 # https://github.com/arvindr226/alpine-ssh/blob/master/Dockerfile
@@ -18,5 +18,6 @@ RUN sed -ie 's/#Port 22/Port 22/g' /etc/ssh/sshd_config
 RUN /usr/bin/ssh-keygen -A
 RUN ssh-keygen -t rsa -b 4096 -f  /etc/ssh/ssh_host_key
 
-COPY . . 
+COPY ./entrypoint.sh . 
+COPY ./README.txt /root/ 
 CMD ["./entrypoint.sh"]
