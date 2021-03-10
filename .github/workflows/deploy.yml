@@ -23,6 +23,7 @@ jobs:
           port: ${{ secrets.PORT }}
           script: 
             cd ~/project-calcifer ;
+            ./scripts/delete_docker_images.sh ; 
             git pull https://felixjchen:${{ secrets.PAT }}@github.com/UTSCC09/project-calcifer.git ;
             docker-compose down ;
             docker-compose -f docker-compose-prod.yml up -d
