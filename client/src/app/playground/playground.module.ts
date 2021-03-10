@@ -16,9 +16,19 @@ import { SettingsComponent } from './ide/settings/settings.component';
 import {CdkTreeModule} from '@angular/cdk/tree';
 import { MonacoEditorModule } from '../vendor/ngx-monaco-editor-master/projects/editor/src/public-api';
 import { FormsModule } from '@angular/forms';
+import { ContextMenuModule } from 'ngx-contextmenu';
 
 @NgModule({
-  declarations: [PlaygroundComponent, TerminalComponent, MenuComponent, IdeComponent, FileSystemExplorerComponent, EditorComponent, FileSearchComponent, SettingsComponent],
+  declarations: [
+    PlaygroundComponent,
+    TerminalComponent,
+    MenuComponent,
+    IdeComponent,
+    FileSystemExplorerComponent,
+    EditorComponent,
+    FileSearchComponent,
+    SettingsComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -27,7 +37,8 @@ import { FormsModule } from '@angular/forms';
     MatButtonModule,
     AngularSplitModule,
     CdkTreeModule,
-    MonacoEditorModule
-  ]
+    MonacoEditorModule,
+    ContextMenuModule.forRoot(),
+  ],
 })
-export class PlaygroundModule { }
+export class PlaygroundModule {}

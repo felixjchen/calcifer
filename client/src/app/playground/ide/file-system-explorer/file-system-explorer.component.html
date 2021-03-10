@@ -2,7 +2,7 @@
 
     <cdk-tree-node *cdkTreeNodeDef="let node" class="tree-node">
 
-        <div class="file" [class.active]="node === activeFileNode" [style.padding-left]="20 + 20 * node.level + 'px'" (click)="onNodeClick(node)">
+        <div class="file" [class.active]="node === activeFileNode" [style.padding-left]="20 + 20 * node.level + 'px'" (click)="onNodeClick(node)" [contextMenu]="basicMenu" [contextMenuSubject]="node">
             <i class="file-icon" [class]="fileIcons.getClassWithColor(node.filename)"></i>
             {{ node.filename }}
         </div>
@@ -11,7 +11,7 @@
 
     <cdk-tree-node *cdkTreeNodeDef="let node; when: isDirectory;" class="tree-node">
 
-        <div [class.active]="node === activeFileNode" class="directory" [style.padding-left]="20 + 20 * node.level + 'px'" cdkTreeNodeToggle (click)="onNodeClick(node)">
+        <div [class.active]="node === activeFileNode" class="directory" [style.padding-left]="14 + 20 * node.level + 'px'" cdkTreeNodeToggle (click)="onNodeClick(node)" [contextMenu]="basicMenu" [contextMenuSubject]="node">
             <mat-icon class="mat-icon-rtl-mirror">
                 {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
             </mat-icon>
@@ -25,3 +25,18 @@
     </cdk-tree-node>
 
 </cdk-tree>
+
+<context-menu>
+  <ng-template contextMenuItem (execute)="showMessage('Hi, ' + $event.item.name)">
+    Rename
+  </ng-template>
+  <ng-template contextMenuItem (execute)="showMessage('Hi, ' + $event.item.name)">
+    Delete
+  </ng-template>
+  <ng-template contextMenuItem [visible]="isDirectoryContextMenu" (execute)="showMessage('Hi, ' + $event.item.name)">
+    THIS IS DIR
+  </ng-template>
+  <ng-template contextMenuItem let-item (execute)="showMessage($event.item.name + ' said: ' + $event.item.otherProperty)">
+    Bye, {{item?.path}} 
+  </ng-template>
+</context-menu>
