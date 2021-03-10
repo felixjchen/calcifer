@@ -6,6 +6,11 @@ export const environment = {
   production: false,
   ssh_url: '0.0.0.0:8000',
   path: '/socket.io',
+  default_parameters: {
+    host: '68.183.197.185',
+    username: 'root',
+    password: 'KJ7rNn5yyz321321321z',
+  },
 };
 
 /*
