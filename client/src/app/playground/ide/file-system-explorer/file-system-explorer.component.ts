@@ -9,6 +9,7 @@ import { FlatTreeControl } from '@angular/cdk/tree';
 import { FileDataSource, FileFlatNode } from './file-data-source';
 import { FileNode } from 'src/app/interfaces/file-node';
 import { FileStoreService } from '../../services/file-store.service';
+import { SocketioService } from '../../../socketio.service';
 import { ContextMenuComponent } from 'ngx-contextmenu';
 
 declare const FileIcons: any;
@@ -19,15 +20,15 @@ declare const FileIcons: any;
   styleUrls: ['./file-system-explorer.component.scss'],
 })
 export class FileSystemExplorerComponent {
+  @ViewChild(ContextMenuComponent) basicMenu: ContextMenuComponent;
   @Input() set files(files: FileNode[]) {
     this.dataSource.update(files);
   }
   @Output() selectFile = new EventEmitter<FileNode>();
 
-  @ViewChild(ContextMenuComponent) basicMenu: ContextMenuComponent;
-
   fileIcons = FileIcons;
   activeFileNode: FileFlatNode;
+  constructor(private socketService: SocketioService) {}
 
   readonly treeControl = new FlatTreeControl<FileFlatNode>(
     (node) => node.level,
@@ -43,6 +44,16 @@ export class FileSystemExplorerComponent {
     // We don't want to fetch directories
     if (!node.isDirectory) {
       this.selectFile.emit(node.original);
+    }
+  }
+
+  // Context Menu events
+  delete(file: FileFlatNode): void {
+    let { socket } = this.socketService;
+    if (file.isDirectory) {
+      socket.emit('deleteDir', file.path);
+    } else {
+      socket.emit('deleteFile', file.path);
     }
   }
   showMessage(message: any) {
