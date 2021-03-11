@@ -3,7 +3,14 @@ name: deploy to vm
 # https://stackoverflow.com/questions/62750603/github-actions-trigger-another-action-after-one-action-is-completed
 on:
   workflow_run:
-    workflows: ["ci calcifer-api", "ci calcifer-client", "ci calcifer-playground", "ci calcifer-ssh", "ci calcifer-nginx-proxy"]
+    workflows:
+      [
+        "ci calcifer-api",
+        "ci calcifer-client",
+        "ci calcifer-playground",
+        "ci calcifer-ssh",
+        "ci calcifer-nginx-proxy",
+      ]
     types:
       - completed
 
@@ -21,11 +28,8 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
-          script: 
-            cd ~/project-calcifer ;
-            ./scripts/delete_docker_images.sh ; 
-            git pull https://felixjchen:${{ secrets.PAT }}@github.com/UTSCC09/project-calcifer.git ;
+          script: cd ~/project-calcifer ;
             docker-compose down ;
+            ./scripts/delete_docker_images.sh ;
+            git pull https://felixjchen:${{ secrets.PAT }}@github.com/UTSCC09/project-calcifer.git ;
             docker-compose -f docker-compose-prod.yml up -d
-            
-          
