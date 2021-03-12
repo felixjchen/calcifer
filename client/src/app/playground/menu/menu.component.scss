@@ -1,34 +1,34 @@
 $menu-button-size: 64px;
 
 .menu {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: $menu-button-size;
+
+  button {
+    padding: 0;
+    opacity: 0.4;
+    box-shadow: none;
+    background: transparent;
+    border-radius: 0;
+    height: $menu-button-size;
     width: $menu-button-size;
-        
-    button {
-        padding: 0;
-        opacity: 0.4;
-        box-shadow: none;
-        background: transparent;
-        border-radius: 0;
-        height: $menu-button-size;
-        width: $menu-button-size;
 
-        $active-border-width: 3px;
-        border-left-width: #{$active-border-width};
-        border-left-style: solid;
+    $active-border-width: 3px;
+    border-left-width: #{$active-border-width};
+    border-left-style: solid;
 
-        mat-icon {
-            font-size: 1.5rem;
-        }
-
-        &.active {
-            opacity: 1;
-        }
-
-        &:hover {
-            opacity: 1;
-        }
+    mat-icon {
+      font-size: 2.5rem;
     }
+
+    &.active {
+      opacity: 1;
+    }
+
+    &:hover {
+      opacity: 1;
+    }
+  }
 }
