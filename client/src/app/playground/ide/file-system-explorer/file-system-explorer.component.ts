@@ -8,7 +8,6 @@ import {
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { FileDataSource, FileFlatNode } from './file-data-source';
 import { FileNode } from 'src/app/interfaces/file-node';
-import { FileStoreService } from '../../services/file-store.service';
 import { SocketioService } from '../../../socketio.service';
 import { ContextMenuComponent } from 'ngx-contextmenu';
 

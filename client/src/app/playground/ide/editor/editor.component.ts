@@ -3,7 +3,6 @@ import { FileStoreService } from '../../services/file-store.service';
 import { File } from '../../../interfaces/file';
 import { MonacoLanguageService } from '../../services/monaco-language.service';
 import { SocketioService } from '../../../socketio.service';
-import { MonacoEditorModule } from '../../../vendor/ngx-monaco-editor-master/projects/editor/src/public-api';
 
 @Component({
   selector: 'app-editor',
@@ -42,15 +41,15 @@ export class EditorComponent implements OnInit {
         this.editorModel = this.file.content;
       }
     });
+
+    this._socketService.socket.on('sendFileContent', (content: string) => {
+      this.editorModel = content;
+    });
   }
 
   // https://github.com/microsoft/monaco-editor/issues/432
   // https://github.com/atularen/ngx-monaco-editor/issues/133
   onInitEditor(editor: any) {
-    if (!editor) {
-      return;
-    }
-    console.log(editor);
     editor.onDidChangeModelContent((e: any) => {
       // Only trigger if user types, not if JS loads
       if (!e.isFlush) {

@@ -8,8 +8,9 @@ const getLister = (sftp, namespace) => async () => {
 };
 
 // Socket listens to one client
-// Broadcast across namespace
-export const adapter = async (socket, namespace) => {
+// Broadcast across namespace, namespace per SSH target host
+export const adapter = async (socket) => {
+  let namespace = socket.nsp;
   let { host, username, password } = socket.handshake.query;
   let config = { host, username, password };
   console.log({ config });
@@ -35,11 +36,19 @@ export const adapter = async (socket, namespace) => {
   // File System Events
   // https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md
   socket.on("getFile", async (file) => {
+    // Socket is in this file's room, for collaboration.
+    // This should be constant time, since its invariant that the socket is in at most 2 rooms (default and file room)
+    const old_rooms = [...socket.rooms].filter((room) => room != socket.id);
+    old_rooms.forEach((room) => socket.leave(room));
+    socket.join(file.path);
+    // Send file
     const content = await sftp.readfile(file.path);
     socket.emit("sendFile", { node: file, content });
   });
   socket.on("writeFile", async (path, content) => {
     await sftp.writefile(path, content);
+    // Send contents to everyone else editing this file right now
+    socket.broadcast.to(path).emit("sendFileContent", content);
   });
   socket.on("deleteFile", async (path) => {
     await sftp.unlink(path);

@@ -12,8 +12,7 @@ const PORT = process.env.PORT || 8000;
 const namespaces = io.of(/[a-fA-F0-9]+$/);
 
 namespaces.on("connection", (socket) => {
-  let namespace = socket.nsp;
-  adapter(socket, namespace);
+  adapter(socket);
 });
 
 server.listen(PORT, function () {
