@@ -1,1 +1,7 @@
-<ngx-monaco-editor [class.hidden]="file.content === undefined" style="height: 100%" [options]="editorOptions" [(ngModel)]="editorModel"></ngx-monaco-editor>
+<ngx-monaco-editor
+  style="height: 100%"
+  [class.hidden]="file.content === undefined"
+  [options]="editorOptions"
+  [(ngModel)]="editorModel"
+  (onInit)="onInitEditor($event)"
+></ngx-monaco-editor>
