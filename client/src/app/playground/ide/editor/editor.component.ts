@@ -39,11 +39,12 @@ export class EditorComponent implements OnInit {
         };
         this.file = file;
         this.editorModel = this.file.content;
-      }
-    });
 
-    this._socketService.socket.on('sendFileContent', (content: string) => {
-      this.editorModel = content;
+        // Sync with others
+        this._socketService.socket.on('sendFileContent', (content: string) => {
+          this.editorModel = content;
+        });
+      }
     });
   }
 
