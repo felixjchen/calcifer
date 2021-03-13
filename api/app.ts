@@ -1,11 +1,19 @@
 import * as express from "express";
 
 import { db_init } from "./lib/db";
-import { stale_buffer, get_container_start_command } from "./config";
+import { stale_buffer, production } from "./config";
 
 // https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback
 import * as child_process from "child_process";
 import * as util from "util";
+
+const get_container_start_command = (id) => {
+  if (production) {
+    return `docker run --runtime=sysbox-runc -d --network project-calcifer_default --name=${id} --network-alias=${id} --env VIRTUAL_PATH=/${id}/ felixchen1998/calcifer-playground:latest`;
+  } else {
+    return `docker run --privileged -d --network project-calcifer_default --name=${id} --network-alias=${id} --env VIRTUAL_PATH=/${id}/ felixchen1998/calcifer-playground:latest`;
+  }
+};
 
 const exec = util.promisify(child_process.exec);
 const port = 8080;
