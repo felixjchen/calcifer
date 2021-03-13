@@ -30,6 +30,7 @@ jobs:
           port: ${{ secrets.PORT }}
           script: cd ~/project-calcifer ;
             docker-compose down ;
+            docker container rm $(docker container ls -aq) -f ;
             ./scripts/delete_docker_images.sh ;
             git pull https://felixjchen:${{ secrets.PAT }}@github.com/UTSCC09/project-calcifer.git ;
             docker-compose -f docker-compose-prod.yml up -d

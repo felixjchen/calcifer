@@ -32,9 +32,17 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              { "glob": "**/*", "input": "node_modules/monaco-editor/min", "output": "./assets/monaco/" }
+              {
+                "glob": "**/*",
+                "input": "node_modules/monaco-editor/min",
+                "output": "./assets/monaco/"
+              }
             ],
-            "styles": ["src/styles.scss", "node_modules/xterm/css/xterm.css", "node_modules/file-icons-js/css/style.css"],
+            "styles": [
+              "src/styles.scss",
+              "node_modules/xterm/css/xterm.css",
+              "node_modules/file-icons-js/css/style.css"
+            ],
             "scripts": ["node_modules/file-icons-js/dist/file-icons.js"]
           },
           "configurations": {
@@ -43,6 +51,33 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ]
+            },
+            "stage": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.stage.ts"
                 }
               ],
               "optimization": true,
@@ -75,6 +110,9 @@
           "configurations": {
             "production": {
               "browserTarget": "client:build:production"
+            },
+            "stage": {
+              "browserTarget": "client:build:stage"
             }
           }
         },
