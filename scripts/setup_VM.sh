@@ -33,6 +33,12 @@ cp /etc/letsencrypt/live/project-calcifer.ml/fullchain.pem ~/certs/default.crt
 # Test cert auto renewel 
 # sudo certbot renew --dry-run
 
+# Need Kernel 5+ for sysbox requirements
+# https://github.com/nestybox/sysbox/blob/master/docs/distro-compat.md
+sudo apt update
+sudo apt-get install -y linux-headers-$(uname -r)
+sudo apt-get install linux-image-5.4.0-66-generic
+
 # Install sysbox
 # https://github.com/nestybox/sysbox
 wget https://github.com/nestybox/sysbox/releases/download/v0.2.1/sysbox_0.2.1-0.ubuntu-focal_amd64.deb

@@ -1,7 +1,7 @@
 import * as express from "express";
 
 import { db_init } from "./lib/db";
-import { stale_buffer } from "./config";
+import { stale_buffer, get_container_start_command } from "./config";
 
 // https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback
 import * as child_process from "child_process";
@@ -21,9 +21,7 @@ app.post("/playgrounds", async (req, res) => {
   // Create document in MongoDB
   let { _id } = await Playgrounds.create({});
   // Start a DIND
-  let { stdout, stderr } = await exec(
-    `docker run --privileged -d --network project-calcifer_default --name=${_id} --network-alias=${_id} --env VIRTUAL_PATH=/${_id}/ felixchen1998/calcifer-playground:latest`
-  );
+  let { stdout, stderr } = await exec(get_container_start_command(_id));
   // trim newline off..
   stdout = stdout.trim();
   console.log(`Created container with ID ${stdout}, with playground ID ${_id}`);
