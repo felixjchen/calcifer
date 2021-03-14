@@ -1,38 +1,38 @@
 nav {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  height: 100%;
 
-    button {
-        overflow: hidden;
-        margin-right: 1.5rem;
-        width: 0;
+  button {
+    overflow: hidden;
+    width: 0;
 
-        &.active {
-            width: unset;
+    &.active {
+      width: unset;
 
-            span {
-                opacity: 1;
-                width: 75px;    
-            }
-        }
-
-        &:hover {
-            width: unset;
-
-            span {
-                opacity: 1;
-                width: 75px;    
-            }
-        }
-
-        span {
-            opacity: 0;
-            display: inline-block;
-            width: 0;
-
-            transition: width 200ms, opacity 100ms;
-        }
+      span {
+        opacity: 1;
+        max-width: 20rem;
+      }
     }
+
+    &:hover {
+      width: unset;
+
+      span {
+        opacity: 1;
+        max-width: 20rem;
+      }
+    }
+
+    span {
+      padding-left: 1rem;
+      opacity: 0;
+      display: inline-block;
+      max-width: 0;
+
+      transition: max-width 300ms, opacity 100ms;
+    }
+  }
 }

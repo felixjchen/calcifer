@@ -9,13 +9,13 @@ const { path, ssh_url, default_parameters } = environment;
 export class SocketioService {
   socket: Socket;
 
-  init(): void {
+  init(_id: string): void {
     window.addEventListener('beforeunload', () => {
       this.socket?.disconnect?.();
     });
 
     const urlParams = new URLSearchParams(window.location.search);
-    let host = urlParams.get('h') || default_parameters.host;
+    let host = _id;
     let username = urlParams.get('u') || default_parameters.username;
     let password = urlParams.get('p') || default_parameters.password;
 

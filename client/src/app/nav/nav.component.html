@@ -1,18 +1,22 @@
 <nav>
-    <button mat-button routerLinkActive="active" routerLink="/" [routerLinkActiveOptions]="{ exact: true }">
-        <mat-icon>
-            dashboard
-        </mat-icon>
-        <span>
-            Dashboard
-        </span>
-    </button>
-    <button mat-button routerLinkActive="active" routerLink="/playground" [routerLinkActiveOptions]="{ exact: true }">
-        <mat-icon>
-            code
-        </mat-icon>
-        <span>
-            Playground
-        </span>
-    </button>
+  <button
+    mat-button
+    routerLinkActive="active"
+    routerLink="/"
+    [routerLinkActiveOptions]="{ exact: true }"
+  >
+    <mat-icon> dashboard </mat-icon>
+    <span> Dashboard </span>
+  </button>
+  <button
+    mat-button
+    class="playgroundButton"
+    routerLinkActive="active"
+    [routerLink]="['/edit/', _id]"
+    [routerLinkActiveOptions]="{ exact: true }"
+    *ngIf="_id !== undefined"
+  >
+    <mat-icon> code </mat-icon>
+    <span> {{ _id }} </span>
+  </button>
 </nav>
