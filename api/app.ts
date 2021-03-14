@@ -37,6 +37,12 @@ app.post("/playgrounds", async (req, res) => {
 });
 
 // Bump
+app.get("/playgrounds/:_id", async (req, res) => {
+  let { _id } = req.params;
+  let result = await Playgrounds.query({ _id });
+  res.send({ result });
+});
+
 app.put("/playgrounds/:_id/bump", async (req, res) => {
   let { _id } = req.params;
   let r = await Playgrounds.updateOne({ _id }, { updatedAt: Date.now() });
