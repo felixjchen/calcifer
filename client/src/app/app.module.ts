@@ -11,7 +11,6 @@ import { NavComponent } from './nav/nav.component';
 import { MonacoEditorModule } from './vendor/ngx-monaco-editor-master/projects/editor/src/public-api';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { TextFieldModule } from '@angular/cdk/text-field';
 @NgModule({
@@ -20,7 +19,6 @@ import { TextFieldModule } from '@angular/cdk/text-field';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatFormFieldModule,
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
