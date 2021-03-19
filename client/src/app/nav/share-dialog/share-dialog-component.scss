@@ -1,0 +1,17 @@
+:host {
+  div {
+    display: flex;
+    justify-content: space-between;
+
+    div {
+      margin: auto;
+    }
+
+    button {
+      background: #424242;
+      outline: none;
+      border: none;
+      // float: right;
+    }
+  }
+}

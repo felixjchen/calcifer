@@ -19,4 +19,13 @@
     <mat-icon> code </mat-icon>
     <span> {{ _id }} </span>
   </button>
+  <button
+    mat-button
+    class="playgroundButton noShrink"
+    (click)="openDialog()"
+    *ngIf="_id !== undefined"
+  >
+    <mat-icon> share </mat-icon>
+    <span> Share </span>
+  </button>
 </nav>

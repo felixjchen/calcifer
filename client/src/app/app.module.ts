@@ -3,21 +3,29 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ShareDialogComponent } from './nav/share-dialog/share-dialog.component';
 import { SocketioService } from './socketio.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { NavComponent } from './nav/nav.component';
 import { MonacoEditorModule } from './vendor/ngx-monaco-editor-master/projects/editor/src/public-api';
 import { MatIconModule } from '@angular/material/icon';
-
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { ClipboardModule } from '@angular/cdk/clipboard';
+import { TextFieldModule } from '@angular/cdk/text-field';
 @NgModule({
-  declarations: [AppComponent, NavComponent],
+  declarations: [AppComponent, NavComponent, ShareDialogComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    MatFormFieldModule,
     MatButtonModule,
     MatIconModule,
+    MatDialogModule,
+    TextFieldModule,
+    ClipboardModule,
     MonacoEditorModule.forRoot(),
   ],
   providers: [SocketioService],

@@ -14,10 +14,8 @@ export class SocketioService {
       this.socket?.disconnect?.();
     });
 
-    const urlParams = new URLSearchParams(window.location.search);
     let host = _id;
-    let username = urlParams.get('u') || default_parameters.username;
-    let password = urlParams.get('p') || default_parameters.password;
+    let { username, password } = default_parameters;
 
     this.socket = io(`${ssh_url}/${host}`, {
       path,
