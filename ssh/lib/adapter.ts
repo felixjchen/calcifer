@@ -45,36 +45,36 @@ export const adapter = async (socket) => {
     const content = await sftp.readfile(file.path);
     socket.emit("sendFile", { node: file, content });
   });
-  socket.on("writeFile", async (path, content) => {
-    await sftp.writefile(path, content);
+  socket.on("writeFile", (path, content) => {
+    sftp.writefile(path, content);
     // Send contents to everyone else editing this file right now
     socket.broadcast.to(path).emit("sendFileContent", content);
   });
-  socket.on("deleteFile", async (path) => {
-    await sftp.unlink(path);
+  socket.on("deleteFile", (path) => {
+    sftp.unlink(path);
     list();
   });
-  socket.on("renameFile", async (src, dest) => {
-    await sftp.rename(src, dest);
+  socket.on("renameFile", (src, dest) => {
+    sftp.rename(src, dest);
     list();
   });
-  socket.on("makeDir", async (path) => {
-    await sftp.mkdir(path);
+  socket.on("makeDir", (path) => {
+    sftp.mkdir(path);
     list();
   });
-  socket.on("deleteDir", async (path) => {
-    await sftp.rmdir(path);
+  socket.on("deleteDir", (path) => {
+    sftp.rmdir(path);
     list();
   });
 
   // Close events
-  socket.on("disconnect", async () => {
-    await ssh.close();
+  socket.on("disconnect", () => {
+    ssh.close();
   });
-  shell.on("close", async () => {
-    await ssh.close();
+  shell.on("close", () => {
+    ssh.close();
   });
-  shell.on("error", async () => {
-    await ssh.close();
+  shell.on("error", () => {
+    ssh.close();
   });
 };
