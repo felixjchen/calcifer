@@ -7,7 +7,7 @@ ENV VIRTUAL_HOST=localhost
 
 # Quality of life
 # https://platformengineer.com/install-vi-bash-curl-on-alpine-linux/
-RUN apk --update add --no-cache curl vim git
+RUN apk --update add --no-cache curl vim git docker-compose
 
 # SSH
 # https://github.com/arvindr226/alpine-ssh/blob/master/Dockerfile
