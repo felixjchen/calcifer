@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { RouteParamStoreService } from '../playground/services/route-param-store.service';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ShareDialogComponent } from './share-dialog/share-dialog.component';
 
 @Component({
   selector: 'app-nav',
@@ -8,7 +10,10 @@ import { RouteParamStoreService } from '../playground/services/route-param-store
 })
 export class NavComponent {
   _id: string;
-  constructor(private _routeParamStore: RouteParamStoreService) {}
+  constructor(
+    private _routeParamStore: RouteParamStoreService,
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this._routeParamStore.playgroundId$.subscribe((_id) => {
@@ -16,5 +21,9 @@ export class NavComponent {
         this._id = _id;
       }
     });
+  }
+
+  openDialog() {
+    this.dialog.open(ShareDialogComponent, { data: this._id });
   }
 }

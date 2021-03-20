@@ -3,7 +3,7 @@
     <div
       class="file"
       [class.active]="fileStore.isSelectedFile(node)"
-      [style.padding-left]="20 + 20 * node.level + 'px'"
+      [style.padding-left]="20 + 10 * node.level + 'px'"
       (click)="onNodeClick(node)"
       [contextMenu]="basicMenu"
       [contextMenuSubject]="node"
@@ -25,7 +25,7 @@
     <div
       [class.active]="fileStore.isSelectedFile(node)"
       class="directory"
-      [style.padding-left]="14 + 20 * node.level + 'px'"
+      [style.padding-left]="14 + 10 * node.level + 'px'"
       cdkTreeNodeToggle
       (click)="onNodeClick(node)"
       [contextMenu]="basicMenu"
