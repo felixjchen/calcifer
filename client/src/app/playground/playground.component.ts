@@ -62,9 +62,8 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
       this._socketService.socket.on('list', (files: FileNode[]) => {
         this.files = files;
       });
-      this._socketService.socket.on('sendFile', ({ node, content }: File) => {
-        this._fileStore.selectedFile$.next({ node, content });
-      });
+
+      this._fileStore.init();
     });
   }
 

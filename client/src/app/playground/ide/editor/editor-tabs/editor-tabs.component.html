@@ -1,0 +1,18 @@
+<div class="tabs-wrapper">
+    <div class="tabs" cdkDropList id="editor-tabs" cdkDropListOrientation="horizontal" [cdkDropListAutoScrollDisabled]="true" (cdkDropListDropped)="drop($event)">
+        <button 
+            *ngFor="let tab of fileStore.fileTabs$ | async" mat-flat-button disableRipple class="tab"
+            [class.selected]="fileStore.isSelectedFile(tab)" (click)="fileStore.selectedFile = tab"
+            cdkDrag
+        >
+            <span [class]="fileIcons.getClassWithColor(tab.node.filename)"></span>
+            {{ tab.node.filename }}
+            <mat-icon (click)="fileStore.removeFile(tab)">clear</mat-icon>
+        </button>
+    </div>
+    <div class="breadcrumbs">
+        <div class="crumb" *ngFor="let crumb of breadcrumbs; let isLast = last">
+            {{ isLast ? crumb : crumb + ' >' }}
+        </div>
+    </div>
+</div>

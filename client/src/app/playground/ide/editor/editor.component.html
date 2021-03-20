@@ -1,7 +1,3 @@
-<ngx-monaco-editor
-  style="height: 100%"
-  [class.hidden]="file.content === undefined"
-  [options]="editorOptions"
-  [(ngModel)]="editorModel"
-  (onInit)="onInitEditor($event)"
-></ngx-monaco-editor>
+<app-editor-tabs *ngIf="fileStore.fileTabs$.value.length > 0"></app-editor-tabs>
+<ngx-monaco-editor style="height: 100%" [class.hidden]="file.content === undefined" [options]="editorOptions"
+  [(ngModel)]="editorModel" (onInit)="onInitEditor($event)"></ngx-monaco-editor>

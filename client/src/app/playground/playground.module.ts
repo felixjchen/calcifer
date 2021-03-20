@@ -17,6 +17,10 @@ import {CdkTreeModule} from '@angular/cdk/tree';
 import { MonacoEditorModule } from '../vendor/ngx-monaco-editor-master/projects/editor/src/public-api';
 import { FormsModule } from '@angular/forms';
 import { ContextMenuModule } from 'ngx-contextmenu';
+import { EditorTabsComponent } from './ide/editor/editor-tabs/editor-tabs.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import {MatTreeModule} from '@angular/material/tree';
+import { FileTreeNodeComponent } from './ide/file-system-explorer/file-tree-node/file-tree-node.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +32,8 @@ import { ContextMenuModule } from 'ngx-contextmenu';
     EditorComponent,
     FileSearchComponent,
     SettingsComponent,
+    EditorTabsComponent,
+    FileTreeNodeComponent,
   ],
   imports: [
     CommonModule,
@@ -37,8 +43,10 @@ import { ContextMenuModule } from 'ngx-contextmenu';
     MatButtonModule,
     AngularSplitModule,
     CdkTreeModule,
+    MatTreeModule,
     MonacoEditorModule,
     ContextMenuModule.forRoot(),
+    DragDropModule
   ],
 })
 export class PlaygroundModule {}

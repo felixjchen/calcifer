@@ -1,3 +1,9 @@
+@use 'sass:color';
+
+cdk-tree {
+  display: block;
+}
+
 .collapsed-node {
   display: none;
 }
@@ -47,4 +53,8 @@
 
 .file-icon {
   padding-right: 6px;
+}
+
+.cdk-drag-placeholder {
+  background-color: color.scale(red,  $alpha: -85%);
 }

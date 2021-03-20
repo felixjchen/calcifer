@@ -10,7 +10,7 @@ export interface FileFlatNode {
     filename: string;
     level: number;
     path: string;
-    isDirectory : boolean;
+    isDirectory: boolean;
     attrs: {
         longname: string;
     };
@@ -25,13 +25,13 @@ export class FileDataSource extends DataSource<FileFlatNode> {
     private _treeFlattener = new MatTreeFlattener(
         (node: any, level: number) => {
             const flatNode: FileFlatNode = {
-              filename: node.filename,
-              attrs: node.attrs,
-              path: node.path,
-              isDirectory: node.longname[0] === "d",
-              expandable: !!node.children && node.children.length > 0,
-              original: node,
-              level,
+                filename: node.filename,
+                attrs: node.attrs,
+                path: node.path,
+                isDirectory: node.longname[0] === "d",
+                expandable: !!node.children && node.children.length > 0,
+                original: node,
+                level,
             };
             return flatNode;
         },
@@ -39,8 +39,8 @@ export class FileDataSource extends DataSource<FileFlatNode> {
         (node) => (node ? node.expandable : false),
         (node) => (node ? node.children : [])
     );
-    
-     // Todo: implement diff logic on updates
+
+    // Todo: implement diff logic on updates
     private _differ = new DefaultIterableDiffer((_: number, item: FileFlatNode) => item.path);
 
     constructor(private _treeControl: FlatTreeControl<FileFlatNode>) {
@@ -53,17 +53,20 @@ export class FileDataSource extends DataSource<FileFlatNode> {
         }
 
         const newFlattenedFiles = this._treeFlattener.flattenNodes(files) as FileFlatNode[];
+        this.updateWithFlattenedFileNodes(newFlattenedFiles);
+    }
 
+    updateWithFlattenedFileNodes(files: FileFlatNode[]): void {
         const expandedNodes: any = {};
         this.flattenedData.value.forEach((node) => {
-          expandedNodes[`${node.filename}#${node.attrs.longname}`] = this._treeControl.isExpanded(node);
+            expandedNodes[`${node.path}#`] = this._treeControl.isExpanded(node);
         });
 
-        this._treeControl.dataNodes = newFlattenedFiles;
-        this.flattenedData.next(newFlattenedFiles);
+        this._treeControl.dataNodes = files;
+        this.flattenedData.next(files);
 
         this.flattenedData.value.forEach(node => {
-            if (expandedNodes[`${node.filename}#${node.attrs.longname}`]) {
+            if (expandedNodes[`${node.path}`]) {
                 this._treeControl.expand(node);
             }
         });
@@ -73,7 +76,7 @@ export class FileDataSource extends DataSource<FileFlatNode> {
         const changes = [collectionViewer.viewChange, this._treeControl.expansionModel.changed, this.flattenedData];
         return merge(...changes).pipe(
             map(() => {
-                this.expandedData.next(this._treeFlattener.expandFlattenedNodes(this.flattenedData.value, this._treeControl as any) as FileFlatNode[]);
+                this.expandedData.next(this._treeFlattener.expandFlattenedNodes(this.flattenedData.value, this._treeControl));
                 return this.expandedData.value;
             })
         );

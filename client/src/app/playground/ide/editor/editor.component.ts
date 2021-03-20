@@ -15,19 +15,23 @@ export class EditorComponent implements OnInit {
     automaticLayout: true,
     language: 'plaintext',
   };
-  file: File = {} as any;
+  file: any = {};
   editorModel: string = '';
 
   readonly THEME = 'vs-dark';
 
   constructor(
-    private _fileStore: FileStoreService,
+    public fileStore: FileStoreService,
     private _monacoLanguageService: MonacoLanguageService,
     private _socketService: SocketioService
   ) {}
 
   ngOnInit(): void {
-    this._fileStore.selectedFile$.subscribe((file: File | null) => {
+    this.fileStore.selectedFile$.subscribe((file: File | null) => {
+      if (file === null) {
+        this.file.content = undefined;
+      }
+
       if (file !== null && file.content !== undefined) {
         this._monacoLanguageService.init();
         this.editorOptions = {

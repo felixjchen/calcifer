@@ -1,17 +1,17 @@
-<cdk-tree [dataSource]="dataSource" [treeControl]="treeControl">
-  <cdk-tree-node *cdkTreeNodeDef="let node" class="tree-node">
+<cdk-tree [dataSource]="dataSource" [treeControl]="treeControl" cdkDropList id="filetree" cdkDropListConnectedTo="editor-tabs">
+  <cdk-tree-node *cdkTreeNodeDef="let node" class="tree-node" cdkDrag [cdkDragData]="node">
     <div
       class="file"
-      [class.active]="node === activeFileNode"
+      [class.active]="fileStore.isSelectedFile(node)"
       [style.padding-left]="20 + 20 * node.level + 'px'"
       (click)="onNodeClick(node)"
       [contextMenu]="basicMenu"
       [contextMenuSubject]="node"
     >
-      <i
+      <span
         class="file-icon"
         [class]="fileIcons.getClassWithColor(node.filename)"
-      ></i>
+      ></span>
       {{ node.filename }}
     </div>
   </cdk-tree-node>
@@ -19,9 +19,11 @@
   <cdk-tree-node
     *cdkTreeNodeDef="let node; when: isDirectory"
     class="tree-node"
+    cdkDrag
+    [cdkDragData]="node"
   >
     <div
-      [class.active]="node === activeFileNode"
+      [class.active]="fileStore.isSelectedFile(node)"
       class="directory"
       [style.padding-left]="14 + 20 * node.level + 'px'"
       cdkTreeNodeToggle
