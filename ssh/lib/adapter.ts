@@ -20,14 +20,9 @@ export const adapter = async (socket) => {
   let sftp = new mySFTP(ssh);
   let list = getLister(sftp, namespace);
 
-  // Initial List
-  list();
-
   // Shell Events
-  socket.on("data", async (data) => {
+  socket.on("data", (data) => {
     shell.write(data);
-    // If shell modifies FS... the frontend should know!
-    if (data === "\r") list();
   });
   shell.on("data", (data) => {
     namespace.emit("data", data.toString("binary"));
@@ -35,6 +30,11 @@ export const adapter = async (socket) => {
 
   // File System Events
   // https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md
+  list();
+  socket.on("getList", () => {
+    list();
+  });
+
   socket.on("getFile", async (file) => {
     // Socket is in this file's room, for collaboration.
     // This should be constant time, since its invariant that the socket is in at most 2 rooms (default and file room)
@@ -52,19 +52,15 @@ export const adapter = async (socket) => {
   });
   socket.on("deleteFile", (path) => {
     sftp.unlink(path);
-    list();
   });
   socket.on("renameFile", (src, dest) => {
     sftp.rename(src, dest);
-    list();
   });
   socket.on("makeDir", (path) => {
     sftp.mkdir(path);
-    list();
   });
   socket.on("deleteDir", (path) => {
     sftp.rmdir(path);
-    list();
   });
 
   // Close events

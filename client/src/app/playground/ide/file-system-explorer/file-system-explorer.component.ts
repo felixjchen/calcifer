@@ -10,6 +10,7 @@ import { FileDataSource, FileFlatNode } from './file-data-source';
 import { FileNode } from 'src/app/interfaces/file-node';
 import { SocketioService } from '../../../socketio.service';
 import { ContextMenuComponent } from 'ngx-contextmenu';
+import { timer, Subscription } from 'rxjs';
 
 declare const FileIcons: any;
 
@@ -27,13 +28,24 @@ export class FileSystemExplorerComponent {
 
   fileIcons = FileIcons;
   activeFileNode: FileFlatNode;
-  constructor(private socketService: SocketioService) {}
-
+  listSubscription: Subscription;
   readonly treeControl = new FlatTreeControl<FileFlatNode>(
     (node) => node.level,
     (node) => node.expandable
   );
   readonly dataSource = new FileDataSource(this.treeControl);
+
+  constructor(private socketService: SocketioService) {}
+
+  // Although polling is inefficient, it will provide a better user experience, especially when the OS is changing the FS on its on, causing no updates to be pushed out.
+  ngOnInit() {
+    this.listSubscription = timer(0, 4000).subscribe(() => {
+      this.socketService.socket.emit('getList');
+    });
+  }
+  ngOnDestroy() {
+    this.listSubscription.unsubscribe();
+  }
 
   isDirectory = (_: number, node: any) => node.isDirectory;
   isDirectoryContextMenu = (node: any) => node.isDirectory;
@@ -48,11 +60,10 @@ export class FileSystemExplorerComponent {
 
   // Context Menu events
   delete(file: FileFlatNode): void {
-    let { socket } = this.socketService;
     if (file.isDirectory) {
-      socket.emit('deleteDir', file.path);
+      this.socketService.socket.emit('deleteDir', file.path);
     } else {
-      socket.emit('deleteFile', file.path);
+      this.socketService.socket.emit('deleteFile', file.path);
     }
   }
   showMessage(message: any) {
