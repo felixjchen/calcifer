@@ -59,7 +59,7 @@ export class FileDataSource extends DataSource<FileFlatNode> {
     updateWithFlattenedFileNodes(files: FileFlatNode[]): void {
         const expandedNodes: any = {};
         this.flattenedData.value.forEach((node) => {
-            expandedNodes[`${node.path}#`] = this._treeControl.isExpanded(node);
+            expandedNodes[`${node.path}`] = this._treeControl.isExpanded(node);
         });
 
         this._treeControl.dataNodes = files;

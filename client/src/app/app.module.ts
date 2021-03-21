@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { TextFieldModule } from '@angular/cdk/text-field';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [AppComponent, NavComponent, ShareDialogComponent],
   imports: [
@@ -25,6 +26,7 @@ import { TextFieldModule } from '@angular/cdk/text-field';
     TextFieldModule,
     ClipboardModule,
     MonacoEditorModule.forRoot(),
+    HttpClientModule
   ],
   providers: [SocketioService],
   bootstrap: [AppComponent],

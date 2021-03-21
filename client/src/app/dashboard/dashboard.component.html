@@ -1,0 +1,15 @@
+<div class="dashboard"> 
+    <ng-container *ngIf="!loading && playgroundId === undefined; else spinner">
+        <button mat-raised-button (click)="createDashboard()">
+            Create Playground
+        </button>
+    </ng-container>
+
+    <ng-template #spinner>
+        <mat-spinner *ngIf="playgroundId === undefined" [diameter]="100" [strokeWidth]="3"></mat-spinner>
+    </ng-template>
+    
+    <button mat-raised-button [routerLink]="['/edit', playgroundId]" *ngIf="playgroundId !== undefined && !loading">
+        Enter Playground
+    </button>
+</div>
