@@ -1,8 +1,8 @@
 export const environment = {
   production: true,
-  ssh_url: 'http://0.0.0.0/ssh',
+  ssh_url: 'http://0.0.0.0',
   api_url: 'http://0.0.0.0/api',
-  path: '/socket.io',
+  path: '/ssh/socket.io',
   default_parameters: {
     host: '.',
     username: 'root',
