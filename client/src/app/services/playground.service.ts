@@ -4,10 +4,9 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PlaygroundService {
-
   constructor(private _httpClient: HttpClient) {}
 
   create(): Observable<any> {

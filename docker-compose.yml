@@ -22,8 +22,9 @@ services:
     restart: always
 
   client:
-    build: client/.
+    build:
+      context: client/.
+      dockerfile: DockerfileStage
     restart: always
-
 
   # docker run -d -p 80:80 nginx:latest
