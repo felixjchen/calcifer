@@ -7,7 +7,7 @@ sudo apt update && sudo apt install git
 # Install docker
 # https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04
 sudo apt update
-sudo apt install apt-transport-https ca-certificates curl software-properties-common
+yes Y | sudo apt install apt-transport-https ca-certificates curl software-properties-common
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
 sudo apt update
@@ -48,6 +48,7 @@ rm sysbox_0.2.1-0.ubuntu-focal_amd64.deb
 
 # Git login and clone
 git clone https://github.com/UTSCC09/project-calcifer.git
+cd project-calfier
 # Add nginx submodule
 git submodule update --init --recursive
 
