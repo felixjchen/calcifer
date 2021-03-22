@@ -6,8 +6,23 @@ services:
     build: nginx-proxy/.
     ports:
       - "80:80"
+      - "443:443"
     volumes:
+      - certs:/etc/nginx/certs:ro
+      - vhostd:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
       - /var/run/docker.sock:/tmp/docker.sock:ro
+    restart: always
+
+  letsencrypt-nginx-proxy-companion:
+    image: etsencrypt-nginx-proxy-companion
+    environment:
+      - NGINX_PROXY_CONTAINER=project-calcifer_nginx-proxy_1
+    volumes:
+      - certs:/etc/nginx/certs
+      - vhostd:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     restart: always
 
   api:
@@ -15,10 +30,16 @@ services:
     privileged: true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - LETSENCRYPT_HOST=markl.tk
+      - LETSENCRYPT_EMAIL=felixchen1998@gmail.com
     restart: always
 
   ssh:
     build: ssh/.
+    environment:
+      - LETSENCRYPT_HOST=markl.tk
+      - LETSENCRYPT_EMAIL=felixchen1998@gmail.com
     restart: always
 
   client:
@@ -27,4 +48,7 @@ services:
       dockerfile: DockerfileStage
     restart: always
 
-  # docker run -d -p 80:80 nginx:latest
+volumes:
+  certs:
+  html:
+  vhostd:
