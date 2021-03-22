@@ -11,9 +11,3 @@ RUN ng build --prod
 FROM nginx:1.17.1-alpine
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY --from=build /usr/src/app/dist/client /usr/share/nginx/html
-
-# We want just VIRTUAL_PATH
-EXPOSE 3000
-ENV VIRTUAL_PATH=/
-ENV VIRTUAL_PORT=3000
-ENV VIRTUAL_HOST=localhost

@@ -29,10 +29,10 @@ services:
   api:
     build: api/.
     privileged: true
-    ports:
-      - "8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "8080"
     environment:
       - VIRTUAL_PORT=8080
       - VIRTUAL_PATH=/api/
@@ -52,9 +52,14 @@ services:
     restart: always
 
   client:
-    build:
-      context: client/.
-      dockerfile: Dockerfile
+    image: felixchen1998/calcifer-client:markl
+    ports:
+      - "3000"
+    environment:
+      - VIRTUAL_PORT=3000
+      - VIRTUAL_PATH=/
+      - VIRTUAL_HOST=markl.tk
+      - LETSENCRYPT_HOST=markl.tk
     restart: always
 
 volumes:
