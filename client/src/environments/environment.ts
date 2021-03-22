@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  domain: 'http://0.0.0.0:4200',
   ssh_url: 'http://0.0.0.0:8000',
   api_url: 'http://0.0.0.0:8080',
   path: '/socket.io',
