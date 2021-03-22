@@ -1,17 +1,25 @@
 <as-split direction="horizontal" [gutterSize]="9">
-    <as-split-area [size]="15">
-        <app-file-system-explorer (selectFile)="selectFile.emit($event)" [files]="files" [class.hidden]="activeMenu.name !== 'file-system-explorer'"></app-file-system-explorer>
-        <app-file-search [class.hidden]="activeMenu.name !== 'search'"></app-file-search>
-        <app-settings [class.hidden]="activeMenu.name !== 'settings'"></app-settings>
-    </as-split-area>
-    <as-split-area [size]="85">
-        <as-split direction="vertical" [gutterSize]="9">
-            <as-split-area [size]="75">
-                <app-editor></app-editor>
-            </as-split-area>
-            <as-split-area [size]="25">
-              <app-terminal></app-terminal>
-            </as-split-area>
-        </as-split>
-    </as-split-area>
+  <as-split-area [size]="15">
+    <app-file-system-explorer
+      (selectFile)="selectFile.emit($event)"
+      [files]="files"
+      [class.hidden]="activeMenu.name !== 'file-system-explorer'"
+    ></app-file-system-explorer>
+    <app-file-search
+      [class.hidden]="activeMenu.name !== 'search'"
+    ></app-file-search>
+    <app-settings
+      [class.hidden]="activeMenu.name !== 'settings'"
+    ></app-settings>
+  </as-split-area>
+  <as-split-area [size]="85">
+    <as-split direction="vertical" [gutterSize]="9">
+      <as-split-area [size]="70">
+        <app-editor></app-editor>
+      </as-split-area>
+      <as-split-area [size]="30">
+        <app-terminal></app-terminal>
+      </as-split-area>
+    </as-split>
+  </as-split-area>
 </as-split>

@@ -8,9 +8,9 @@ export const environment = {
   api_url: 'http://0.0.0.0:8080',
   path: '/socket.io',
   default_parameters: {
-    host: '68.183.197.185',
+    host: '159.203.35.176',
     username: 'root',
-    password: 'KJ7rNn5yyz321321321z',
+    password: '4ULuG4J2H.Mp7Y',
   },
 };
 

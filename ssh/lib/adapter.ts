@@ -2,9 +2,9 @@ import SSH2Promise from "ssh2-promise";
 import mySFTP from "./SFTP";
 
 // Returns a function that lists files across namespace
-const getLister = (sftp, namespace) => async () => {
+const getLister = (sftp, socket) => async () => {
   let list = await sftp.readdir_r("/root");
-  namespace.emit("list", list);
+  socket.emit("list", list);
 };
 
 // Socket listens to one client
@@ -18,7 +18,7 @@ export const adapter = async (socket) => {
   let ssh = new SSH2Promise(config);
   let shell = await ssh.shell();
   let sftp = new mySFTP(ssh);
-  let list = getLister(sftp, namespace);
+  let list = getLister(sftp, socket);
 
   // Shell Events
   socket.on("data", (data) => {
@@ -38,9 +38,9 @@ export const adapter = async (socket) => {
   socket.on("getFile", async (file) => {
     // Socket is in this file's room, for collaboration.
     // This should be constant time, since its invariant that the socket is in at most 2 rooms (default and file room)
-    const old_rooms = [...socket.rooms].filter((room) => room != socket.id);
-    old_rooms.forEach((room) => socket.leave(room));
-    socket.join(file.path);
+    // const old_rooms = [...socket.rooms].filter((room) => room != socket.id);
+    // old_rooms.forEach((room) => socket.leave(room));
+    // socket.join(file.path);
     // Send file
     const content = await sftp.readfile(file.path);
     socket.emit("sendFile", { node: file, content });
@@ -48,7 +48,7 @@ export const adapter = async (socket) => {
   socket.on("writeFile", (path, content) => {
     sftp.writefile(path, content);
     // Send contents to everyone else editing this file right now
-    socket.broadcast.to(path).emit("sendFileContent", content);
+    // socket.broadcast.to(path).emit("sendFileContent", content);
   });
   socket.on("deleteFile", (path) => {
     sftp.unlink(path);
