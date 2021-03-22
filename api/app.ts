@@ -1,19 +1,12 @@
 import * as express from "express";
 
-import { db_init } from "./lib/db";
-import { stale_buffer, production } from "./config";
-
 // https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback
 import * as child_process from "child_process";
 import * as util from "util";
 
-const get_container_start_command = (id) => {
-  if (production) {
-    return `docker run --runtime=sysbox-runc -d --network project-calcifer_default --name=${id} --network-alias=${id} --env VIRTUAL_PATH=/${id}/ felixchen1998/calcifer-playground:latest`;
-  } else {
-    return `docker run --privileged -d --network project-calcifer_default --name=${id} --network-alias=${id} --env VIRTUAL_PATH=/${id}/ felixchen1998/calcifer-playground:latest`;
-  }
-};
+import { get_container_start_command } from "./lib/util";
+import { db_init } from "./lib/db";
+import { stale_buffer } from "./config";
 
 const exec = util.promisify(child_process.exec);
 const port = 8080;
@@ -73,8 +66,7 @@ app.delete("/playgrounds", async (req, res) => {
 const init = async () => {
   ({ Playgrounds } = await db_init());
   // Assume no playgrounds
-  let remove = await Playgrounds.remove({});
-  console.log(`removed all playgrounds from mongoDB collection`);
+  await Playgrounds.remove({});
 
   app.listen(port, "0.0.0.0", () => {
     console.log(`Server listening at http://localhost:${port}`);
