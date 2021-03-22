@@ -15,9 +15,10 @@ services:
     restart: always
 
   letsencrypt-nginx-proxy-companion:
-    image: etsencrypt-nginx-proxy-companion
+    image: letsencrypt-nginx-proxy-companion
     environment:
       - NGINX_PROXY_CONTAINER=project-calcifer_nginx-proxy_1
+      - DEFAULT_EMAIL=felixchen1998@gmail.com
     volumes:
       - certs:/etc/nginx/certs
       - vhostd:/etc/nginx/vhost.d
@@ -32,14 +33,12 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - LETSENCRYPT_HOST=markl.tk
-      - LETSENCRYPT_EMAIL=felixchen1998@gmail.com
     restart: always
 
   ssh:
     build: ssh/.
     environment:
       - LETSENCRYPT_HOST=markl.tk
-      - LETSENCRYPT_EMAIL=felixchen1998@gmail.com
     restart: always
 
   client:
