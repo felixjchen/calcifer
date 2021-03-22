@@ -1,7 +1,8 @@
+const domain = window.location.origin;
 export const environment = {
   production: true,
-  ssh_url: 'https://project-calcifer.ml',
-  api_url: 'https://project-calcifer.ml/api',
+  ssh_url: domain,
+  api_url: `${domain}/api`,
   path: '/ssh/socket.io',
   default_parameters: {
     host: '.',
