@@ -15,7 +15,7 @@ services:
     restart: always
 
   letsencrypt-nginx-proxy-companion:
-    image: letsencrypt-nginx-proxy-companion
+    image: jrcs/letsencrypt-nginx-proxy-companion
     environment:
       - NGINX_PROXY_CONTAINER=project-calcifer_nginx-proxy_1
       - DEFAULT_EMAIL=felixchen1998@gmail.com
