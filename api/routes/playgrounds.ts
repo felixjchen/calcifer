@@ -8,7 +8,7 @@ import { stale_buffer } from "../config";
 
 const exec = util.promisify(child_process.exec);
 
-export const get_playground_router = (models) => {
+export const get_router = (models) => {
   const router = express.Router();
   const { Playgrounds } = models;
 
