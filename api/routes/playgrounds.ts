@@ -3,7 +3,7 @@ import * as express from "express";
 import * as child_process from "child_process";
 import * as util from "util";
 
-import { get_container_start_command } from "../lib/util";
+import { get_playground_id, get_container_start_command } from "../lib/util";
 import { stale_buffer } from "../config";
 
 const exec = util.promisify(child_process.exec);
@@ -13,15 +13,18 @@ export const get_router = (models) => {
   const { Playgrounds } = models;
 
   router.get("/playgrounds", async (req, res) => {
-    let playgrounds = await Playgrounds.find({});
+    let playgrounds = await Playgrounds.find({}).limit(100);
     res.json(playgrounds);
   });
 
   router.post("/playgrounds", async (req, res) => {
     // Create document in MongoDB
-    let { _id } = await Playgrounds.create({});
+    let _id = get_playground_id();
+    await Playgrounds.create({ _id });
+
     // Start a DIND
     let { stdout, stderr } = await exec(get_container_start_command(_id));
+
     // trim newline off..
     stdout = stdout.trim();
     console.log(
@@ -58,7 +61,7 @@ export const get_router = (models) => {
       let { stdout, stderr } = await exec(`docker kill ${_id}`);
       let remove = await Playgrounds.remove({ _id });
       console.log(`Killed ${_id}`);
-      success == success && remove.n === 1 && stderr === "";
+      success = remove.n === 1 && stderr === "";
     });
 
     res.send({ success });

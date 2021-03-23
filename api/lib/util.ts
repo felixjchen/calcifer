@@ -1,8 +1,23 @@
 import { production } from "../config";
+import {
+  uniqueNamesGenerator,
+  adjectives,
+  animals,
+  names,
+} from "unique-names-generator";
 import * as path from "path";
 import { promises as fs } from "fs";
 
 const router_directory = path.join(__dirname, "..", "routes");
+
+export const get_playground_id = (): string => {
+  const name = uniqueNamesGenerator({
+    dictionaries: [names, adjectives, animals],
+    separator: "-",
+    style: "lowerCase",
+  });
+  return name;
+};
 
 export const get_container_start_command = (id) => {
   if (production) {
