@@ -3,7 +3,7 @@ version: "3.7"
 # https://github.com/nginx-proxy/nginx-proxy/pull/1083
 services:
   nginx-proxy:
-    build: nginx-proxy/.
+    image: jwilder/nginx-proxy
     ports:
       - "80:80"
       - "443:443"
@@ -36,7 +36,6 @@ services:
     environment:
       - PRODUCTION=TRUE
       - VIRTUAL_PORT=8080
-      - VIRTUAL_PATH=/api/
       - VIRTUAL_HOST=markl.tk
       - LETSENCRYPT_HOST=markl.tk
     restart: always
@@ -47,7 +46,6 @@ services:
       - "8000"
     environment:
       - VIRTUAL_PORT=8000
-      - VIRTUAL_PATH=/ssh/
       - VIRTUAL_HOST=markl.tk
       - LETSENCRYPT_HOST=markl.tk
     restart: always
@@ -58,7 +56,6 @@ services:
       - "3000"
     environment:
       - VIRTUAL_PORT=3000
-      - VIRTUAL_PATH=/
       - VIRTUAL_HOST=markl.tk
       - LETSENCRYPT_HOST=markl.tk
     restart: always

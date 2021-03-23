@@ -7,3 +7,5 @@ export const get_container_start_command = (id) => {
     return `docker run --privileged -d --network project-calcifer_default --name=${id} --network-alias=${id} --env VIRTUAL_PATH=/${id}/ felixchen1998/calcifer-playground:latest`;
   }
 };
+
+export const load_routers = (app) => {};
