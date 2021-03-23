@@ -10,7 +10,7 @@ const init = async () => {
 
   const playground_router = get_playground_router(models);
 
-  app.use("/api", playground_router);
+  app.use("/", playground_router);
   app.listen(port, "0.0.0.0", () => {
     console.log(`Server listening at http://localhost:${port}`);
   });

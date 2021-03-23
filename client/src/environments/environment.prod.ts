@@ -4,7 +4,7 @@ export const environment = {
   domain,
   ssh_url: domain,
   api_url: `${domain}/api`,
-  path: '/socket.io',
+  path: '/ssh/socket.io',
   default_parameters: {
     host: '.',
     username: 'root',
