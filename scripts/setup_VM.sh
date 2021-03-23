@@ -20,19 +20,6 @@ sudo chmod 666 /var/run/docker.sock
 sudo curl -L "https://github.com/docker/compose/releases/download/1.28.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 
-# Lets Encrypt 
-# https://certbot.eff.org/lets-encrypt/ubuntubionic-other
-sudo snap install core; sudo snap refresh core
-sudo snap install --classic certbot
-sudo ln -s /snap/bin/certbot /usr/bin/certbot
-sudo certbot certonly --standalone
-mkdir ~/certs
-cp /etc/letsencrypt/live/project-calcifer.ml/privkey.pem ~/certs/default.key
-cp /etc/letsencrypt/live/project-calcifer.ml/fullchain.pem ~/certs/default.crt
-
-# Test cert auto renewel 
-# sudo certbot renew --dry-run
-
 # Need Kernel 5+ for sysbox requirements
 # https://github.com/nestybox/sysbox/blob/master/docs/distro-compat.md
 sudo apt update
