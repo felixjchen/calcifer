@@ -9,7 +9,7 @@ const io = new Server(server, { cors: { origin: "*" } });
 const PORT = process.env.PORT || 8000;
 
 // Playgrounds use hexadecimal IDs
-const namespaces = io.of(/[a-fA-F0-9]+$/);
+const namespaces = io.of(/[a-zA-Z-_]+$/);
 
 namespaces.on("connection", (socket) => {
   adapter(socket);

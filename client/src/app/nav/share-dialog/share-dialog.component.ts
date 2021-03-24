@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'share-dialog',
@@ -10,7 +11,8 @@ export class ShareDialogComponent {
   editLink: string;
   serviceLink: string;
   constructor(@Inject(MAT_DIALOG_DATA) public _id: string) {
-    this.editLink = `${window.location.origin}/edit/${_id}`;
-    this.serviceLink = `${window.location.origin}/${_id}`;
+    let { domain } = environment;
+    this.editLink = `${domain}/edit/${_id}`;
+    this.serviceLink = `${domain}/${_id}`;
   }
 }

@@ -2,7 +2,13 @@
 import * as mongoose from "mongoose";
 import * as models from "./models";
 
-import { mongo_password, mongo_user, mongo_database, mongo_uri, mongo_protocol } from "../config";
+import {
+  mongo_password,
+  mongo_user,
+  mongo_database,
+  mongo_uri,
+  mongo_protocol,
+} from "../config";
 
 // https://developer.mongodb.com/community/forums/t/warning-accessing-non-existent-property-mongoerror-of-module-exports-inside-circular-dependency/15411
 const db_init = async () => {
@@ -16,7 +22,7 @@ const db_init = async () => {
       `${mongo_protocol}://${mongo_user}:${mongo_password}@${mongo_uri}/${mongo_database}?retryWrites=true&w=majority`,
       mongo_options
     );
-    console.log(`mongo connect successful`);
+    console.log(`MongoDB connect successful`);
   } catch (error) {
     console.error(error);
   }

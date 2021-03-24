@@ -3,7 +3,6 @@ FROM docker:dind
 
 EXPOSE 80 
 ENV VIRTUAL_PORT=80
-ENV VIRTUAL_HOST=localhost
 
 # Quality of life
 # https://platformengineer.com/install-vi-bash-curl-on-alpine-linux/

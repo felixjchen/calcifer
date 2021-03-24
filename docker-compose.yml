@@ -15,16 +15,34 @@ services:
     privileged: true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "8080"
+    environment:
+      - VIRTUAL_PORT=8080
+      - VIRTUAL_PATH=/api/
+      - VIRTUAL_HOST=localhost
     restart: always
 
   ssh:
     build: ssh/.
+    ports:
+      - "8000"
+    environment:
+      - VIRTUAL_PORT=8000
+      - VIRTUAL_PATH=/ssh/
+      - VIRTUAL_HOST=localhost
     restart: always
 
   client:
     build:
       context: client/.
-      dockerfile: DockerfileStage
+      dockerfile: Dockerfile
+      args:
+        environment: stage
+    ports:
+      - "3000"
+    environment:
+      - VIRTUAL_PORT=3000
+      - VIRTUAL_PATH=/
+      - VIRTUAL_HOST=localhost
     restart: always
-
-  # docker run -d -p 80:80 nginx:latest
