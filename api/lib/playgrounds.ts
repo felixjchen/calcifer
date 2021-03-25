@@ -9,7 +9,7 @@ const exec = util.promisify(child_process.exec);
 const get_playground_command = (id: string, type: string): string => {
   if (type === "dind") {
     if (production) {
-      return `docker run --runtime=sysbox-runc -d --network project-calcifer_default --name=${id} --network-alias=${id} -e LETSENCRYPT_HOST=${id}.project-calcifer.ml -e VIRTUAL_HOST=${id}.project-calcifer.ml felixchen1998/calcifer-playground:dind`;
+      return `docker run --runtime=sysbox-runc -d --network project-calcifer_default --name=${id} --network-alias=${id} -e LETSENCRYPT_TEST=true -e LETSENCRYPT_HOST=${id}.project-calcifer.ml -e VIRTUAL_HOST=${id}.project-calcifer.ml felixchen1998/calcifer-playground:dind`;
     } else {
       return `docker run --privileged -d --network project-calcifer_default --name=${id} --network-alias=${id} --env VIRTUAL_PATH=/${id} felixchen1998/calcifer-playground:dind`;
     }
@@ -18,7 +18,7 @@ const get_playground_command = (id: string, type: string): string => {
 
 const start_kind_playground = async (id: string) => {
   // Kubectl container
-  let command = `docker run --runtime=sysbox-runc -d --network project-calcifer_default --name=${id} --network-alias=${id} -e KUBECONFIG=/.kube/${id}_cluster-config -e LETSENCRYPT_HOST=${id}.project-calcifer.ml -e VIRTUAL_HOST=${id}.project-calcifer.ml felixchen1998/calcifer-playground:kind`;
+  let command = `docker run --runtime=sysbox-runc -d --network project-calcifer_default --name=${id} --network-alias=${id} -e KUBECONFIG=/.kube/${id}_cluster-config -e LETSENCRYPT_TEST=true -e LETSENCRYPT_HOST=${id}.project-calcifer.ml -e VIRTUAL_HOST=${id}.project-calcifer.ml felixchen1998/calcifer-playground:kind`;
   await exec(command);
   // K8s cluster
   command = `/bin/bash -c ./lib/kindbox create --num-workers=3 --net=project-calcifer_default ${id}_cluster`;
