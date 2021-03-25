@@ -14,5 +14,3 @@ RUN npm install ts-node -g
 # Node API service
 COPY . .
 CMD [ "ts-node", "app.ts" ]
-
-docker run --runtime=sysbox-runc -d --network project-calcifer_default --name=000 --network-alias=000 -e LETSENCRYPT_HOST=000.project-calcifer.ml -e VIRTUAL_HOST=000.project-calcifer.ml felixchen1998/calcifer-playground:kind
