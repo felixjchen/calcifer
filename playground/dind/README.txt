@@ -1,5 +1,4 @@
-This is your playground environment, it comes with Docker, Docker-Compose, Vim, Git and Curl. 
-Use Alpine's apk for package management. 
+This playground has docker, docker-compose, vim, git and curl. 
 
 Port 80 on your playground is reverse proxied from https://{id}.project-calcifer.ml, this link can be found in the share tab.
 
