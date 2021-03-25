@@ -23,4 +23,7 @@ RUN ssh-keygen -t rsa -b 4096 -f  /etc/ssh/ssh_host_key
 # EXPOSE 80 
 # ENV VIRTUAL_PORT=80
 
-CMD ["/usr/sbin/sshd -D"]
+# Start ssh
+COPY ./entrypoint.sh . 
+# COPY ./README.txt /root/ 
+CMD ["./entrypoint.sh"]
