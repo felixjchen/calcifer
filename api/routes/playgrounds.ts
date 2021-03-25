@@ -15,7 +15,9 @@ export const get_router = (models) => {
 
   router.post("/playgrounds", async (req, res) => {
     if (req.body === undefined || req.body.type === undefined) {
-      return res.send(400).json({ failure: "req.body.type must be defined" });
+      return res
+        .sendStatus(400)
+        .json({ failure: "req.body.type must be defined" });
     }
 
     // Create document in MongoDB
