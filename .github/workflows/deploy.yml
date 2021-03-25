@@ -7,7 +7,8 @@ on:
       [
         "ci calcifer-api",
         "ci calcifer-client",
-        "ci calcifer-playground",
+        "ci calcifer-dind-playground",
+        "ci calcifer-kind-playground",
         "ci calcifer-ssh",
         "ci calcifer-nginx-proxy",
       ]

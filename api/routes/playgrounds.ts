@@ -20,10 +20,11 @@ export const get_router = (models) => {
   router.post("/playgrounds", async (req, res) => {
     // Create document in MongoDB
     let _id = get_playground_id();
-    await Playgrounds.create({ _id });
+    let command = get_container_start_command(_id, req.body.type);
 
     // Start a DIND
-    let { stdout, stderr } = await exec(get_container_start_command(_id));
+    let { stdout, stderr } = await exec(command);
+    await Playgrounds.create({ _id });
 
     // trim newline off..
     stdout = stdout.trim();
