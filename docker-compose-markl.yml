@@ -1,7 +1,7 @@
 version: "3.7"
 
-# https://github.com/nginx-proxy/nginx-proxy/pull/1083
 services:
+  # https://github.com/nginx-proxy/nginx-proxy/pull/1083
   nginx-proxy:
     build: nginx-proxy/.
     ports:
@@ -30,6 +30,7 @@ services:
     build: api/.
     privileged: true
     volumes:
+      - /etc/docker/:/etc/docker/
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "8080"
@@ -53,7 +54,7 @@ services:
     restart: always
 
   client:
-    image: felixchen1998/calcifer-client:markl
+    image: felixchen1998/calcifer-client:latest
     ports:
       - "3000"
     environment:
