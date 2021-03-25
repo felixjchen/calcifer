@@ -22,7 +22,7 @@ export const get_router = (models) => {
 
     // Create document in MongoDB
     let _id = get_playground_id();
-    start_playground(_id, req.body.type);
+    await start_playground(_id, req.body.type);
     await Playgrounds.create({ _id });
     res.json({ _id });
   });
