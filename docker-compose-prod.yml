@@ -1,14 +1,29 @@
 version: "3.7"
 
-# https://github.com/nginx-proxy/nginx-proxy/pull/1083
 services:
+  # https://github.com/nginx-proxy/nginx-proxy/pull/1083
   nginx-proxy:
-    image: felixchen1998/calcifer-nginx-proxy:latest
+    build: nginx-proxy/.
     ports:
+      - "80:80"
       - "443:443"
     volumes:
-      - ~/certs:/etc/nginx/certs
+      - certs:/etc/nginx/certs:ro
+      - vhostd:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
       - /var/run/docker.sock:/tmp/docker.sock:ro
+    restart: always
+
+  letsencrypt-nginx-proxy-companion:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    environment:
+      - NGINX_PROXY_CONTAINER=project-calcifer_nginx-proxy_1
+      - DEFAULT_EMAIL=felixchen1998@gmail.com
+    volumes:
+      - certs:/etc/nginx/certs
+      - vhostd:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     restart: always
 
   api:
@@ -16,17 +31,39 @@ services:
     privileged: true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    environment: 
-      - CALCIFER_PRODUCTION=TRUE
+    ports:
+      - "8080"
+    environment:
+      - PRODUCTION=TRUE
+      - VIRTUAL_PORT=8080
+      - VIRTUAL_PATH=/api/
+      - VIRTUAL_HOST=project-calcifer.ml
+      - LETSENCRYPT_HOST=project-calcifer.ml
     restart: always
 
   ssh:
-    image: felixchen1998/calcifer-ssh:latest
+    build: ssh/.
+    ports:
+      - "8000"
+    environment:
+      - VIRTUAL_PORT=8000
+      - VIRTUAL_PATH=/ssh/
+      - VIRTUAL_HOST=project-calcifer.ml
+      - LETSENCRYPT_HOST=project-calcifer.ml
     restart: always
 
   client:
-    image: felixchen1998/calcifer-client:latest
+    image: felixchen1998/calcifer-client:markl
+    ports:
+      - "3000"
+    environment:
+      - VIRTUAL_PORT=3000
+      - VIRTUAL_PATH=/
+      - VIRTUAL_HOST=project-calcifer.ml
+      - LETSENCRYPT_HOST=project-calcifer.ml
     restart: always
 
-
-  # docker run -d -p 80:80 nginx:latest
+volumes:
+  certs:
+  html:
+  vhostd:
