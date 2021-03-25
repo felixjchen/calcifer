@@ -21,10 +21,10 @@ const start_kind_playground = async (id: string) => {
   let command = `docker run --runtime=sysbox-runc -d --network project-calcifer_default --name=${id} --network-alias=${id} -e KUBECONFIG=/.kube/${id}_cluster-config -e LETSENCRYPT_TEST=true -e LETSENCRYPT_HOST=${id}.project-calcifer.ml -e VIRTUAL_HOST=${id}.project-calcifer.ml felixchen1998/calcifer-playground:kind`;
   await exec(command);
   // K8s cluster
-  command = `/bin/bash -c ./lib/kindbox create --num-workers=3 --net=project-calcifer_default ${id}_cluster`;
+  command = `lib/kindbox create --num-workers=3 --net=project-calcifer_default ${id}-cluster`;
   await exec(command);
-  // Copy config over
-  command = `docker cp ~/.kube/cluste-config ${id}:"/root/.kube/cluste-config"`;
+  // Copy config over to KIND container
+  command = `docker cp ~/.kube/${id}-cluster-config ${id}:"/root/.kube/cluste-config"`;
   await exec(command);
 };
 
@@ -34,7 +34,7 @@ export const start_playground = async (
 ): Promise<void> => {
   if (type === "kind") {
     // Kind clusers require extra setup
-    start_kind_playground(id);
+    await start_kind_playground(id);
   } else {
     let command = get_playground_command(id, type);
     let { stdout, stderr } = await exec(command);

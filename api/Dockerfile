@@ -3,7 +3,8 @@ WORKDIR /app
 
 # OS packages
 RUN apk update
-RUN apk add --update bash nodejs npm
+# jq and bash for kindbox
+RUN apk add --update jq bash nodejs npm
 
 # Node packages
 COPY package*.json ./
