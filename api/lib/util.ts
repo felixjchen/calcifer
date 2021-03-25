@@ -1,4 +1,3 @@
-import { production } from "../config";
 import {
   uniqueNamesGenerator,
   adjectives,
@@ -17,14 +16,6 @@ export const get_playground_id = (): string => {
     style: "lowerCase",
   });
   return name;
-};
-
-export const get_container_start_command = (id, type) => {
-  if (production) {
-    return `docker run --runtime=sysbox-runc -d --network project-calcifer_default --name=${id} --network-alias=${id} -e LETSENCRYPT_HOST=${id}.project-calcifer.ml -e VIRTUAL_HOST=${id}.project-calcifer.ml felixchen1998/calcifer-playground:latest`;
-  } else {
-    return `docker run --privileged -d --network project-calcifer_default --name=${id} --network-alias=${id} --env VIRTUAL_PATH=/${id} felixchen1998/calcifer-playground:latest`;
-  }
 };
 
 export const load_routers = async (app, models) => {

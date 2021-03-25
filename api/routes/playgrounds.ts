@@ -1,12 +1,8 @@
 import * as express from "express";
-// https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback
-import * as child_process from "child_process";
-import * as util from "util";
 
-import { get_playground_id, get_container_start_command } from "../lib/util";
+import { get_playground_id } from "../lib/util";
+import { start_playground, kill_container } from "../lib/playgrounds";
 import { stale_buffer } from "../config";
-
-const exec = util.promisify(child_process.exec);
 
 export const get_router = (models) => {
   const router = express.Router();
@@ -18,20 +14,15 @@ export const get_router = (models) => {
   });
 
   router.post("/playgrounds", async (req, res) => {
+    if (req.body === undefined || req.body.type === undefined) {
+      return res.send(400).json({ failure: "req.body.type must be defined" });
+    }
+
     // Create document in MongoDB
     let _id = get_playground_id();
-    let command = get_container_start_command(_id, req.body.type);
-
-    // Start a DIND
-    let { stdout, stderr } = await exec(command);
+    start_playground(_id, req.body.type);
     await Playgrounds.create({ _id });
-
-    // trim newline off..
-    stdout = stdout.trim();
-    console.log(
-      `Created container with ID ${stdout}, with playground ID ${_id}`
-    );
-    res.json({ stdout, stderr, _id });
+    res.json({ _id });
   });
 
   router.get("/playgrounds/:_id", async (req, res) => {
@@ -59,7 +50,7 @@ export const get_router = (models) => {
     let success = true;
     stale.forEach(async ({ _id }) => {
       // Kill playground and remove from
-      let { stdout, stderr } = await exec(`docker kill ${_id}`);
+      let stderr = await kill_container(_id);
       let remove = await Playgrounds.remove({ _id });
       console.log(`Killed ${_id}`);
       success = remove.n === 1 && stderr === "";

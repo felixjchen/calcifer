@@ -1,9 +1,11 @@
 import * as express from "express";
+import * as body_parser from "body-parser";
 import { db_init } from "./lib/db";
 import { load_routers } from "./lib/util";
 
 const port = 8080;
 const app = express();
+app.use(body_parser.json());
 
 const init = async () => {
   // Init DB

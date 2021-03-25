@@ -36,9 +36,7 @@ services:
   client:
     build:
       context: client/.
-      dockerfile: Dockerfile
-      args:
-        environment: stage
+      dockerfile: DockerfileDev
     ports:
       - "3000"
     environment:
