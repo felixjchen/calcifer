@@ -13,6 +13,6 @@ export class ShareDialogComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public _id: string) {
     let { domain } = environment;
     this.editLink = `${domain}/edit/${_id}`;
-    this.serviceLink = `https://${_id}.${window.location.href}`;
+    this.serviceLink = `https://${_id}.${window.location.hostname}`;
   }
 }
