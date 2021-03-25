@@ -7,12 +7,10 @@ const exec = util.promisify(child_process.exec);
 
 // Most playgrounds are simple and can be started in one line
 const get_playground_command = (id: string, type: string): string => {
-  if (type === "dind") {
-    if (production) {
-      return `docker run --runtime=sysbox-runc -d --network project-calcifer_default --name=${id} --network-alias=${id} -e LETSENCRYPT_TEST=true -e LETSENCRYPT_HOST=${id}.project-calcifer.ml -e VIRTUAL_HOST=${id}.project-calcifer.ml felixchen1998/calcifer-playground:dind`;
-    } else {
-      return `docker run --privileged -d --network project-calcifer_default --name=${id} --network-alias=${id} --env VIRTUAL_PATH=/${id} felixchen1998/calcifer-playground:dind`;
-    }
+  if (production) {
+    return `docker run --runtime=sysbox-runc -d --network project-calcifer_default --name=${id} --network-alias=${id} -e LETSENCRYPT_TEST=true -e LETSENCRYPT_HOST=${id}.project-calcifer.ml -e VIRTUAL_HOST=${id}.project-calcifer.ml felixchen1998/calcifer-playground:dind`;
+  } else {
+    return `docker run --privileged -d --network project-calcifer_default --name=${id} --network-alias=${id} --env VIRTUAL_PATH=/${id} felixchen1998/calcifer-playground:dind`;
   }
 };
 

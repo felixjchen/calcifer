@@ -40,7 +40,6 @@ services:
       - VIRTUAL_PATH=/api/
       - VIRTUAL_HOST=project-calcifer.ml
       - LETSENCRYPT_HOST=project-calcifer.ml
-      - LETSENCRYPT_TEST=true
     restart: always
 
   ssh:
@@ -52,7 +51,6 @@ services:
       - VIRTUAL_PATH=/ssh/
       - VIRTUAL_HOST=project-calcifer.ml
       - LETSENCRYPT_HOST=project-calcifer.ml
-      - LETSENCRYPT_TEST=true
     restart: always
 
   client:
@@ -64,7 +62,6 @@ services:
       - VIRTUAL_PATH=/
       - VIRTUAL_HOST=project-calcifer.ml
       - LETSENCRYPT_HOST=project-calcifer.ml
-      - LETSENCRYPT_TEST=true
     restart: always
 
 volumes:
