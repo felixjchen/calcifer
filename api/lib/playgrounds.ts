@@ -17,7 +17,7 @@ const get_playground_command = (id: string, type: string): string => {
 const start_kind_playground = async (id: string) => {
   try {
     // Kubectl container
-    let command = `docker run --runtime=sysbox-runc -d --network project-calcifer_default --name=${id} --network-alias=${id} -e LETSENCRYPT_TEST=true -e LETSENCRYPT_HOST=${id}.markl.tk -e VIRTUAL_HOST=${id}.markl.tk felixchen1998/calcifer-playground:kind`;
+    let command = `docker run --runtime=sysbox-runc -d --network project-calcifer_default --name=${id} --network-alias=${id} -e LETSENCRYPT_TEST=true -e LETSENCRYPT_HOST=${id}.project-calcifer.ml -e VIRTUAL_HOST=${id}.project-calcifer.ml felixchen1998/calcifer-playground:kind`;
     console.log("Creating kubectl container");
     await exec(command);
     // K8s cluster
