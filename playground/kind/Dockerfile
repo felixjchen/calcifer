@@ -20,8 +20,7 @@ RUN /usr/bin/ssh-keygen -A
 RUN ssh-keygen -t rsa -b 4096 -f  /etc/ssh/ssh_host_key
 
 # Ports
-EXPOSE 80 
-ENV VIRTUAL_PORT=80
+# EXPOSE 80 
+# ENV VIRTUAL_PORT=80
 
-# Keep alive
-CMD ["tail","-f","/dev/null"]
+CMD ["/usr/sbin/sshd -D"]
