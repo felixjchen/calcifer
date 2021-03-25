@@ -19,13 +19,13 @@ const get_playground_command = (id: string, type: string): string => {
 const start_kind_playground = async (id: string) => {
   try {
     // Kubectl container
-    let command = `docker run --runtime=sysbox-runc -d --network project-calcifer_default --name=${id} --network-alias=${id} -e KUBECONFIG=/.kube/${id}-cluster-config -e LETSENCRYPT_TEST=true -e LETSENCRYPT_HOST=${id}.project-calcifer.ml -e VIRTUAL_HOST=${id}.project-calcifer.ml felixchen1998/calcifer-playground:kind`;
+    let command = `docker run --runtime=sysbox-runc -d --network project-calcifer_default --name=${id} --network-alias=${id} -e KUBECONFIG=/root/.kube/${id}-cluster-config -e LETSENCRYPT_TEST=true -e LETSENCRYPT_HOST=${id}.project-calcifer.ml -e VIRTUAL_HOST=${id}.project-calcifer.ml felixchen1998/calcifer-playground:kind`;
     await exec(command);
     // K8s cluster
     command = `lib/kindbox create --num-workers=3 --net=project-calcifer_default ${id}-cluster`;
     await exec(command);
     // Copy config over to KIND container
-    command = `docker cp ~/.kube/${id}-cluster-config ${id}:"/root/.kube/cluste-config"`;
+    command = `docker cp ~/.kube/${id}-cluster-config ${id}:"/root/.kube/${id}-cluster-config"`;
     await exec(command);
   } catch (e) {
     console.log(e);
