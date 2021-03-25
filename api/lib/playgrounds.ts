@@ -30,9 +30,11 @@ const start_kind_playground = async (id: string) => {
     command = `docker cp ~/.kube/${id}-cluster-config ${id}:"/root/.kube/${id}-cluster-config"`;
     console.log("Copying kubeconfig to kubectl container");
     await exec(command);
-    console.log("Seting kubeconfig ");
-    command = `echo 'export KUBECONFIG=/root/.kube/adeline-still-jellyfish-cluster-config' >> ~/.profile`;
+    console.log("Seting kubeconfig");
+    command = `docker exec ${id} /bin/sh -c 'echo "export KUBECONFIG=/root/.kube/adeline-still-jellyfish-cluster-config" >> /root/.profile'`;
     await exec(command);
+
+    console.log(`Created kind for ${id}`);
   } catch (e) {
     console.log(e);
   }
