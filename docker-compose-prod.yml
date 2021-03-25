@@ -53,7 +53,7 @@ services:
     restart: always
 
   client:
-    image: felixchen1998/calcifer-client:markl
+    image: felixchen1998/calcifer-client:latest
     ports:
       - "3000"
     environment:
