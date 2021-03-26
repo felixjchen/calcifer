@@ -1,6 +1,6 @@
 FROM node:alpine3.13
 RUN npm i -g npm
-RUN npm install -g @angular/cli
+RUN npm i -g @angular/cli
 
 # Quality of life
 # https://platformengineer.com/install-vi-bash-curl-on-alpine-linux/
