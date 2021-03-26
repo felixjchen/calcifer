@@ -39,14 +39,21 @@ export class SocketioService {
 
     let host = _id;
     let { username, password } = default_parameters;
+    let query = {
+      host,
+      username,
+      password,
+    };
+
+    // Redo query
+    // Stupid https://socket.io/docs/v3/client-initialization/#query
+    if (this.socket) {
+      this.socket.io.opts.query = query;
+    }
 
     this.socket = io(`${ssh_url}/${host}`, {
       path,
-      query: {
-        host,
-        username,
-        password,
-      },
+      query,
     });
   }
 }
