@@ -24,6 +24,6 @@ EXPOSE 80
 ENV VIRTUAL_PORT=80
 
 # Start ssh
-COPY ./entrypoint.sh . 
-COPY ./readme.txt /root/ 
+COPY entrypoint.sh . 
+COPY readme.txt /root/ 
 CMD ["./entrypoint.sh"]
