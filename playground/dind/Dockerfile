@@ -19,5 +19,5 @@ EXPOSE 80
 ENV VIRTUAL_PORT=80
 
 COPY ./entrypoint.sh . 
-COPY ./README.txt /root/ 
+COPY ./readme.txt /root/ 
 CMD ["./entrypoint.sh"]

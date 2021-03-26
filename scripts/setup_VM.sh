@@ -22,10 +22,11 @@ sudo chmod +x /usr/local/bin/docker-compose
 
 # Need Kernel 5+ for sysbox requirements
 # https://github.com/nestybox/sysbox/blob/master/docs/distro-compat.md
-sudo apt update
-sudo apt-get install -y linux-headers-$(uname -r)
-sudo apt-get install linux-image-5.4.0-66-generic
+# sudo apt update
+# sudo apt-get install -y linux-headers-$(uname -r)
+# sudo apt-get install linux-image-5.4.0-66-generic
 
+# THIS NEEDS 0.3, I GOT AN ADVANCED COPY :) 
 # Install sysbox
 # https://github.com/nestybox/sysbox
 wget https://github.com/nestybox/sysbox/releases/download/v0.2.1/sysbox_0.2.1-0.ubuntu-focal_amd64.deb
@@ -35,9 +36,6 @@ rm sysbox_0.2.1-0.ubuntu-focal_amd64.deb
 
 # Git login and clone
 git clone https://github.com/UTSCC09/project-calcifer.git
-cd project-calfier
 # Add nginx submodule
+cd project-calfier
 git submodule update --init --recursive
-
-# Set environment variable
-export CALCIFER_PRODUCTION=TRUE
