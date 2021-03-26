@@ -24,4 +24,4 @@
 
 ## Network Diagram
 
-![Network Diagram](https://user-images.githubusercontent.com/31393977/112481423-61ef4100-8d4d-11eb-9821-ae2fa66b7a96.png)
+![Network Diagram](https://user-images.githubusercontent.com/31393977/112589435-7546ee80-8dd7-11eb-8dd8-87e8d5938ba8.png)
