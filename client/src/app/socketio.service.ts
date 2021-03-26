@@ -26,7 +26,10 @@ export class SocketioService {
   }
 
   disconnect(): void {
-    this.socket.disconnect;
+    if (this.socket === undefined) {
+      console.error(`Socket not connected. Can't disconnect.`);
+    }
+    this.socket.disconnect();
   }
 
   init(_id: string): void {
