@@ -15,6 +15,8 @@
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/c-playground.yml/badge.svg)
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/python-playground.yml/badge.svg)
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/node-playground.yml/badge.svg)
+![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/react-playground.yml/badge.svg)
+![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/angular-playground.yml/badge.svg)
 
 ## Deploy to VM
 
