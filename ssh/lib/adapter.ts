@@ -28,6 +28,19 @@ export const adapter = async (socket) => {
     namespace.emit("data", data.toString("binary"));
   });
 
+  socket.on('searchByKeyword', (keyword) => {
+    ssh.exec(`grep -rnw './' -e '.*${keyword}.*'`).then((response) => {
+      try {
+        const payload = {
+          matches: response.split('\n').filter(s => s.length > 0)
+        }
+        socket.emit('searchResult', payload);
+      } catch {
+        socket.emit('searchResult', '');
+      }
+    });
+  });
+
   // File System Events
   // https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md
   list();

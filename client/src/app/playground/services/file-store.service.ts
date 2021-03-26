@@ -59,18 +59,6 @@ export class FileStoreService {
     this.fileTabs$.next(tabs);
   }
 
-  // get file(): File | null {
-  //   return this.selectedFile$.value;
-  // }
-
-  getFileAndSetAsSelected(file: File | null) {
-    
-
-    if (file === null) {
-      return;
-    }
-  }
-
   set selectedFile(file: File | null) {
     this.selectedFile$.next(file);
 
