@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FileNode } from '../interfaces/file-node';
 import { MenuButton } from '../interfaces/menu-button';
 import { SocketioService } from '../socketio.service';
-import { File } from '../interfaces/file';
 import { FileStoreService } from './services/file-store.service';
 import { RouteParamStoreService } from './services/route-param-store.service';
 import { ActivatedRoute } from '@angular/router';
@@ -30,6 +29,8 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
 
   activeMenu: MenuButton = this.menuButtons[0];
   files: FileNode[] = [];
+
+  matches: string[] = [];
 
   handleMenuSelection(menu: MenuButton): void {
     this.activeMenu = menu;
@@ -59,8 +60,12 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
       this._routeParamStore.playgroundId$.next(_id);
 
       this._socketService.init(_id);
-      this._socketService.socket.on('list', (files: FileNode[]) => {
+      this._socketService.on('list', (files: FileNode[]) => {
         this.files = files;
+      });
+
+      this._socketService.on('searchResult', (result: { matches: string[]}) => {
+        this.matches = result.matches;
       });
 
       this._fileStore.init();
@@ -68,10 +73,36 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this._socketService.socket.disconnect();
+    this._socketService.disconnect();
+  }
+
+  selectFromExistingFiles(path: string): void {
+    const file = searchFileSystemTree(this.files, `/root${path.slice(1)}`);
+    if (!file) {
+      console.warn('could not find file at path ' + path);
+      return;
+    }
+
+    this.selectFile(file);
   }
 
   selectFile(file: FileNode): void {
-    this._socketService.socket.emit('getFile', file);
+    this._socketService.emit('getFile', file);
   }
+}
+
+const searchFileSystemTree = (files: FileNode[] = [], path: string): FileNode | null => {
+  // todo(aleksanderbodurri): optimize this traversal
+  for (const file of files) {
+    if (file.path === path) {
+      return file;
+    }
+
+    const found = searchFileSystemTree(file.children, path);
+    if (found) {
+      return found;
+    }
+  }
+
+  return null;
 }

@@ -2,10 +2,16 @@ import * as express from "express";
 import * as body_parser from "body-parser";
 import { db_init } from "./lib/db";
 import { load_routers } from "./lib/util";
+import { production } from "./config";
 
 const port = 8080;
 const app = express();
 app.use(body_parser.json());
+
+if (!production) {
+  const cors = require('cors');
+  app.use(cors());
+}
 
 const init = async () => {
   // Init DB
