@@ -1,5 +1,6 @@
 FROM node:alpine3.13
 RUN npm i -g npm
+RUN npm i -g create-react-app
 
 # Quality of life
 # https://platformengineer.com/install-vi-bash-curl-on-alpine-linux/
