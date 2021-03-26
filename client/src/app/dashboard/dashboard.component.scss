@@ -7,8 +7,15 @@
   align-content: center;
   justify-content: center;
   flex-wrap: wrap;
-  height: 100%;
 
+  max-width: 90rem;
+  height: 100%;
+  margin: auto;
+
+  h2 {
+    width: 100%;
+    text-align: center;
+  }
   button {
     margin: 1rem;
     padding: 1rem 4rem;

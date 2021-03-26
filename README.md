@@ -14,6 +14,9 @@
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/node-playground.yml/badge.svg)
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/react-playground.yml/badge.svg)
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/angular-playground.yml/badge.svg)
+![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/rust-playground.yml/badge.svg)
+![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/go-playground.yml/badge.svg)
+![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/vue-playground.yml/badge.svg)
 
 <!-- ## Deploy
 

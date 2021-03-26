@@ -9,7 +9,18 @@ const PlaygroundSchema = new Schema(
     _id: { type: String },
     type: {
       type: String,
-      enum: ["dind", "kind", "c", "python", "node", "react", "angular"],
+      enum: [
+        "dind",
+        "kind",
+        "c",
+        "python",
+        "node",
+        "react",
+        "angular",
+        "rust",
+        "go",
+        "vue",
+      ],
     },
   },
   { timestamps: true }
