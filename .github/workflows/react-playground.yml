@@ -1,4 +1,4 @@
-name: ci calcifer-kind-playground
+name: ci calcifer-react-playground
 
 on:
   push:
@@ -23,6 +23,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: ./playground/kind
+          context: ./playground/react
           push: true
-          tags: felixchen1998/calcifer-playground:kind
+          tags: felixchen1998/calcifer-playground:react
