@@ -9,7 +9,12 @@ Your K8s cluster contains:
   - A worker node, with address {id}-cluster-worker-2
 
 NOTE: Given this current url, anyone can see this environment. Therefore please do not put any credentials on this service. 
+NETWORK: Worker nodes have their port 30000 reverse proxied from {id}-cluster-worker-{i}.project-calcifer.ml, for NodePorts
 
 Try:
-https://kubernetes.io/docs/tasks/access-application-cluster/service-access-application-cluster/
-https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0
+
+Deploying containers with a deployment and NodePort service
+https://www.notion.so/Kubernetes-NodePort-e59f249af3d74aafbedf5d8d1f49c0f7
+
+Deploying Kubernetes Dashboard and creating a ServiceAccount 
+https://www.notion.so/Kubernetes-Dashboard-710b98e4d7d94c51b4d6032ac48a2c8e
