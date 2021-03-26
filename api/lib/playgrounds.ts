@@ -8,9 +8,9 @@ const exec = util.promisify(child_process.exec);
 // Most playgrounds are simple and can be started in one line
 const get_playground_command = (id: string, type: string): string => {
   if (production) {
-    return `docker run --runtime=sysbox-runc -d --network project-calcifer_default --name=${id} --network-alias=${id} -e LETSENCRYPT_HOST=${id}.markl.tk -e VIRTUAL_HOST=${id}.markl.tk felixchen1998/calcifer-playground:dind`;
+    return `docker run --runtime=sysbox-runc -d --network project-calcifer_default --name=${id} --network-alias=${id} -e LETSENCRYPT_HOST=${id}.markl.tk -e VIRTUAL_HOST=${id}.markl.tk felixchen1998/calcifer-playground:${type}`;
   } else {
-    return `docker run --privileged -d --network project-calcifer_default --name=${id} --network-alias=${id} --env VIRTUAL_PATH=/${id} felixchen1998/calcifer-playground:dind`;
+    return `docker run --privileged -d --network project-calcifer_default --name=${id} --network-alias=${id} --env VIRTUAL_PATH=/${id} felixchen1998/calcifer-playground:${type}`;
   }
 };
 
@@ -51,6 +51,7 @@ export const start_playground = async (
   id: string,
   type: string
 ): Promise<void> => {
+  console.log(`Starting ${type} playground for ${id}`);
   if (type === "kind") {
     // Kind clusers require extra setup
     await start_kind_playground(id);

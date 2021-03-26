@@ -9,7 +9,9 @@ import { environment } from 'src/environments/environment';
 export class PlaygroundService {
   constructor(private _httpClient: HttpClient) {}
 
-  create(): Observable<any> {
-    return this._httpClient.post(`${environment.api_url}/playgrounds`, {});
+  create(type: string): Observable<any> {
+    return this._httpClient.post(`${environment.api_url}/playgrounds`, {
+      type,
+    });
   }
 }

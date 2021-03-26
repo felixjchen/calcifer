@@ -16,9 +16,9 @@ export class DashboardComponent {
     private _router: Router
   ) {}
 
-  createDashboard(): void {
+  createDashboard(type: string): void {
     this.loading = true;
-    this._playgroundService.create().subscribe((response) => {
+    this._playgroundService.create(type).subscribe((response) => {
       this.playgroundId = response._id;
       this.loading = false;
 

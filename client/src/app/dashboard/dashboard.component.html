@@ -1,7 +1,17 @@
 <div class="dashboard">
   <ng-container *ngIf="!loading && playgroundId === undefined; else spinner">
-    <button mat-raised-button (click)="createDashboard()">
-      Create Playground
+    <button mat-raised-button (click)="createDashboard('kind')">
+      Kubernetes
+    </button>
+    <button mat-raised-button (click)="createDashboard('dind')">Docker</button>
+    <button mat-raised-button (click)="createDashboard('c')">C/C++</button>
+    <button mat-raised-button (click)="createDashboard('node')">Node.js</button>
+    <button mat-raised-button (click)="createDashboard('python')">
+      Python
+    </button>
+    <button mat-raised-button (click)="createDashboard('react')">React</button>
+    <button mat-raised-button (click)="createDashboard('angular')">
+      Angular
     </button>
   </ng-container>
 

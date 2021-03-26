@@ -1,8 +1,9 @@
 import * as express from "express";
 
 import { get_playground_id } from "../lib/util";
-import { start_playground, kill_container } from "../lib/playgrounds";
+import { kill_container, start_playground } from "../lib/playgrounds";
 import { stale_buffer } from "../config";
+import { Error } from "mongoose";
 
 export const get_router = (models) => {
   const router = express.Router();
@@ -14,16 +15,29 @@ export const get_router = (models) => {
   });
 
   router.post("/playgrounds", async (req, res) => {
-    // if (req.body === undefined || req.body.type === undefined) {
-    //   return res
-    //     .sendStatus(400)
-    //     .json({ failure: "req.body.type must be defined" });
-    // }
+    const { type } = req.body;
+    if (req.body === undefined || type === undefined) {
+      return res.status(400).json({ failure: "req.body.type must be defined" });
+    }
 
-    // Create document in MongoDB
-    let _id = get_playground_id();
-    await start_playground(_id, req.body.type);
-    await Playgrounds.create({ _id });
+    const _id = get_playground_id();
+
+    // Create document in MongoDB, we let mongoose check if its valid type for us :)
+    try {
+      await Playgrounds.create({ _id, type });
+    } catch (e) {
+      if (e instanceof Error.ValidationError) {
+        return res.status(400).json({ failure: e.message });
+      } else {
+        return res.status(500).json({ failure: e.message });
+      }
+    }
+
+    try {
+      await start_playground(_id, type);
+    } catch (e) {
+      return res.status(500).json({ failure: e.message });
+    }
     res.json({ _id });
   });
 
