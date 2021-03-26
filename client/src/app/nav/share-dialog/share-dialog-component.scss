@@ -3,15 +3,15 @@
     display: flex;
     justify-content: space-between;
 
-    div {
-      margin: auto;
-    }
+    margin: 1rem 1.5rem;
 
+    p {
+      margin: auto 0;
+    }
     button {
-      background: #424242;
-      outline: none;
-      border: none;
       // float: right;
+      width: 40px;
+      padding: 0 !important;
     }
   }
 }
