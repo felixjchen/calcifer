@@ -1,4 +1,4 @@
-name: ci calcifer-node-playground
+name: ci calcifer-python-playground
 
 on:
   push:
