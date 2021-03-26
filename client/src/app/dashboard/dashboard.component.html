@@ -1,6 +1,6 @@
 <div class="dashboard">
-  <h2>Start a playground</h2>
   <ng-container *ngIf="!loading && playgroundId === undefined; else spinner">
+    <h2>Start a playground</h2>
     <button mat-raised-button (click)="createDashboard('kind')">
       Kubernetes (~2min)
     </button>
