@@ -15,7 +15,7 @@ NETWORK: Worker nodes have their port 30000 reverse proxied from {id}-cluster-wo
 Try:
 
 Deploying containers with a deployment and NodePort service
-https://www.notion.so/Kubernetes-NodePort-e59f249af3d74aafbedf5d8d1f49c0f7
+https://github.com/UTSCC09/project-calcifer/wiki/Kubernetes-NodePort
 
 Deploying Kubernetes Dashboard and creating a ServiceAccount 
-https://www.notion.so/Kubernetes-Dashboard-710b98e4d7d94c51b4d6032ac48a2c8e
+https://github.com/UTSCC09/project-calcifer/wiki/Kubernetes-Dashboard
