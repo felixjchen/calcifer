@@ -2,13 +2,30 @@
   height: 100%;
 }
 
+.playground-button-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .playground-button-label {
+    font-size: 24px;
+    position: relative;
+    top: 8px;
+  }
+
+  img {
+    width: 120px;
+    height: 150px;
+  }
+}
+
 .dashboard {
   display: flex;
   align-content: center;
   justify-content: center;
   flex-wrap: wrap;
 
-  max-width: 90rem;
+  width: 80%;
   height: 100%;
   margin: auto;
 
@@ -18,6 +35,8 @@
   }
   button {
     margin: 1rem;
-    padding: 1rem 4rem;
+    padding: 0;
+    width: 250px;
+    height: 200px;
   }
 }
