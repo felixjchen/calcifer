@@ -6,7 +6,9 @@
             cdkDrag
         >
             <span [class]="fileIcons.getClassWithColor(tab.node.filename)"></span>
-            {{ tab.node.filename }}
+            <span class="editor-tab-label">
+                {{ tab.node.filename }}
+            </span>
             <mat-icon (click)="fileStore.removeFile(tab)">clear</mat-icon>
         </button>
     </div>

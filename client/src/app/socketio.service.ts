@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 import { io, Socket } from 'socket.io-client';
 import { environment } from '../environments/environment';
 
@@ -8,6 +10,8 @@ const { path, ssh_url, default_parameters } = environment;
 })
 export class SocketioService {
   socket: Socket;
+
+  constructor(private _router: Router, private _snackBar: MatSnackBar) {}
 
   emit(topic: string, payload: any): void {
     if (this.socket === undefined) {
@@ -54,6 +58,14 @@ export class SocketioService {
     this.socket = io(`${ssh_url}/${host}`, {
       path,
       query,
+    });
+
+    this.on('ssh_error_connecting', () => {
+      this._router.navigate(['/dashboard']).then(() => {
+        this._snackBar.open(`Could not connect to playground ${host}`, `close`, {
+          duration: 2000,
+        });
+      });
     });
   }
 }

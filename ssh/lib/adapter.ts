@@ -16,7 +16,15 @@ export const adapter = async (socket) => {
   console.log({ config });
 
   let ssh = new SSH2Promise(config);
-  let shell = await ssh.shell();
+  let shell: any;
+
+  try {
+    shell = await ssh.shell();
+  } catch {
+    socket.emit('ssh_error_connecting');
+    return;
+  }
+
   let sftp = new mySFTP(ssh);
   let list = getLister(sftp, socket);
 

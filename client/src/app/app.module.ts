@@ -14,6 +14,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { HttpClientModule } from '@angular/common/http';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 @NgModule({
   declarations: [AppComponent, NavComponent, ShareDialogComponent],
   imports: [
@@ -26,9 +28,10 @@ import { HttpClientModule } from '@angular/common/http';
     TextFieldModule,
     ClipboardModule,
     MonacoEditorModule.forRoot(),
-    HttpClientModule
+    HttpClientModule,
+    MatSnackBarModule
   ],
   providers: [SocketioService],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
