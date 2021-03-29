@@ -11,6 +11,7 @@ const get_playground_command = (id: string, type: string): string => {
   }
 };
 
+// Start a kubectl container, k8 master and three k8 worders
 const start_kind_playground = async (id: string) => {
   try {
     // Kubectl container
@@ -35,6 +36,26 @@ const start_kind_playground = async (id: string) => {
   }
 };
 
+// Start a playground, with id and type
+export const start_playground = async (
+  id: string,
+  type: string
+): Promise<void> => {
+  console.log(`Starting ${type} playground for ${id}`);
+  if (type === "kind") {
+    // Kind clusers require special setup
+    await start_kind_playground(id);
+  } else {
+    // Single container setups
+    let command = get_playground_command(id, type);
+    let { stdout } = await exec(command);
+    stdout = stdout.trim();
+    console.log(
+      `Created container with ID ${stdout}, with playground ID ${id}`
+    );
+  }
+};
+
 const kill_kind_playground = async (id: string) => {
   // Kill Kubectl container
   let command = `docker kill ${id}`;
@@ -43,27 +64,14 @@ const kill_kind_playground = async (id: string) => {
   command = `lib/kindbox destroy ${id}-cluster`;
   await exec(command);
 };
-
-export const start_playground = async (
-  id: string,
-  type: string
-): Promise<void> => {
-  console.log(`Starting ${type} playground for ${id}`);
-  if (type === "kind") {
-    // Kind clusers require extra setup
-    await start_kind_playground(id);
-  } else {
-    let command = get_playground_command(id, type);
-    let { stdout, stderr } = await exec(command);
-    // trim newline off..
-    stdout = stdout.trim();
-    console.log(
-      `Created container with ID ${stdout}, with playground ID ${id}`
-    );
-  }
+const kill_container = async (id) => {
+  await exec(`docker kill ${id}`);
 };
 
-export const kill_container = async (id) => {
-  let { stdout, stderr } = await exec(`docker kill ${id}`);
-  return stderr;
+export const kill_playground = async (id, type) => {
+  if (type === "kind") {
+    kill_kind_playground(id);
+  } else {
+    kill_container(id);
+  }
 };
