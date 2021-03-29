@@ -1,8 +1,8 @@
-FROM alpine3.13
+FROM alpine:3.13
 
 # Quality of life
 # https://platformengineer.com/install-vi-bash-curl-on-alpine-linux/
-RUN apk --update add --no-cache curl vim git go
+RUN apk --update add --no-cache go curl vim git 
 
 # SSH
 # https://github.com/arvindr226/alpine-ssh/blob/master/Dockerfile
