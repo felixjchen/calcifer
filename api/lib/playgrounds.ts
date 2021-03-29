@@ -1,9 +1,6 @@
 import { production } from "../config";
 // https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback
-import * as child_process from "child_process";
-import * as util from "util";
-
-const exec = util.promisify(child_process.exec);
+import { exec } from "./util";
 
 // Most playgrounds are simple and can be started in one line
 const get_playground_command = (id: string, type: string): string => {
