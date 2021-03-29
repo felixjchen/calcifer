@@ -1,3 +1,5 @@
+# 0 * * * * python3 ~/project-calcifer/scripts/delete_stale_playgrounds.py
+
 import requests
 
 url = "https://project-calcifer.ml/api/playgrounds"

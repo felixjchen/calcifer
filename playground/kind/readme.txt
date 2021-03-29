@@ -3,6 +3,7 @@ This playground has kubectl, vim, git and openssh.
 The kube context for your Kuberenetes in Docker can be found in ~/.kube/, but the kubectl should already recognize this (~/.profile).
 
 Your K8s cluster contains:
+  - A kubectl container, with address {id}
   - A master node, with address {id}-cluster-master
   - A worker node, with address {id}-cluster-worker-0
   - A worker node, with address {id}-cluster-worker-1
