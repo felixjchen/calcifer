@@ -36,16 +36,19 @@ export class TerminalComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // https://www.npmjs.com/package/xterm-addon-fit
     // https://stackoverflow.com/questions/53307998/integrate-xterm-js-to-angular
-    this.term = new Terminal({
-      cursorBlink: true,
-      theme: {
-        background: '#1e1e1e'
-      }
-    });
-    this.fitAddOn = new FitAddon();
-    this.term.loadAddon(this.fitAddOn);
-    this.term.open(this.terminalDiv.nativeElement);
-    this.fitAddOn.fit();
+
+    this._ngZone.runOutsideAngular(() => {
+      this.term = new Terminal({
+        cursorBlink: true,
+        theme: {
+          background: '#1e1e1e'
+        }
+      });
+      this.fitAddOn = new FitAddon();
+      this.term.loadAddon(this.fitAddOn);
+      this.term.open(this.terminalDiv.nativeElement);
+      this.fitAddOn.fit();
+    })
 
     let { socket } = this.socketService;
 
