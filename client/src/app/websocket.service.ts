@@ -13,14 +13,14 @@ const { path, ssh_url, default_parameters } = environment;
 export class WebsocketService {
   socket: ReconnectingWebSocket;
   constructor() {
-    let { username, password, host } = default_parameters;
+    let config = default_parameters;
+    let params = new HttpParams({ fromObject: config });
 
-    let params = new HttpParams();
-    params.set('username', username);
-    params.set('password', password);
-    params.set('host', host);
-    console.log(params.toString());
-    this.socket = new ReconnectingWebSocket(`ws://${ssh_url}/?fe=yes`);
+    this.socket = new ReconnectingWebSocket(
+      `ws://${ssh_url}/${params.toString()}`
+    );
     let connection = new sharedb.Connection(this.socket as any);
+
+    console.log(this.socket, connection);
   }
 }

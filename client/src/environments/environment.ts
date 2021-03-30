@@ -9,7 +9,7 @@ export const environment = {
   ssh_url: '0.0.0.0:8000',
   path: '/socket.io',
   default_parameters: {
-    host: '159.203.35.176',
+    host: '159.203.46.232',
     username: 'root',
     password: '4ULuG4J2H.Mp7Y',
   },
