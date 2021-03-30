@@ -13,7 +13,6 @@ export const adapter = async (socket) => {
   let namespace = socket.nsp;
   let { host, username, password } = socket.handshake.query;
   let config = { host, username, password };
-  console.log({ config });
 
   let ssh = new SSH2Promise(config);
   let shell: any;
@@ -74,8 +73,9 @@ export const adapter = async (socket) => {
   socket.on("deleteFile", (path) => {
     sftp.unlink(path);
   });
-  socket.on("renameFile", (src, dest) => {
-    sftp.rename(src, dest);
+  socket.on("renameFile", async ({ path, newPath }) => {
+    await sftp.rename(path, newPath);
+    list();
   });
   socket.on("makeDir", (path) => {
     sftp.mkdir(path);
@@ -83,7 +83,6 @@ export const adapter = async (socket) => {
   socket.on("deleteDir", (path) => {
     sftp.rmdir(path);
   });
-
   // Close events
   socket.on("disconnect", () => {
     ssh.close();

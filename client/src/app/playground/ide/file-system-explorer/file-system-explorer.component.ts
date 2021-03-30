@@ -14,6 +14,8 @@ import { ContextMenuComponent } from 'ngx-contextmenu';
 import { FileStoreService } from '../../services/file-store.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { timer, Subscription } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { RenameDialogComponent } from './rename-dialog/rename-dialog.component';
 
 declare const FileIcons: any;
 
@@ -31,7 +33,7 @@ export class FileSystemExplorerComponent implements OnInit {
 
   fileIcons = FileIcons;
   listSubscription: Subscription;
-  constructor(private socketService: SocketioService, public fileStore: FileStoreService) {}
+  constructor(private socketService: SocketioService, public fileStore: FileStoreService, private _dialog: MatDialog) {}
 
   readonly treeControl = new FlatTreeControl<FileFlatNode>(
     (node) => node.level,
@@ -60,11 +62,26 @@ export class FileSystemExplorerComponent implements OnInit {
   }
   
   // Context Menu events
+  startRename(file: FileFlatNode): void {
+    const dialogRef = this._dialog.open(RenameDialogComponent, {
+      width: '500px',
+      data: { file }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const newPath = file.path.split('/');
+        newPath[newPath.length - 1] = result;
+        this.socketService.emit('renameFile', { path: file.path, newPath: newPath.join('/') });
+      }
+    });
+  }
+
   delete(file: FileFlatNode): void {
     if (file.isDirectory) {
-      this.socketService.socket.emit('deleteDir', file.path);
+      this.socketService.emit('deleteDir', file.path);
     } else {
-      this.socketService.socket.emit('deleteFile', file.path);
+      this.socketService.emit('deleteFile', file.path);
     }
   }
   showMessage(message: any) {

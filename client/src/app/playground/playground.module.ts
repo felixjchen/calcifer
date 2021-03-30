@@ -13,14 +13,16 @@ import { EditorComponent } from './ide/editor/editor.component';
 import { TerminalComponent } from './ide/terminal/terminal.component';
 import { FileSearchComponent } from './ide/file-search/file-search.component';
 import { SettingsComponent } from './ide/settings/settings.component';
-import {CdkTreeModule} from '@angular/cdk/tree';
+import { CdkTreeModule } from '@angular/cdk/tree';
 import { MonacoEditorModule } from '../vendor/ngx-monaco-editor-master/projects/editor/src/public-api';
 import { FormsModule } from '@angular/forms';
 import { ContextMenuModule } from 'ngx-contextmenu';
 import { EditorTabsComponent } from './ide/editor/editor-tabs/editor-tabs.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import {MatTreeModule} from '@angular/material/tree';
-import {MatInputModule} from '@angular/material/input';
+import { MatTreeModule } from '@angular/material/tree';
+import { MatInputModule } from '@angular/material/input';
+import { RenameDialogComponent } from './ide/file-system-explorer/rename-dialog/rename-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,7 @@ import {MatInputModule} from '@angular/material/input';
     FileSearchComponent,
     SettingsComponent,
     EditorTabsComponent,
+    RenameDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -46,7 +49,8 @@ import {MatInputModule} from '@angular/material/input';
     MonacoEditorModule,
     ContextMenuModule.forRoot(),
     DragDropModule,
-    MatInputModule
+    MatInputModule,
+    MatDialogModule
   ],
 })
-export class PlaygroundModule {}
+export class PlaygroundModule { }

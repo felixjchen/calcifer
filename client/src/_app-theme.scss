@@ -8,10 +8,23 @@
     $background: map-get($theme, background);
     $foreground: map-get($theme, foreground);
 
-    
     body {
         background-color: mat-color($background, background);
         color: mat-color($foreground, text);
+    }
+
+    .ngx-contextmenu {
+        .dropdown-menu {
+            background-color: mat-color($background, background);
+
+            > li > a {
+                color: mat-color($foreground, text);
+
+                &:hover {
+                    background-color: #434343;
+                }
+            }
+        }
     }
 
     @include nav-component-theme($theme);

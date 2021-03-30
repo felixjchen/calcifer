@@ -1,0 +1,6 @@
+<mat-form-field>
+    <mat-label>Filename</mat-label>
+    <input matInput [(ngModel)]="model">
+</mat-form-field>
+<button mat-button [mat-dialog-close]="model">Rename</button>
+<button mat-button [mat-dialog-close]="false">Cancel</button>
