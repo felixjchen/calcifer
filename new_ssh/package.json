@@ -1,0 +1,26 @@
+{
+  "name": "ssh",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.ts",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "@teamwork/websocket-json-stream": "^2.0.0",
+    "@types/sharedb": "^1.0.14",
+    "@types/ws": "^7.4.0",
+    "express": "^4.17.1",
+    "http": "^0.0.1-security",
+    "query-string": "^7.0.0",
+    "sharedb": "^1.7.1",
+    "ssh2-promise": "^0.1.7",
+    "ws": "^7.4.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
