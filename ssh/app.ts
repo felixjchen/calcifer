@@ -3,15 +3,17 @@ import http from "http";
 import { Server } from "socket.io";
 import { adapter } from "./lib/adapter";
 
+const PORT = process.env.PORT || 8000;
+
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: "*" } });
-const PORT = process.env.PORT || 8000;
 
 // Playgrounds use hexadecimal IDs
-const namespaces = io.of(/[a-zA-Z-_]+$/);
-
+// const namespaces = io.of(/[a-zA-Z-_]+$/);
+const namespaces = io.of(/.+$/);
 namespaces.on("connection", (socket) => {
+  console.log();
   adapter(socket);
 });
 

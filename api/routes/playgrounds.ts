@@ -21,7 +21,7 @@ export const get_router = (models) => {
   router.post("/playgrounds", async (req, res) => {
     let _id;
     const { type } = req.body;
-    if (req.body === undefined || type === undefined) {
+    if (type === undefined) {
       return res.status(400).json({ failure: "req.body.type must be defined" });
     }
 

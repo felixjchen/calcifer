@@ -6,7 +6,9 @@ export const environment = {
   production: false,
   domain: 'http://0.0.0.0:4200',
   api_url: 'http://0.0.0.0:8080',
-  ssh_url: '0.0.0.0:8000',
+  ssh_url: 'http://0.0.0.0:8000',
+  sharedb_http_url: 'http://0.0.0.0:9000',
+  sharedb_ws_url: 'ws://0.0.0.0:9000',
   path: '/socket.io',
   default_parameters: {
     host: '159.203.46.232',

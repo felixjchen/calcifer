@@ -10,6 +10,7 @@
     "@teamwork/websocket-json-stream": "^2.0.0",
     "@types/sharedb": "^1.0.14",
     "@types/ws": "^7.4.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "http": "^0.0.1-security",
     "query-string": "^7.0.0",

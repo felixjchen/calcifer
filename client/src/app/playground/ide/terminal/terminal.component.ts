@@ -12,7 +12,6 @@ import { Subject, Subscription } from 'rxjs';
 import { Terminal } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
 import { SocketioService } from '../../../socketio.service';
-import { WebsocketService } from '../../../websocket.service';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
@@ -32,7 +31,6 @@ export class TerminalComponent implements OnInit, OnDestroy {
 
   constructor(
     private socketService: SocketioService,
-    private websocketService: WebsocketService,
     private _ngZone: NgZone
   ) {}
 
