@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { WebsocketService } from './websocket.service';
+import { SharedbService } from './sharedb.service';
 
-describe('WebsocketService', () => {
-  let service: WebsocketService;
+describe('SharedbService', () => {
+  let service: SharedbService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(WebsocketService);
+    service = TestBed.inject(SharedbService);
   });
 
   it('should be created', () => {
