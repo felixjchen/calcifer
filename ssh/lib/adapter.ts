@@ -21,7 +21,7 @@ export const adapter = async (socket) => {
     try {
       shells[host] = await ssh.shell();
       shells[host].on("data", (data) => {
-        namespace.emit("data", data.toString("binary"));
+        namespace.emit("data", data.toString());
       });
       // Get hostname for other's first prompt
       hostnames[host] = (await ssh.exec(`hostname`)).trim();
