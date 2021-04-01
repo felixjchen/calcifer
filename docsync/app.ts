@@ -17,6 +17,7 @@ const cors = require("cors");
 app.use(cors());
 
 wss.on("connection", (ws, req) => {
+  console.log(req);
   // Leading slash annoying
   // req.url = req.url.replace("/", "");
   // const config = QueryString.parse(req.url);
@@ -57,5 +58,5 @@ app.post("/doc", (req, res) => {
 });
 
 server.listen(PORT, function () {
-  console.log(`ssh server at 0.0.0.0:${PORT}`);
+  console.log(`docsync server at 0.0.0.0:${PORT}`);
 });
