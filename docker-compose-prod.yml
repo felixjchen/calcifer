@@ -53,6 +53,17 @@ services:
       - LETSENCRYPT_HOST=project-calcifer.ml
     restart: always
 
+  docsync:
+    build: docsync/.
+    ports:
+      - "9000"
+    environment:
+      - VIRTUAL_PORT=9000
+      - VIRTUAL_PATH=/docsync/
+      - VIRTUAL_HOST=project-calcifer.ml
+      - LETSENCRYPT_HOST=project-calcifer.ml
+    restart: always
+
   client:
     image: felixchen1998/calcifer-client:latest
     ports:
