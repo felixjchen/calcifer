@@ -33,7 +33,11 @@ export class FileSystemExplorerComponent implements OnInit {
 
   fileIcons = FileIcons;
   listSubscription: Subscription;
-  constructor(private socketService: SocketioService, public fileStore: FileStoreService, private _dialog: MatDialog) {}
+  constructor(
+    private socketService: SocketioService,
+    public fileStore: FileStoreService,
+    private _dialog: MatDialog
+  ) {}
 
   readonly treeControl = new FlatTreeControl<FileFlatNode>(
     (node) => node.level,
@@ -43,7 +47,7 @@ export class FileSystemExplorerComponent implements OnInit {
 
   // Although polling is inefficient, it will provide a better user experience, especially when the OS is changing the FS on its on, causing no updates to be pushed out.
   ngOnInit() {
-    this.listSubscription = timer(0, 4000).subscribe(() => {
+    this.listSubscription = timer(0, 10 * 1000).subscribe(() => {
       this.socketService.socket.emit('getList');
     });
   }
@@ -60,19 +64,22 @@ export class FileSystemExplorerComponent implements OnInit {
       this.selectFile.emit(node.original);
     }
   }
-  
+
   // Context Menu events
   startRename(file: FileFlatNode): void {
     const dialogRef = this._dialog.open(RenameDialogComponent, {
       width: '500px',
-      data: { file }
+      data: { file },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         const newPath = file.path.split('/');
         newPath[newPath.length - 1] = result;
-        this.socketService.emit('renameFile', { path: file.path, newPath: newPath.join('/') });
+        this.socketService.emit('renameFile', {
+          path: file.path,
+          newPath: newPath.join('/'),
+        });
       }
     });
   }
@@ -87,5 +94,4 @@ export class FileSystemExplorerComponent implements OnInit {
   showMessage(message: any) {
     console.log(message);
   }
-  
 }
