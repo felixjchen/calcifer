@@ -15,14 +15,14 @@ if (!production) {
 
 const init = async () => {
   // Pull images
-  await pull_playground_images();
+  // await pull_playground_images();
   // Init DB
   const models = await db_init();
   // Load all endpoints
   await load_routers(app, models);
 
   app.listen(port, "0.0.0.0", () => {
-    console.log(`Server listening at http://localhost:${port}`);
+    console.log(`api server at http://localhost:${port}`);
   });
 };
 
