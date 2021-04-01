@@ -1,3 +1,7 @@
+$small: 300px;
+$medium: 800px;
+$large: 1400px;
+
 :host {
   height: 100%;
 }
@@ -15,8 +19,7 @@
 
   img {
     object-fit: contain;
-    width: 120px;
-    height: 150px;
+    width: 40%;
   }
 }
 
@@ -25,10 +28,12 @@
   align-content: center;
   justify-content: center;
   flex-wrap: wrap;
-
   width: 80%;
   height: 100%;
   margin: auto;
+  @media only screen and (max-width: $medium) {
+    width: 100%;
+  }
 
   h2 {
     width: 100%;
@@ -39,5 +44,14 @@
     padding: 0;
     width: 250px;
     height: 200px;
+
+    @media only screen and (max-width: $large) {
+      width: 200px;
+      height: 150px;
+    }
+    @media only screen and (max-width: $small) {
+      width: 80px;
+      height: 60px;
+    }
   }
 }

@@ -20,55 +20,55 @@ export class DashboardComponent {
   playgroundButtons: PlaygroundButton[] = [
     {
       type: 'kind',
-      imageSrc: 'assets/logos/k8s.svg',
-      label: 'Kubernetes (~2min)'
+      imageSrc: 'assets/logos/cib-kubernetes.svg',
+      label: 'Kubernetes (~2min)',
     },
     {
       type: 'dind',
-      imageSrc: 'assets/logos/docker.png',
-      label: 'Docker'
+      imageSrc: 'assets/logos/cib-docker.svg',
+      label: 'Docker',
     },
     {
       type: 'c',
-      imageSrc: 'assets/logos/The_C_Programming_Language_logo.svg',
-      label: 'C/C++'
+      imageSrc: 'assets/logos/cib-c.svg',
+      label: 'C/C++',
     },
     {
       type: 'go',
-      imageSrc: 'assets/logos/Go_Logo_Blue.svg',
-      label: 'Go'
+      imageSrc: 'assets/logos/cib-go.svg',
+      label: 'Go',
     },
     {
       type: 'rust',
-      imageSrc: 'assets/logos/rust-logo-blk.svg',
-      label: 'Rust'
+      imageSrc: 'assets/logos/cib-rust.svg',
+      label: 'Rust',
     },
     {
       type: 'python',
-      imageSrc: 'assets/logos/python-powered-h.svg',
-      label: 'Python'
+      imageSrc: 'assets/logos/cib-python.svg',
+      label: 'Python',
     },
     {
       type: 'node',
-      imageSrc: 'assets/logos/Node.js_logo.svg',
-      label: 'Node.js'
+      imageSrc: 'assets/logos/cib-node-js.svg',
+      label: 'Node.js',
     },
     {
       type: 'react',
-      imageSrc: 'assets/logos/react.svg',
-      label: 'React'
+      imageSrc: 'assets/logos/cib-react.svg',
+      label: 'React',
     },
     {
       type: 'vue',
-      imageSrc: 'assets/logos/vue.svg',
-      label: 'Vue.js'
+      imageSrc: 'assets/logos/cib-vue-js.svg',
+      label: 'Vue.js',
     },
     {
       type: 'angular',
-      imageSrc: 'assets/logos/angular.svg',
-      label: 'Angular'
+      imageSrc: 'assets/logos/cib-angular.svg',
+      label: 'Angular',
     },
-  ]
+  ];
 
   constructor(
     private _playgroundService: PlaygroundService,
