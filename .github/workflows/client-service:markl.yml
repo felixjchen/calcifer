@@ -25,5 +25,5 @@ jobs:
         with:
           context: ./client
           push: true
-          file: DockerfileMarkl
+          file: ./client/DockerfileMarkl
           tags: felixchen1998/calcifer-client:markl
