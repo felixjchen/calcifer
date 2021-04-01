@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { File } from 'src/app/interfaces/file';
 import { FileNode } from 'src/app/interfaces/file-node';
-import { SocketioService } from 'src/app/socketio.service';
+import { SocketioService } from '../services/socketio.service';
 
 const fileNodeEqual = (fileNodeA: FileNode, fileNodeB: FileNode) =>
   fileNodeA.path === fileNodeB.path;

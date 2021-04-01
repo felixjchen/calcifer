@@ -9,7 +9,7 @@ import {
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { FileDataSource, FileFlatNode } from './file-data-source';
 import { FileNode } from 'src/app/interfaces/file-node';
-import { SocketioService } from '../../../socketio.service';
+import { SocketioService } from '../../services/socketio.service';
 import { ContextMenuComponent } from 'ngx-contextmenu';
 import { FileStoreService } from '../../services/file-store.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';

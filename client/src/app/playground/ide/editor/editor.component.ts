@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FileStoreService } from '../../services/file-store.service';
 import { File } from '../../../interfaces/file';
 import { MonacoLanguageService } from '../../services/monaco-language.service';
-import { SocketioService } from '../../../socketio.service';
+import { SocketioService } from '../../services/socketio.service';
 import { SharedbService } from '../../services/sharedb.service';
 import { RouteParamStoreService } from '../../services/route-param-store.service';
 

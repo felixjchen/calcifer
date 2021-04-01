@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FileNode } from '../interfaces/file-node';
 import { MenuButton } from '../interfaces/menu-button';
-import { SocketioService } from '../socketio.service';
+import { SocketioService } from './services/socketio.service';
 import { FileStoreService } from './services/file-store.service';
 import { RouteParamStoreService } from './services/route-param-store.service';
 import { ActivatedRoute } from '@angular/router';
@@ -64,9 +64,12 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
         this.files = files;
       });
 
-      this._socketService.on('searchResult', (result: { matches: string[]}) => {
-        this.matches = result.matches;
-      });
+      this._socketService.on(
+        'searchResult',
+        (result: { matches: string[] }) => {
+          this.matches = result.matches;
+        }
+      );
 
       this._fileStore.init();
     });
@@ -91,7 +94,10 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
   }
 }
 
-const searchFileSystemTree = (files: FileNode[] = [], path: string): FileNode | null => {
+const searchFileSystemTree = (
+  files: FileNode[] = [],
+  path: string
+): FileNode | null => {
   // todo(aleksanderbodurri): optimize this traversal
   for (const file of files) {
     if (file.path === path) {
@@ -105,4 +111,4 @@ const searchFileSystemTree = (files: FileNode[] = [], path: string): FileNode | 
   }
 
   return null;
-}
+};

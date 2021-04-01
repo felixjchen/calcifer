@@ -1,19 +1,30 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
-import { SocketioService } from 'src/app/socketio.service';
+import { SocketioService } from '../../services/socketio.service';
 @Component({
   selector: 'app-file-search',
   templateUrl: './file-search.component.html',
-  styleUrls: ['./file-search.component.scss']
+  styleUrls: ['./file-search.component.scss'],
 })
 export class FileSearchComponent implements OnInit, OnDestroy {
   @Input() set matches(matches: string[]) {
     this._reset();
 
-    matches.forEach(matchResult => {
+    matches.forEach((matchResult) => {
       const [path, lineNumber, line] = matchResult.split(':');
-      if (path === undefined || lineNumber === undefined || line === undefined) {
+      if (
+        path === undefined ||
+        lineNumber === undefined ||
+        line === undefined
+      ) {
         return;
       }
 
@@ -22,12 +33,16 @@ export class FileSearchComponent implements OnInit, OnDestroy {
       } else {
         this.matchMap[path] = [{ line, lineNumber }];
       }
-    })
+    });
   }
 
-  @Output() selectFromExistingFiles = new EventEmitter<{ line: string, lineNumber: string, path: string }>();
+  @Output() selectFromExistingFiles = new EventEmitter<{
+    line: string;
+    lineNumber: string;
+    path: string;
+  }>();
 
-  matchMap: { [path: string]: { line: string, lineNumber: string }[] } = {}
+  matchMap: { [path: string]: { line: string; lineNumber: string }[] } = {};
   expandedMap: { [path: string]: boolean } = {};
   keyword = '';
   lastClicked: string = '';
@@ -38,11 +53,13 @@ export class FileSearchComponent implements OnInit, OnDestroy {
   constructor(private _socketService: SocketioService) {}
 
   ngOnInit(): void {
-    this.subscriptions = [this.$search.pipe(debounceTime(300)).subscribe(() => this.search())];
+    this.subscriptions = [
+      this.$search.pipe(debounceTime(300)).subscribe(() => this.search()),
+    ];
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 
   get matchForestRoots(): any {
@@ -57,7 +74,7 @@ export class FileSearchComponent implements OnInit, OnDestroy {
     return this.expandedMap[path];
   }
 
-  selectFile($event: { line: string, lineNumber: string, path: string }): void {
+  selectFile($event: { line: string; lineNumber: string; path: string }): void {
     this.selectFromExistingFiles.emit($event);
   }
 
@@ -80,7 +97,15 @@ export class FileSearchComponent implements OnInit, OnDestroy {
     this.lastClicked = path;
   }
 
-  onNodeClick({path, line, lineNumber}:{ path: string, line: string, lineNumber: string}): void {
+  onNodeClick({
+    path,
+    line,
+    lineNumber,
+  }: {
+    path: string;
+    line: string;
+    lineNumber: string;
+  }): void {
     this.selectFile({ path, line, lineNumber });
     this.lastClicked = `${path}#${lineNumber}`;
   }

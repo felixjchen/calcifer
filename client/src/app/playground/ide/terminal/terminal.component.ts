@@ -11,7 +11,7 @@ import {
 import { Subject, Subscription } from 'rxjs';
 import { Terminal } from 'xterm';
 import { FitAddon } from 'xterm-addon-fit';
-import { SocketioService } from '../../../socketio.service';
+import { SocketioService } from '../../services/socketio.service';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({

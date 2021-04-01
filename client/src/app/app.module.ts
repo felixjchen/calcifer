@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ShareDialogComponent } from './nav/share-dialog/share-dialog.component';
-import { SocketioService } from './socketio.service';
+import { SocketioService } from './playground/services/socketio.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { NavComponent } from './nav/nav.component';
