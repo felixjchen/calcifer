@@ -36,6 +36,7 @@ export class EditorComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Subscribe to playground id
     this._routeParamStoreService.playgroundId$.subscribe(
       (id: string | null) => {
         if (id) {
@@ -44,6 +45,7 @@ export class EditorComponent implements OnInit {
       }
     );
 
+    // Subscribe to currently selected file
     this.fileStore.selectedFile$.subscribe((file: File | null) => {
       if (file === null) {
         this.file.content = undefined;
@@ -73,13 +75,16 @@ export class EditorComponent implements OnInit {
       const documentID = this.file.node.path;
       const content = this.file.content;
 
+      // Create doc in docsync service
       this._shareDbService
         .create(collection, documentID, content)
         .subscribe(() => {
+          // If previous binding.. close
           if (this.sharedbBinding) {
             this.sharedbBinding.close();
           }
 
+          // New two way Monaco binding
           const options = {
             namespace: this.id,
             id: this.file.node.path,
@@ -94,6 +99,7 @@ export class EditorComponent implements OnInit {
     editor.onDidChangeModelContent((e: any) => {
       // Only trigger if user types, not if JS loads
       if (!e.isFlush) {
+        // Save to file on editor change
         const content = editor.getModel().getValue();
         this._socketService.socket.emit(
           'writeFile',
