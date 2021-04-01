@@ -83,7 +83,7 @@ export class EditorComponent implements OnInit {
           const options = {
             namespace: this.id,
             id: this.file.node.path,
-            wsurl: environment.sharedb_ws_url,
+            wsurl: environment.docsync_ws_url,
           };
           this.sharedbBinding = new ShareDBMonaco(options);
           this.sharedbBinding.on('ready', () => {

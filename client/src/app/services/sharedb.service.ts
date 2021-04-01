@@ -15,7 +15,7 @@ export class SharedbService {
     documentID: string,
     content: string
   ): Observable<any> {
-    return this._httpClient.post(`${environment.sharedb_http_url}/doc`, {
+    return this._httpClient.post(`${environment.docsync_http_url}/doc`, {
       collection,
       documentID,
       content,
