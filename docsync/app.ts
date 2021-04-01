@@ -23,7 +23,7 @@ wss.on("connection", (ws, req) => {
 });
 
 app.use(body_parser.json());
-app.post("/doc", async (req, res) => {
+app.put("/doc", async (req, res) => {
   let { collection, documentID, content } = req.body;
   if (collection === undefined || documentID === undefined) {
     return res.status(400).json({
