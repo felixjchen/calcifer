@@ -6,6 +6,10 @@ $large: 1400px;
   height: 100%;
 }
 
+.dashboard-labels {
+  font-size: 1.6rem;
+}
+
 .playground-button-wrapper {
   display: flex;
   flex-direction: column;
@@ -36,6 +40,7 @@ $large: 1400px;
   }
 
   h2 {
+    font-size: 2.4rem;
     width: 100%;
     text-align: center;
   }
