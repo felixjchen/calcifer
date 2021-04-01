@@ -1,4 +1,4 @@
-## Assume ng build
+## Assume ng build --configuration="stage"
 FROM nginx:1.17.1-alpine
 COPY ./dist/client /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/nginx.conf

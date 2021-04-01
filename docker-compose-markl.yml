@@ -53,8 +53,19 @@ services:
       - LETSENCRYPT_HOST=markl.tk
     restart: always
 
+  docsync:
+    build: docsync/.
+    ports:
+      - "9000"
+    environment:
+      - VIRTUAL_PORT=9000
+      - VIRTUAL_PATH=/docsync/
+      - VIRTUAL_HOST=markl.tk
+      - LETSENCRYPT_HOST=markl.tk
+    restart: always
+
   client:
-    image: felixchen1998/calcifer-client:latest
+    image: felixchen1998/calcifer-client:markl
     ports:
       - "3000"
     environment:
