@@ -13,7 +13,6 @@ const io = new Server(server, { cors: { origin: "*" } });
 // const namespaces = io.of(/[a-zA-Z-_]+$/);
 const namespaces = io.of(/.+$/);
 namespaces.on("connection", (socket) => {
-  console.log();
   adapter(socket);
 });
 

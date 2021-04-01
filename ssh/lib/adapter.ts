@@ -87,13 +87,12 @@ export const adapter = async (socket) => {
   });
 
   // Close events
-  socket.on("disconnect", () => {
+  shells[host].on("close", (e) => {
+    console.log("ssh closed for host", host);
     ssh.close();
   });
-  shells[host].on("close", () => {
-    ssh.close();
-  });
-  shells[host].on("error", () => {
+  shells[host].on("error", (e) => {
+    console.log("ssh closed for host", host, e);
     ssh.close();
   });
 };
