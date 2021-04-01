@@ -5,7 +5,7 @@ export const environment = {
   domain,
   api_url: `${domain}/api`,
   docsync_http_url: `${domain}/docsync`,
-  docsync_ws_url: `ws://${host}/docsync/`,
+  docsync_ws_url: `wss://${host}/docsync/`,
   ssh_url: domain,
   path: '/ssh/socket.io',
   default_parameters: {
