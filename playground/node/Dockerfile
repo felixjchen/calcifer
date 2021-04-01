@@ -1,4 +1,5 @@
 FROM node:alpine3.13
+RUN npm i -g npm
 
 # Quality of life
 # https://platformengineer.com/install-vi-bash-curl-on-alpine-linux/
@@ -18,6 +19,6 @@ EXPOSE 80
 ENV VIRTUAL_PORT=80
 
 # Start ssh
-COPY ./entrypoint.sh . 
-COPY ./readme.txt /root/ 
+COPY entrypoint.sh . 
+COPY readme.txt /root/ 
 CMD ["./entrypoint.sh"]

@@ -33,6 +33,16 @@ services:
       - VIRTUAL_HOST=localhost
     restart: always
 
+  docsync:
+    build: docsync/.
+    ports:
+      - "9000"
+    environment:
+      - VIRTUAL_PORT=9000
+      - VIRTUAL_PATH=/docsync/
+      - VIRTUAL_HOST=localhost
+    restart: always
+
   client:
     build:
       context: client/.

@@ -5,5 +5,5 @@ Port 80 on your playground is reverse proxied from https://{id}.project-calcifer
 NOTE: Given this current url, anyone can see this environment. Therefore please do not put any credentials on this service. 
 
 Try:
-gcc -v 
-g++ -v
+gcc --help
+g++ --help

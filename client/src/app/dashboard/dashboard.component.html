@@ -1,7 +1,11 @@
 <div class="dashboard">
   <ng-container *ngIf="!loading && playgroundId === undefined; else spinner">
-    <button mat-raised-button (click)="createDashboard()">
-      Create Playground
+    <h2>Start a playground</h2>
+    
+    <button matTooltip="{{ button.label }}" [matTooltipShowDelay]="50" mat-raised-button *ngFor="let button of playgroundButtons" (click)="createDashboard(button.type)">
+      <div class="playground-button-wrapper">
+        <img src="{{ button.imageSrc }}">
+      </div>
     </button>
   </ng-container>
 

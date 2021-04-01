@@ -1,4 +1,3 @@
-# FROM nestybox/alpine-docker:latest
 FROM docker:dind
 
 # Quality of life
@@ -18,6 +17,6 @@ RUN ssh-keygen -t rsa -b 4096 -f  /etc/ssh/ssh_host_key
 EXPOSE 80 
 ENV VIRTUAL_PORT=80
 
-COPY ./entrypoint.sh . 
-COPY ./readme.txt /root/ 
+COPY entrypoint.sh . 
+COPY readme.txt /root/
 CMD ["./entrypoint.sh"]

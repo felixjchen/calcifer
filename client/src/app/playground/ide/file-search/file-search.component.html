@@ -1,1 +1,15 @@
-TODO
+<div class="file-search">
+    <input placeholder="Search" [(ngModel)]="keyword" (input)="$search.next()">
+    <div class="match-forest">
+        <div class="match-tree" *ngFor="let matchTreeRoot of matchForestRoots">
+            <div [class.selected]="lastClicked === matchTreeRoot" (click)="onRootClick(matchTreeRoot)" class="match-tree-root">
+                <mat-icon>{{ isExpanded(matchTreeRoot) ? 'keyboard_arrow_down' : 'keyboard_arrow_right' }}</mat-icon> {{ matchTreeRoot }}
+            </div>
+            <div [class.hidden]="!isExpanded(matchTreeRoot)" class="match-tree-nodes">
+                <div [class.selected]="lastClicked === matchTreeRoot + '#' + match.lineNumber"  (click)="onNodeClick({ path: matchTreeRoot, line: match.line, lineNumber: match.lineNumber})" class="match-tree-node" *ngFor="let match of matchMap[matchTreeRoot]">
+                    {{ match.line }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

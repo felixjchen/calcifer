@@ -1,0 +1,71 @@
+:host {
+    background-color: #252626;
+    height: 100%;
+    display: block;
+}
+
+.file-search {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0 0 0;
+
+    input {
+        all: unset;
+        width: 80%;
+        margin: auto;
+        border: 1px solid #444444;
+        background-color: #444444;
+        padding: 2px 1rem;
+        font-size: 12px;
+        color: #ffffff;
+        
+        &::placeholder {
+            font-size: 12px;
+        }
+    }
+    
+
+    .match-forest {
+        display: flex;
+        flex-direction: column;
+
+        .match-tree {
+            .match-tree-node, .match-tree-root {
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+                cursor: pointer;
+                font-size: 12px;
+
+                &:not(:hover) {
+                    &:not(.selected) {
+                        opacity: 0.6;
+                    }
+                }
+
+                &.selected {
+                    color: #56ffd9;
+                }
+            }
+
+            .match-tree-root {
+                display: flex;
+
+                mat-icon {
+                    font-size: 16px;
+                    height: 14px;
+                    width: 16px;
+                    margin: auto 0;
+                }
+            }
+
+            .match-tree-node {
+                margin-left: 30px;
+            }
+        }
+    }
+}
+
+.hidden {
+    display: none;
+}

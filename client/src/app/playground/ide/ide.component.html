@@ -7,6 +7,8 @@
     ></app-file-system-explorer>
     <app-file-search
       [class.hidden]="activeMenu.name !== 'search'"
+      [matches]="matches"
+      (selectFromExistingFiles)="selectFromExistingFiles.emit($event)"
     ></app-file-search>
     <app-settings
       [class.hidden]="activeMenu.name !== 'settings'"

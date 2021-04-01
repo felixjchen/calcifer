@@ -16,7 +16,8 @@
   },
   "devDependencies": {
     "@types/mongoose": "^5.10.3",
-    "@types/node": "^14.14.35"
+    "@types/node": "^14.14.35",
+    "cors": "^2.8.5"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

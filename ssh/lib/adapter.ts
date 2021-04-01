@@ -16,7 +16,15 @@ export const adapter = async (socket) => {
   console.log({ config });
 
   let ssh = new SSH2Promise(config);
-  let shell = await ssh.shell();
+  let shell: any;
+
+  try {
+    shell = await ssh.shell();
+  } catch {
+    socket.emit('ssh_error_connecting');
+    return;
+  }
+
   let sftp = new mySFTP(ssh);
   let list = getLister(sftp, socket);
 
@@ -26,6 +34,19 @@ export const adapter = async (socket) => {
   });
   shell.on("data", (data) => {
     namespace.emit("data", data.toString("binary"));
+  });
+
+  socket.on('searchByKeyword', (keyword) => {
+    ssh.exec(`grep -rnw './' -e '.*${keyword}.*'`).then((response) => {
+      try {
+        const payload = {
+          matches: response.split('\n').filter(s => s.length > 0)
+        }
+        socket.emit('searchResult', payload);
+      } catch {
+        socket.emit('searchResult', '');
+      }
+    });
   });
 
   // File System Events

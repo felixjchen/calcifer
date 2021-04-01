@@ -5,7 +5,24 @@ interface IPlayground extends Document {
   _id: string;
 }
 const PlaygroundSchema = new Schema(
-  { _id: { type: String } },
+  {
+    _id: { type: String },
+    type: {
+      type: String,
+      enum: [
+        "dind",
+        "kind",
+        "c",
+        "python",
+        "node",
+        "react",
+        "angular",
+        "rust",
+        "go",
+        "vue",
+      ],
+    },
+  },
   { timestamps: true }
 );
 const Playgrounds = model<IPlayground>("Playground", PlaygroundSchema);
