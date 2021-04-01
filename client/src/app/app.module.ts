@@ -29,9 +29,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     ClipboardModule,
     MonacoEditorModule.forRoot(),
     HttpClientModule,
-    MatSnackBarModule
+    MatSnackBarModule,
   ],
   providers: [SocketioService],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

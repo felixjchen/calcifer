@@ -15,7 +15,7 @@ if (!production) {
 
 const init = async () => {
   // Pull images
-  // await pull_playground_images();
+  pull_playground_images();
   // Init DB
   const models = await db_init();
   // Load all endpoints

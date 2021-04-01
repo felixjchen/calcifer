@@ -13,6 +13,7 @@ export const adapter = async (socket) => {
   let namespace = socket.nsp;
   let { host, username, password } = socket.handshake.query;
   let config = { host, username, password };
+  console.log(config);
 
   let ssh = new SSH2Promise(config);
   if (shells[host] === undefined) {

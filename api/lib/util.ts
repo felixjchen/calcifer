@@ -2,7 +2,6 @@ import {
   uniqueNamesGenerator,
   adjectives,
   animals,
-  names,
 } from "unique-names-generator";
 import * as path from "path";
 import { promises as fs } from "fs";
@@ -24,7 +23,7 @@ export const pull_playground_images = async () => {
 // Generate a random new playground id
 export const get_playground_id = (): string => {
   const name = uniqueNamesGenerator({
-    dictionaries: [names, adjectives, animals],
+    dictionaries: [adjectives, animals],
     separator: "-",
     style: "lowerCase",
   });

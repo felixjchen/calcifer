@@ -7,7 +7,10 @@ export default class mySFTP extends SFTP {
   }
 
   async readdir_r(path: string): Promise<object[]> {
+    console.log(path);
     let list = await this.readdir(path);
+
+    list = list.filter((file) => file.filename[0] !== ".");
 
     // Accumulate directoryPromises, this is for listing directories at level + 1
     let directoriesPromises = [];
