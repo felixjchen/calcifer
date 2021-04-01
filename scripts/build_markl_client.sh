@@ -1,4 +1,4 @@
 cd client 
-ng build --configuration=stage
+ng build --configuration=production
 docker build -t felixchen1998/calcifer-client:markl -f DockerfileDev .
 docker push felixchen1998/calcifer-client:markl
