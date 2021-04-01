@@ -3,8 +3,9 @@ import * as body_parser from "body-parser";
 import http from "http";
 import ShareDB from "sharedb";
 import WebSocket from "ws";
-import QueryString from "query-string";
 import WebSocketJSONStream from "@teamwork/websocket-json-stream";
+
+import { set_doc_content } from "./lib/util";
 
 const PORT = process.env.PORT || 9000;
 
@@ -17,17 +18,12 @@ const cors = require("cors");
 app.use(cors());
 
 wss.on("connection", (ws, req) => {
-  console.log(req);
-  // Leading slash annoying
-  // req.url = req.url.replace("/", "");
-  // const config = QueryString.parse(req.url);
-
   const stream = new WebSocketJSONStream(ws);
   sharedb.listen(stream);
 });
 
 app.use(body_parser.json());
-app.post("/doc", (req, res) => {
+app.post("/doc", async (req, res) => {
   let { collection, documentID, content } = req.body;
   if (collection === undefined || documentID === undefined) {
     return res.status(400).json({
@@ -36,25 +32,18 @@ app.post("/doc", (req, res) => {
     });
   }
 
+  const connection = sharedb.connect();
+  const doc = connection.get(collection, documentID);
   try {
-    const connection = sharedb.connect();
-    const doc = connection.get(collection, documentID);
-    doc.fetch(() => {
-      if (
-        doc.data === undefined ||
-        doc.data.content === undefined ||
-        doc.data.content !== content
-      ) {
-        doc.create({ content });
-      }
-    });
-
-    return res.json({ success: "document created" });
+    await set_doc_content(doc, content);
   } catch (e) {
+    console.error(e);
     return res.status(500).json({
       failure: "server error",
     });
   }
+
+  return res.json({ success: "synced doc" });
 });
 
 server.listen(PORT, function () {
