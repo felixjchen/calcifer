@@ -1,8 +1,9 @@
 ## Services
 
-![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/ssh.yml/badge.svg)
-![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/api.yml/badge.svg)
-![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/client.yml/badge.svg)
+![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/ssh-service.yml/badge.svg)
+![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/docsync-service.yml/badge.svg)
+![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/api-service.yml/badge.svg)
+![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/client-service.yml/badge.svg)
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/nginx-proxy.yml/badge.svg)
 
 ## Playgrounds
