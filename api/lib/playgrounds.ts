@@ -1,11 +1,11 @@
-import { production } from "../config";
+import { production, domain } from "../config";
 // https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback
 import { exec } from "./util";
 
 // Most playgrounds are simple and can be started in one line
 const get_playground_command = (id: string, type: string): string => {
   if (production) {
-    return `docker run --runtime=sysbox-runc -d --network project-calcifer_default --name=${id} --network-alias=${id} -e LETSENCRYPT_HOST=${id}.markl.tk -e VIRTUAL_HOST=${id}.markl.tk felixchen1998/calcifer-playground:${type}`;
+    return `docker run --runtime=sysbox-runc -d --network project-calcifer_default --name=${id} --network-alias=${id} -e LETSENCRYPT_HOST=${id}.${domain} -e VIRTUAL_HOST=${id}.${domain} felixchen1998/calcifer-playground:${type}`;
   } else {
     return `docker run --privileged -d --network project-calcifer_default --name=${id} --network-alias=${id} --env VIRTUAL_PATH=/${id} felixchen1998/calcifer-playground:${type}`;
   }
@@ -15,7 +15,7 @@ const get_playground_command = (id: string, type: string): string => {
 const start_kind_playground = async (id: string) => {
   try {
     // Kubectl container
-    let command = `docker run --runtime=sysbox-runc -d --network project-calcifer_default --name=${id} --network-alias=${id} -e LETSENCRYPT_HOST=${id}.markl.tk -e VIRTUAL_HOST=${id}.markl.tk felixchen1998/calcifer-playground:kind`;
+    let command = `docker run --runtime=sysbox-runc -d --network project-calcifer_default --name=${id} --network-alias=${id} -e LETSENCRYPT_HOST=${id}.${domain} -e VIRTUAL_HOST=${id}.${domain} felixchen1998/calcifer-playground:kind`;
     console.log("Creating kubectl container");
     await exec(command);
     // K8s cluster

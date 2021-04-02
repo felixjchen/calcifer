@@ -108,4 +108,4 @@ secrets.json
 *.DS_Store
 
 # Mine
-/api/config.ts
+_config.ts
