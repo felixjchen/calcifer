@@ -12,7 +12,6 @@ import { FileNode } from 'src/app/interfaces/file-node';
 import { SocketioService } from '../../services/socketio.service';
 import { ContextMenuComponent } from 'ngx-contextmenu';
 import { FileStoreService } from '../../services/file-store.service';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { timer, Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { RenameDialogComponent } from './rename-dialog/rename-dialog.component';
@@ -24,43 +23,27 @@ declare const FileIcons: any;
   templateUrl: './file-system-explorer.component.html',
   styleUrls: ['./file-system-explorer.component.scss'],
 })
-export class FileSystemExplorerComponent implements OnInit {
+export class FileSystemExplorerComponent {
   @ViewChild(ContextMenuComponent) basicMenu: ContextMenuComponent;
-  @Input() set files(files: FileNode[]) {
-    this.dataSource.update(files);
-  }
+  @Input() treeControl: FlatTreeControl<FileFlatNode>;
+  @Input() dataSource: FileDataSource;
   @Output() selectFile = new EventEmitter<FileNode>();
 
   fileIcons = FileIcons;
-  listSubscription: Subscription;
-  constructor(
-    private socketService: SocketioService,
-    public fileStore: FileStoreService,
-    private _dialog: MatDialog
-  ) {}
-
-  readonly treeControl = new FlatTreeControl<FileFlatNode>(
-    (node) => node.level,
-    (node) => node.expandable
-  );
-  readonly dataSource = new FileDataSource(this.treeControl);
-
-  // Although polling is inefficient, it will provide a better user experience, especially when the OS is changing the FS on its on, causing no updates to be pushed out.
-  ngOnInit() {
-    this.listSubscription = timer(0, 10 * 1000).subscribe(() => {
-      this.socketService.socket.emit('getList');
-    });
-  }
-  ngOnDestroy() {
-    this.listSubscription.unsubscribe();
-  }
+  constructor(private socketService: SocketioService, public fileStore: FileStoreService, private _dialog: MatDialog) {}
 
   isDirectory = (_: number, node: any) => node.isDirectory;
   isDirectoryContextMenu = (node: any) => node.isDirectory;
 
   onNodeClick(node: FileFlatNode): void {
-    // We don't want to fetch directories
-    if (!node.isDirectory) {
+    if (node.isDirectory) {
+      if (this.treeControl.isExpanded(node)) {
+        this.treeControl.collapse(node);
+        this.fileStore.expandedDirectories.delete(node.path);
+        return
+      }
+      this.treeControl.expand(node);
+    } else {
       this.selectFile.emit(node.original);
     }
   }

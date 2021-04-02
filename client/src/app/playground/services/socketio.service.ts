@@ -13,12 +13,16 @@ export class SocketioService {
 
   constructor(private _router: Router, private _snackBar: MatSnackBar) {}
 
-  emit(topic: string, payload: any): void {
+  emit(topic: string, payload?: any): void {
     if (this.socket === undefined) {
       console.error(`Socket not connected. Can't emit to ${topic}`);
     }
 
-    this.socket.emit(topic, payload);
+    if (payload) {
+      this.socket.emit(topic, payload);
+    } else {
+      this.socket.emit(topic);
+    }
   }
 
   on(topic: string, cb: Function): void {
@@ -27,6 +31,14 @@ export class SocketioService {
     }
 
     this.socket.on(topic, (...args: any) => cb(...args));
+  }
+
+  once(topic: string, cb: Function): void {
+    if (this.socket === undefined) {
+      console.error(`Socket not connected. Can't subscribe to ${topic}`);
+    }
+
+    this.socket.once(topic, (...args: any) => cb(...args));
   }
 
   disconnect(): void {

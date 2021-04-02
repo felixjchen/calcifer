@@ -16,11 +16,22 @@ export class FileStoreService {
   selectedFile$ = new BehaviorSubject<File | null>(null);
   fileTabs$ = new BehaviorSubject<File[]>([]);
 
-  constructor(private _socketService: SocketioService) {}
+  expandedDirectories = new Set<string>();
+
+  constructor(private _socketService: SocketioService) { }
 
   init(): void {
+    this.expandedDirectories.add('/root');
     this._socketService.socket.on('sendFile', (file: File) => {
       this.selectedFile = file;
+    });
+  }
+
+  getDirectoryByPath(path: string, cb: (children: FileNode[]) => void): void {
+    this._socketService.emit('getDirectoryChildren', path);
+    this._socketService.once('directoryChildren', (children: FileNode[]) => { 
+      this.expandedDirectories.add(path);
+      cb(children);
     });
   }
 

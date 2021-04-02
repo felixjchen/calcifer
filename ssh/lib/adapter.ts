@@ -1,5 +1,4 @@
 import SSH2Promise from "ssh2-promise";
-import { getLister } from "./util";
 import mySFTP from "./SFTP";
 
 // Each namespace shares a shell
@@ -16,6 +15,7 @@ export const adapter = async (socket) => {
   console.log(config);
 
   let ssh = new SSH2Promise(config);
+  
   if (shells[host] === undefined) {
     // First to playground
     try {
@@ -34,26 +34,51 @@ export const adapter = async (socket) => {
     const prompt = `${hostnames[host]}:~# `;
     socket.emit("data", prompt);
   }
+
   let sftp = new mySFTP(ssh);
-  let list = getLister(sftp, socket);
 
   // File System Events
-  list();
-  socket.on("getList", () => {
-    list();
+  socket.on('getVisibleDirectoryLists', async (directoryPaths: string[]) => {
+    const directoryPromises = [];
+    (directoryPaths ?? []).forEach(directoryPath => directoryPromises.push(sftp.readDirectoryByPath(directoryPath)));
+
+    const files = await Promise.all(directoryPromises);
+    const directoryFiles = directoryPaths.map((path, index) => ({ path, files: files[index] }));
+
+    socket.emit('visibleDirectoryLists', directoryFiles)
+  });
+
+  socket.on('getDirectoryList', async () => {
+    let list = await sftp.readDirectoryByPath("/root");
+    socket.emit("directoryList", list);
+  });
+
+  socket.on('getDirectoryChildren', async (path: string) => {
+    let children;
+    try {
+      children = await sftp.readDirectoryByPath(path);
+    } catch {
+      // todo: error handling
+      return;
+    }
+    socket.emit('directoryChildren', children);
   });
 
   // Shell Events
   socket.on("data", (data) => {
     shells[host].write(data);
-    // Enter means we likely need to update FS
-    if ("\r" === data) list();
   });
 
   // File System Explorer events
   // https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md
   socket.on("getFile", async (file) => {
-    const content = await sftp.readfile(file.path);
+    let content;
+    try {
+      content = await sftp.readfile(file.path);
+    } catch (e) {
+      console.log(e)
+      console.log({ file })
+    }
     socket.emit("sendFile", { node: file, content });
   });
   socket.on("writeFile", (path, content) => {
@@ -64,7 +89,6 @@ export const adapter = async (socket) => {
   });
   socket.on("renameFile", async ({ path, newPath }) => {
     await sftp.rename(path, newPath);
-    list();
   });
   socket.on("makeDir", (path) => {
     sftp.mkdir(path);

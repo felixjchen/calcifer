@@ -1,2 +1,3 @@
+<!-- <button [style.backgroundColor]="'black'" [style.color]="'white'" (click)="refresh()">refresh</button> -->
 <app-menu [menuButtons]="menuButtons" [activeButton]="activeMenu" (onMenuButtonClick)="handleMenuSelection($event)"></app-menu>
-<app-ide [matches]="matches" [files]="files" [activeMenu]="activeMenu" (selectFile)="selectFile($event)" (selectFromExistingFiles)="selectFromExistingFiles($event.path)"></app-ide>
+<app-ide [treeControl]="treeControl" [dataSource]="dataSource" [matches]="matches" [files]="files" [activeMenu]="activeMenu" (selectFile)="selectFile($event)" (selectFromExistingFiles)="selectFromExistingFiles($event.path)"></app-ide>

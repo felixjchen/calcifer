@@ -2,7 +2,8 @@
   <as-split-area [size]="15">
     <app-file-system-explorer
       (selectFile)="selectFile.emit($event)"
-      [files]="files"
+      [treeControl]="treeControl"
+      [dataSource]="dataSource"
       [class.hidden]="activeMenu.name !== 'file-system-explorer'"
     ></app-file-system-explorer>
     <app-file-search
