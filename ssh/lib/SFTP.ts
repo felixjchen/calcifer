@@ -6,31 +6,11 @@ export default class mySFTP extends SFTP {
     super(ssh);
   }
 
-  async readdir_r(path: string): Promise<object[]> {
-    console.log(path);
+  async readDirectoryByPath(path: string): Promise<object[]> {
     let list = await this.readdir(path);
-
-    list = list.filter((file) => file.filename[0] !== ".");
-
-    // Accumulate directoryPromises, this is for listing directories at level + 1
-    let directoriesPromises = [];
-    list.forEach((file) => {
+    list.forEach((file: any) => {
       file.path = `${path}/${file.filename}`;
-      if (file.longname[0] === "d") {
-        directoriesPromises.push(this.readdir_r(file.path));
-      }
-    });
-
-    let directories = await Promise.all(directoriesPromises);
-
-    // Fill file.children with directory content, i is next index to fill
-    let i = 0;
-    list.forEach((file) => {
-      if (file.longname[0] === "d") {
-        file.children = directories[i];
-        i++;
-      }
-    });
+    })
     return list;
   }
 

@@ -10,16 +10,12 @@
 
   <cdk-tree-node *cdkTreeNodeDef="let node; when: isDirectory" class="tree-node" cdkDrag [cdkDragData]="node">
     <div [class.active]="fileStore.isSelectedFile(node)" class="directory"
-      [style.padding-left]="14 + 10 * node.level + 'px'" cdkTreeNodeToggle (click)="onNodeClick(node)"
+      [style.padding-left]="14 + 10 * node.level + 'px'" (click)="onNodeClick(node)"
       [contextMenu]="basicMenu" [contextMenuSubject]="node">
       <mat-icon class="mat-icon-rtl-mirror">
         {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }}
       </mat-icon>
       {{ node.filename }}
-    </div>
-
-    <div [class.collapsed-node]="!treeControl.isExpanded(node)">
-      <ng-container cdkTreeNodeOutlet></ng-container>
     </div>
   </cdk-tree-node>
 </cdk-tree>
