@@ -5,8 +5,7 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import {MatTooltipModule} from '@angular/material/tooltip';
-
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [DashboardComponent],
@@ -15,7 +14,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     DashboardRoutingModule,
     MatButtonModule,
     MatProgressSpinnerModule,
-    MatTooltipModule
-  ]
+    MatTooltipModule,
+  ],
 })
-export class DashboardModule { }
+export class DashboardModule {}

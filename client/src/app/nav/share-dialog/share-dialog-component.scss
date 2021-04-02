@@ -1,17 +1,25 @@
 :host {
+  p {
+    margin-bottom: 4px;
+  }
+
   div {
     display: flex;
     justify-content: space-between;
 
-    margin: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
 
-    p {
+    pre {
       margin: auto 0;
+      width: 100%;
     }
     button {
-      // float: right;
-      width: 40px;
+      // width: 30px;
+      // height: 18px;
       padding: 0 !important;
+      span {
+        width: 1rem;
+      }
     }
   }
 }
