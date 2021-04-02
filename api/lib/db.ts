@@ -8,7 +8,7 @@ import {
   mongo_database,
   mongo_uri,
   mongo_protocol,
-} from "../config";
+} from "../_config";
 
 // https://developer.mongodb.com/community/forums/t/warning-accessing-non-existent-property-mongoerror-of-module-exports-inside-circular-dependency/15411
 const db_init = async () => {
