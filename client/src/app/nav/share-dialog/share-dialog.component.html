@@ -1,14 +1,14 @@
 <p>Editing link</p>
 <div>
-  <pre>{{ editLink }}</pre>
-  <button mat-button [cdkCopyToClipboard]="editLink">
+  <pre><div>{{ editLink }}</div> <button mat-icon-button [cdkCopyToClipboard]="editLink">
     <mat-icon> content_copy </mat-icon>
   </button>
+</pre>
 </div>
 <p>Service link (port 80)</p>
 <div>
-  <pre>{{ serviceLink }}</pre>
-  <button mat-button [cdkCopyToClipboard]="serviceLink">
+  <pre><div>{{ serviceLink }}</div> <button mat-icon-button [cdkCopyToClipboard]="serviceLink">
     <mat-icon> content_copy </mat-icon>
   </button>
+</pre>
 </div>

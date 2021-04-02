@@ -3,23 +3,19 @@
     margin-bottom: 4px;
   }
 
-  div {
-    display: flex;
-    justify-content: space-between;
-
+  > div {
     margin-bottom: 1.5rem;
 
     pre {
-      margin: auto 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
       width: 100%;
+      padding: 0.2rem 1rem;
     }
     button {
-      // width: 30px;
-      // height: 18px;
-      padding: 0 !important;
-      span {
-        width: 1rem;
-      }
+      margin-left: 2rem;
     }
   }
 }
