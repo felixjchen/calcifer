@@ -38,8 +38,8 @@ services:
       - PRODUCTION=TRUE
       - VIRTUAL_PORT=8080
       - VIRTUAL_PATH=/api/
-      - VIRTUAL_HOST=www.project-calcifer.ml
-      - LETSENCRYPT_HOST=www.project-calcifer.ml
+      - VIRTUAL_HOST=project-calcifer.ml
+      - LETSENCRYPT_HOST=project-calcifer.ml
     restart: always
 
   ssh:
@@ -49,8 +49,8 @@ services:
     environment:
       - VIRTUAL_PORT=8000
       - VIRTUAL_PATH=/ssh/
-      - VIRTUAL_HOST=www.project-calcifer.ml
-      - LETSENCRYPT_HOST=www.project-calcifer.ml
+      - VIRTUAL_HOST=project-calcifer.ml
+      - LETSENCRYPT_HOST=project-calcifer.ml
     restart: always
 
   docsync:
@@ -60,8 +60,8 @@ services:
     environment:
       - VIRTUAL_PORT=9000
       - VIRTUAL_PATH=/docsync/
-      - VIRTUAL_HOST=www.project-calcifer.ml
-      - LETSENCRYPT_HOST=www.project-calcifer.ml
+      - VIRTUAL_HOST=project-calcifer.ml
+      - LETSENCRYPT_HOST=project-calcifer.ml
     restart: always
 
   client:
@@ -71,8 +71,8 @@ services:
     environment:
       - VIRTUAL_PORT=3000
       - VIRTUAL_PATH=/
-      - VIRTUAL_HOST=www.project-calcifer.ml
-      - LETSENCRYPT_HOST=www.project-calcifer.ml
+      - VIRTUAL_HOST=project-calcifer.ml
+      - LETSENCRYPT_HOST=project-calcifer.ml
     restart: always
 
 volumes:
