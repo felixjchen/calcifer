@@ -46,6 +46,7 @@ services:
     ports:
       - "8000"
     environment:
+      - PRODUCTION=TRUE
       - VIRTUAL_PORT=8000
       - VIRTUAL_PATH=/ssh/
       - VIRTUAL_HOST=markl.tk
@@ -57,6 +58,7 @@ services:
     ports:
       - "9000"
     environment:
+      - PRODUCTION=TRUE
       - VIRTUAL_PORT=9000
       - VIRTUAL_PATH=/docsync/
       - VIRTUAL_HOST=markl.tk

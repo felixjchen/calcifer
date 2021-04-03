@@ -3,8 +3,7 @@ import mySFTP from "./SFTP";
 
 // Each namespace shares a shell
 const shells = {};
-// Keep hostnames for nice prompt
-const hostnames = {};
+const history = {};
 
 // Socket listens to one client
 // Broadcast across namespace, namespace per SSH target host
@@ -15,45 +14,49 @@ export const adapter = async (socket) => {
   console.log(config);
 
   let ssh = new SSH2Promise(config);
-  
+
   if (shells[host] === undefined) {
     // First to playground
     try {
       shells[host] = await ssh.shell();
+      history[host] = "";
       shells[host].on("data", (data) => {
+        history[host] += data.toString();
         namespace.emit("data", data.toString());
       });
-      // Get hostname for other's first prompt
-      hostnames[host] = (await ssh.exec(`hostname`)).trim();
     } catch (e) {
       console.log(e);
       return socket.emit("ssh_error_connecting");
     }
   } else {
-    // Not first, show nice prompt
-    const prompt = `${hostnames[host]}:~# `;
-    socket.emit("data", prompt);
+    // Not first, give user history
+    socket.emit("data", history[host]);
   }
 
   let sftp = new mySFTP(ssh);
 
   // File System Events
-  socket.on('getVisibleDirectoryLists', async (directoryPaths: string[]) => {
+  socket.on("getVisibleDirectoryLists", async (directoryPaths: string[]) => {
     const directoryPromises = [];
-    (directoryPaths ?? []).forEach(directoryPath => directoryPromises.push(sftp.readDirectoryByPath(directoryPath)));
+    (directoryPaths ?? []).forEach((directoryPath) =>
+      directoryPromises.push(sftp.readDirectoryByPath(directoryPath))
+    );
 
     const files = await Promise.all(directoryPromises);
-    const directoryFiles = directoryPaths.map((path, index) => ({ path, files: files[index] }));
+    const directoryFiles = directoryPaths.map((path, index) => ({
+      path,
+      files: files[index],
+    }));
 
-    socket.emit('visibleDirectoryLists', directoryFiles)
+    socket.emit("visibleDirectoryLists", directoryFiles);
   });
 
-  socket.on('getDirectoryList', async () => {
+  socket.on("getDirectoryList", async () => {
     let list = await sftp.readDirectoryByPath("/root");
     socket.emit("directoryList", list);
   });
 
-  socket.on('getDirectoryChildren', async (path: string) => {
+  socket.on("getDirectoryChildren", async (path: string) => {
     let children;
     try {
       children = await sftp.readDirectoryByPath(path);
@@ -61,7 +64,7 @@ export const adapter = async (socket) => {
       // todo: error handling
       return;
     }
-    socket.emit('directoryChildren', children);
+    socket.emit("directoryChildren", children);
   });
 
   // Shell Events
@@ -76,8 +79,8 @@ export const adapter = async (socket) => {
     try {
       content = await sftp.readfile(file.path);
     } catch (e) {
-      console.log(e)
-      console.log({ file })
+      console.log(e);
+      console.log({ file });
     }
     socket.emit("sendFile", { node: file, content });
   });

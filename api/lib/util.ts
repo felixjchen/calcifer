@@ -11,7 +11,7 @@ import * as child_process from "child_process";
 import * as util from "util";
 export const exec = util.promisify(child_process.exec);
 
-// Pull a playgrounds
+// Pull all playgrounds images, so don't do this on request time
 export const pull_playground_images = async () => {
   let { stdout } = await exec(
     "docker pull -a felixchen1998/calcifer-playground"
@@ -41,5 +41,5 @@ export const load_routers = async (app, models) => {
     app.use("/", router);
   });
 
-  console.log("Routers loaded");
+  console.log("routers loaded");
 };

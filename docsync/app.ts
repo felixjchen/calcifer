@@ -5,47 +5,33 @@ import ShareDB from "sharedb";
 import WebSocket from "ws";
 import WebSocketJSONStream from "@teamwork/websocket-json-stream";
 
-import { set_doc_content } from "./lib/util";
+import { load_routers } from "./lib/util";
+import { PORT, production } from "./config";
 
-const PORT = process.env.PORT || 9000;
-
+// Servers
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 const sharedb = new ShareDB();
 
-const cors = require("cors");
-app.use(cors());
-
-wss.on("connection", (ws, req) => {
-  const stream = new WebSocketJSONStream(ws);
-  sharedb.listen(stream);
-});
+// Cors for development
+if (!production) {
+  const cors = require("cors");
+  app.use(cors());
+}
 
 app.use(body_parser.json());
-app.put("/doc", async (req, res) => {
-  let { collection, documentID, content } = req.body;
-  if (collection === undefined || documentID === undefined) {
-    return res.status(400).json({
-      failure:
-        "req.body.collection, req.body.documentID and req.body.body must be defined",
-    });
-  }
 
-  const connection = sharedb.connect();
-  const doc = connection.get(collection, documentID);
-  try {
-    await set_doc_content(doc, content);
-  } catch (e) {
-    console.error(e);
-    return res.status(500).json({
-      failure: "server error",
-    });
-  }
+const init = async () => {
+  wss.on("connection", (ws, req) => {
+    const stream = new WebSocketJSONStream(ws);
+    sharedb.listen(stream);
+  });
 
-  return res.json({ success: "synced doc" });
-});
+  load_routers(app, sharedb);
 
-server.listen(PORT, function () {
-  console.log(`docsync server at 0.0.0.0:${PORT}`);
-});
+  server.listen(PORT, function () {
+    console.log(`docsync server at 0.0.0.0:${PORT}`);
+  });
+};
+init();
