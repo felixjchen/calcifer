@@ -14,8 +14,8 @@ if (!production) {
 }
 
 const init = async () => {
-  // Pull images
-  pull_playground_images();
+  // Pull playground images, so we dont do this during request time
+  await pull_playground_images();
   // Init DB
   const models = await db_init();
   // Load all endpoints

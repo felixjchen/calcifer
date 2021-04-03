@@ -3,36 +3,44 @@ import { production, domain } from "../config";
 import { exec } from "./util";
 
 // Most playgrounds are simple and can be started in one line
-const get_playground_command = (id: string, type: string): string => {
-  if (production) {
-    return `docker run --runtime=sysbox-runc -d --network project-calcifer_default --name=${id} --network-alias=${id} -e LETSENCRYPT_HOST=${id}.${domain} -e VIRTUAL_HOST=${id}.${domain} felixchen1998/calcifer-playground:${type}`;
-  } else {
-    return `docker run --privileged -d --network project-calcifer_default --name=${id} --network-alias=${id} --env VIRTUAL_PATH=/${id} felixchen1998/calcifer-playground:${type}`;
+const start_simple_playground = async (id: string, type: string) => {
+  try {
+    let command: string;
+    if (production) {
+      command = `docker run --runtime=sysbox-runc -d --network project-calcifer_default --name=${id} --network-alias=${id} -e LETSENCRYPT_HOST=${id}.${domain} -e VIRTUAL_HOST=${id}.${domain} felixchen1998/calcifer-playground:${type}`;
+    } else {
+      // Development is slightly different, we use virtual pathes
+      command = `docker run --privileged -d --network project-calcifer_default --name=${id} --network-alias=${id} --env VIRTUAL_PATH=/${id} felixchen1998/calcifer-playground:${type}`;
+    }
+    await exec(command);
+  } catch (err) {
+    throw new Error(err);
   }
 };
 
-// Start a kubectl container, k8 master and three k8 worders
+// Start a kubectl container, k8 master and three k8 workers
 const start_kind_playground = async (id: string) => {
   try {
     // Kubectl container
     let command = `docker run --runtime=sysbox-runc -d --network project-calcifer_default --name=${id} --network-alias=${id} -e LETSENCRYPT_HOST=${id}.${domain} -e VIRTUAL_HOST=${id}.${domain} felixchen1998/calcifer-playground:kind`;
-    console.log("Creating kubectl container");
+    console.log("creating kubectl container");
     await exec(command);
     // K8s cluster
     command = `lib/kindbox create --num-workers=3 --net=project-calcifer_default ${id}-cluster`;
-    console.log("Creating KIND cluster");
-    await exec(command);
-    // Copy config over to KIND container
-    command = `docker cp ~/.kube/${id}-cluster-config ${id}:"/root/.kube/${id}-cluster-config"`;
-    console.log("Copying kubeconfig to kubectl container");
-    await exec(command);
-    console.log("Seting kubeconfig");
-    command = `docker exec ${id} /bin/sh -c 'echo "export KUBECONFIG=/root/.kube/${id}-cluster-config" >> /root/.profile'`;
+    console.log("creating KIND cluster");
     await exec(command);
 
-    console.log(`Created kind for ${id}`);
-  } catch (e) {
-    console.log(e);
+    // Copy config over to KIND container
+    command = `docker cp ~/.kube/${id}-cluster-config ${id}:"/root/.kube/${id}-cluster-config"`;
+    await exec(command);
+    console.log("copied kubeconfig to kubectl container");
+    command = `docker exec ${id} /bin/sh -c 'echo "export KUBECONFIG=/root/.kube/${id}-cluster-config" >> /root/.profile'`;
+    await exec(command);
+    console.log("set kubeconfig");
+
+    console.log(`created kind for ${id}`);
+  } catch (err) {
+    throw new Error(err);
   }
 };
 
@@ -41,37 +49,48 @@ export const start_playground = async (
   id: string,
   type: string
 ): Promise<void> => {
-  console.log(`Starting ${type} playground for ${id}`);
-  if (type === "kind") {
-    // Kind clusers require special setup
-    await start_kind_playground(id);
-  } else {
-    // Single container setups
-    let command = get_playground_command(id, type);
-    let { stdout } = await exec(command);
-    stdout = stdout.trim();
-    console.log(
-      `Created container with ID ${stdout}, with playground ID ${id}`
-    );
+  console.log(`starting ${type} playground for ${id}`);
+  try {
+    if (type === "kind") {
+      // Kind clusers require special setup
+      await start_kind_playground(id);
+    } else {
+      // Single container setups
+      await start_simple_playground(id, type);
+    }
+  } catch (err) {
+    throw new Error(err);
   }
 };
 
 const kill_kind_playground = async (id: string) => {
-  // Kill Kubectl container
-  let command = `docker kill ${id}`;
-  await exec(command);
-  // Kill cluster
-  command = `lib/kindbox destroy ${id}-cluster`;
-  await exec(command);
+  try {
+    // Kill Kubectl container
+    let command = `docker kill ${id}`;
+    await exec(command);
+    // Kill cluster
+    command = `lib/kindbox destroy ${id}-cluster`;
+    await exec(command);
+  } catch (err) {
+    throw new Error(err);
+  }
 };
-const kill_container = async (id) => {
-  await exec(`docker kill ${id}`);
+const kill_simple_playground = async (id) => {
+  try {
+    await exec(`docker kill ${id}`);
+  } catch (err) {
+    throw new Error(err);
+  }
 };
 
 export const kill_playground = async (id, type) => {
-  if (type === "kind") {
-    kill_kind_playground(id);
-  } else {
-    kill_container(id);
+  try {
+    if (type === "kind") {
+      kill_kind_playground(id);
+    } else {
+      kill_simple_playground(id);
+    }
+  } catch (err) {
+    throw new Error(err);
   }
 };

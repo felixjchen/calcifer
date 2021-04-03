@@ -23,12 +23,13 @@ if (!production) {
 app.use(body_parser.json());
 
 const init = async () => {
-  wss.on("connection", (ws, req) => {
+  // For sharedb
+  wss.on("connection", (ws) => {
     const stream = new WebSocketJSONStream(ws);
     sharedb.listen(stream);
   });
 
-  load_routers(app, sharedb);
+  await load_routers(app, sharedb);
 
   server.listen(PORT, function () {
     console.log(`docsync server at 0.0.0.0:${PORT}`);

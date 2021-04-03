@@ -13,11 +13,9 @@ export const exec = util.promisify(child_process.exec);
 
 // Pull all playgrounds images, so don't do this on request time
 export const pull_playground_images = async () => {
-  let { stdout } = await exec(
-    "docker pull -a felixchen1998/calcifer-playground"
-  );
-
-  console.log(stdout);
+  console.log("starting pulling all playground images");
+  await exec("docker pull -a -q felixchen1998/calcifer-playground");
+  console.log("pulled playground images");
 };
 
 // Generate a random new playground id

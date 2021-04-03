@@ -9,14 +9,14 @@ export const get_router = (models) => {
   const router = express.Router();
   const { Playgrounds } = models;
 
-  router.get("/playgrounds", async (req, res) => {
-    try {
-      let playgrounds = await Playgrounds.find({}).limit(100);
-      return res.json(playgrounds);
-    } catch (e) {
-      return res.status(500).json({ failure: e.message });
-    }
-  });
+  // router.get("/playgrounds", async (req, res) => {
+  //   try {
+  //     let playgrounds = await Playgrounds.find({}).limit(100);
+  //     return res.json(playgrounds);
+  //   } catch (e) {
+  //     return res.status(500).json({ failure: e.message });
+  //   }
+  // });
 
   router.post("/playgrounds", async (req, res) => {
     let _id;
@@ -25,22 +25,19 @@ export const get_router = (models) => {
       return res.status(400).json({ failure: "req.body.type must be defined" });
     }
 
-    // Create document in MongoDB, we let mongoose check if its valid type for us :)
     try {
+      // Generate name
       _id = get_playground_id();
+      // Create document in MongoDB, we let mongoose check if its valid type for us :)
       await Playgrounds.create({ _id, type });
-    } catch (e) {
-      if (e instanceof Error.ValidationError) {
-        return res.status(400).json({ failure: e.message });
-      } else {
-        return res.status(500).json({ failure: e.message });
-      }
-    }
-
-    try {
+      // Start client containers
       await start_playground(_id, type);
-    } catch (e) {
-      return res.status(500).json({ failure: e.message });
+    } catch (err) {
+      if (err instanceof Error.ValidationError) {
+        return res.status(400).json({ failure: err.message });
+      } else {
+        return res.status(500).json({ failure: err.message });
+      }
     }
     res.json({ _id });
   });
@@ -87,8 +84,8 @@ export const get_router = (models) => {
       });
 
       res.send({ success });
-    } catch (e) {
-      return res.status(500).json({ failure: e.message });
+    } catch (err) {
+      return res.status(500).json({ failure: err.message });
     }
   });
 
