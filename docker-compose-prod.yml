@@ -12,7 +12,7 @@ services:
       - vhostd:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
       - /var/run/docker.sock:/tmp/docker.sock:ro
-    restart: always
+    restart: on-failure
 
   letsencrypt-nginx-proxy-companion:
     image: jrcs/letsencrypt-nginx-proxy-companion
@@ -24,7 +24,7 @@ services:
       - vhostd:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    restart: always
+    restart: on-failure
 
   api:
     build: api/.
@@ -40,7 +40,7 @@ services:
       - VIRTUAL_PATH=/api/
       - VIRTUAL_HOST=project-calcifer.ml
       - LETSENCRYPT_HOST=project-calcifer.ml
-    restart: always
+    restart: on-failure
 
   ssh:
     build: ssh/.
@@ -52,7 +52,10 @@ services:
       - VIRTUAL_PATH=/ssh/
       - VIRTUAL_HOST=project-calcifer.ml
       - LETSENCRYPT_HOST=project-calcifer.ml
-    restart: always
+    restart: on-failure
+  ssh_redis:
+    image: redis
+    restart: on-failure
 
   docsync:
     build: docsync/.
@@ -64,7 +67,7 @@ services:
       - VIRTUAL_PATH=/docsync/
       - VIRTUAL_HOST=project-calcifer.ml
       - LETSENCRYPT_HOST=project-calcifer.ml
-    restart: always
+    restart: on-failure
 
   client:
     image: felixchen1998/calcifer-client:latest
@@ -75,7 +78,7 @@ services:
       - VIRTUAL_PATH=/
       - VIRTUAL_HOST=project-calcifer.ml
       - LETSENCRYPT_HOST=project-calcifer.ml
-    restart: always
+    restart: on-failure
 
 volumes:
   certs:

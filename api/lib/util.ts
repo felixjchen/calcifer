@@ -13,7 +13,7 @@ export const exec = util.promisify(child_process.exec);
 
 // Pull all playgrounds images, so don't do this on request time
 export const pull_playground_images = async () => {
-  console.log("starting pulling all playground images");
+  console.log("started pulling all playground images");
   await exec("docker pull -a -q felixchen1998/calcifer-playground");
   console.log("pulled playground images");
 };

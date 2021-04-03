@@ -1,28 +1,29 @@
 import SSH2Promise from "ssh2-promise";
-import mySFTP from "./SFTP";
+import mySFTP from "./sftp";
 
 // Each namespace shares a shell
 const shells = {};
-const history = {};
 
 // Socket listens to one client
 // Broadcast across namespace, namespace per SSH target host
-export const adapter = async (socket) => {
+export const adapter = async (socket, history) => {
   let namespace = socket.nsp;
   let { host, username, password } = socket.handshake.query;
   let config = { host, username, password };
   console.log(config);
 
   let ssh = new SSH2Promise(config);
+  let sftp = new mySFTP(ssh);
 
   if (shells[host] === undefined) {
     // First to playground
     try {
       shells[host] = await ssh.shell();
-      history[host] = "";
+      await history.init(host);
       shells[host].on("data", (data) => {
-        history[host] += data.toString();
         namespace.emit("data", data.toString());
+        // no need to await this
+        history.append(host, data);
       });
     } catch (e) {
       console.log(e);
@@ -30,10 +31,8 @@ export const adapter = async (socket) => {
     }
   } else {
     // Not first, give user history
-    socket.emit("data", history[host]);
+    socket.emit("data", await history.get(host));
   }
-
-  let sftp = new mySFTP(ssh);
 
   // File System Events
   socket.on("getVisibleDirectoryLists", async (directoryPaths: string[]) => {

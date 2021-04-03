@@ -2,18 +2,20 @@ import express from "express";
 import http from "http";
 import { Server } from "socket.io";
 import { adapter } from "./lib/adapter";
-
-const PORT = process.env.PORT || 8000;
+import { History } from "./lib/history";
+import { socketio_options, socketio_namespace_regex, PORT } from "./config";
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server, { cors: { origin: "*" } });
+const io = new Server(server, socketio_options);
 
-// Playgrounds use hexadecimal IDs
-// const namespaces = io.of(/[a-zA-Z-_]+$/);
-const namespaces = io.of(/.+$/);
+// Redis shell history for subsequent clients
+const history = new History();
+
+// Playgrounds use "adjective-animal" ids in prod, but in dev we use as a normal ssh client
+const namespaces = io.of(socketio_namespace_regex);
 namespaces.on("connection", (socket) => {
-  adapter(socket);
+  adapter(socket, history);
 });
 
 server.listen(PORT, function () {
