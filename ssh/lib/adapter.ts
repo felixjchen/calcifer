@@ -18,7 +18,7 @@ export const adapter = async (socket, history) => {
   if (shells[host] === undefined) {
     // First to playground
     try {
-      shells[host] = await ssh.shell();
+      shells[host] = await ssh.shell({ cols: 150 });
       await history.init(host);
       shells[host].on("data", (data) => {
         namespace.emit("data", data.toString());

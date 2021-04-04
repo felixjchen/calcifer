@@ -6,7 +6,18 @@ export class History {
 
   constructor() {
     this.redis = new RedisClient({ host: redis_host });
-    console.log(`connected to redis ${redis_host}`);
+    this.redis.on("connect", () => {
+      console.log(`connected to redis ${redis_host}`);
+    });
+    this.redis.on("error", (err) => {
+      if (err.code === "ECONNREFUSED") {
+        console.log(
+          "Couldn't connect to redis, try docker run -p 6379:6379 redis"
+        );
+      } else {
+        console.log(err);
+      }
+    });
   }
 
   async init(key: string) {

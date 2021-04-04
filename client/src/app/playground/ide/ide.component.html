@@ -1,5 +1,5 @@
 <as-split direction="horizontal" [gutterSize]="9">
-  <as-split-area [size]="15">
+  <as-split-area [size]="10">
     <app-file-system-explorer
       (selectFile)="selectFile.emit($event)"
       [treeControl]="treeControl"
@@ -15,7 +15,7 @@
       [class.hidden]="activeMenu.name !== 'settings'"
     ></app-settings>
   </as-split-area>
-  <as-split-area [size]="85">
+  <as-split-area [size]="90">
     <as-split direction="vertical" [gutterSize]="9">
       <as-split-area [size]="70">
         <app-editor></app-editor>
