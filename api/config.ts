@@ -1,6 +1,6 @@
 export const production = process.env.PRODUCTION === "TRUE";
 // Used for container routing
-export const domain = production ? "project-calcifer.ml" : "markl.tk";
+export const domain = process.env.VIRTUAL_HOST || "project-calcifer.ml";
 // in days
 export const stale_buffer = 1;
 
