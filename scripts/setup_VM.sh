@@ -40,12 +40,20 @@ sudo ln -s /snap/bin/certbot /usr/bin/certbot
 # Get star cert
 # https://marcincuber.medium.com/lets-encrypt-generating-wildcard-ssl-certificate-using-certbot-ae1c9484c101
 # https://www.digitalocean.com/community/tutorials/how-to-acquire-a-let-s-encrypt-certificate-using-dns-validation-with-acme-dns-certbot-on-ubuntu-18-04
+# https://en.wikipedia.org/wiki/Wildcard_certificate
+# NOTE THE "NAKED" base domain for SAN cert
 certbot certonly --manual \
   --preferred-challenges=dns \
   --email felixchen1998@gmail.com \
   --server https://acme-v02.api.letsencrypt.org/directory \
   --agree-tos \
-  -d *.markl.tk
+  -d *.markl.tk \
+  -d markl.tk
+
+# copy certs
+mkdir ~/certs 
+cp /etc/letsencrypt/live/markl.tk/privkey.pem markl.tk.key 
+cp /etc/letsencrypt/live/markl.tk/fullchain.pem markl.tk.crt
 
 # Git login and clone
 git clone https://github.com/UTSCC09/project-calcifer.git
