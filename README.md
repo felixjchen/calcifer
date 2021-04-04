@@ -3,7 +3,8 @@
 
 [staging](https://markl.tk/)
 
-## Services
+## Github Actions
+### Services
 
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/ssh-service.yml/badge.svg)
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/docsync-service.yml/badge.svg)
@@ -11,7 +12,7 @@
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/client-service.yml/badge.svg)
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/nginx-proxy.yml/badge.svg)
 
-## Playgrounds
+### Playgrounds
 
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/kind-playground.yml/badge.svg)
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/dind-playground.yml/badge.svg)
