@@ -11,7 +11,7 @@ services:
       # - certs:/etc/nginx/certs:ro
       # - vhostd:/etc/nginx/vhost.d
       # - html:/usr/share/nginx/html
-      - /certs:/etc/nginx/certs:ro
+      - ~/certs:/etc/nginx/certs:ro
       - /var/run/docker.sock:/tmp/docker.sock:ro
     restart: on-failure
 
