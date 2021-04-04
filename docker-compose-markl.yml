@@ -8,23 +8,24 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - certs:/etc/nginx/certs:ro
-      - vhostd:/etc/nginx/vhost.d
-      - html:/usr/share/nginx/html
+      # - certs:/etc/nginx/certs:ro
+      # - vhostd:/etc/nginx/vhost.d
+      # - html:/usr/share/nginx/html
+      - /certs:/etc/nginx/certs:ro
       - /var/run/docker.sock:/tmp/docker.sock:ro
     restart: on-failure
 
-  letsencrypt-nginx-proxy-companion:
-    image: jrcs/letsencrypt-nginx-proxy-companion
-    environment:
-      - NGINX_PROXY_CONTAINER=project-calcifer_nginx-proxy_1
-      - DEFAULT_EMAIL=felixchen1998@gmail.com
-    volumes:
-      - certs:/etc/nginx/certs
-      - vhostd:/etc/nginx/vhost.d
-      - html:/usr/share/nginx/html
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    restart: on-failure
+  # letsencrypt-nginx-proxy-companion:
+  #   image: jrcs/letsencrypt-nginx-proxy-companion
+  #   environment:
+  #     - NGINX_PROXY_CONTAINER=project-calcifer_nginx-proxy_1
+  #     - DEFAULT_EMAIL=felixchen1998@gmail.com
+  #   volumes:
+  #     - certs:/etc/nginx/certs
+  #     - vhostd:/etc/nginx/vhost.d
+  #     - html:/usr/share/nginx/html
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #   restart: on-failure
 
   api:
     build: api/.
@@ -39,7 +40,7 @@ services:
       - VIRTUAL_PORT=8080
       - VIRTUAL_PATH=/api/
       - VIRTUAL_HOST=markl.tk
-      - LETSENCRYPT_HOST=markl.tk
+      # - LETSENCRYPT_HOST=markl.tk
     restart: on-failure
 
   ssh:
@@ -53,7 +54,7 @@ services:
       - VIRTUAL_PORT=8000
       - VIRTUAL_PATH=/ssh/
       - VIRTUAL_HOST=markl.tk
-      - LETSENCRYPT_HOST=markl.tk
+      # - LETSENCRYPT_HOST=markl.tk
     restart: on-failure
   ssh_redis:
     image: redis
@@ -68,7 +69,7 @@ services:
       - VIRTUAL_PORT=9000
       - VIRTUAL_PATH=/docsync/
       - VIRTUAL_HOST=markl.tk
-      - LETSENCRYPT_HOST=markl.tk
+      # - LETSENCRYPT_HOST=markl.tk
     restart: on-failure
 
   client:
@@ -79,10 +80,9 @@ services:
       - VIRTUAL_PORT=3000
       - VIRTUAL_PATH=/
       - VIRTUAL_HOST=markl.tk
-      - LETSENCRYPT_HOST=markl.tk
+      # - LETSENCRYPT_HOST=markl.tk
     restart: on-failure
-
-volumes:
-  certs:
-  html:
-  vhostd:
+# volumes:
+#   certs:
+#   html:
+#   vhostd:

@@ -26,13 +26,26 @@ sudo chmod +x /usr/local/bin/docker-compose
 # sudo apt-get install -y linux-headers-$(uname -r)
 # sudo apt-get install linux-image-5.4.0-66-generic
 
-# THIS NEEDS 0.3, I GOT AN ADVANCED COPY :) 
 # Install sysbox
 # https://github.com/nestybox/sysbox
-wget https://github.com/nestybox/sysbox/releases/download/v0.2.1/sysbox_0.2.1-0.ubuntu-focal_amd64.deb
+wget https://github.com/nestybox/sysbox/releases/download/v0.3.0/sysbox-ce_0.3.0-0.ubuntu-focal_amd64.deb
 sudo apt-get install ./sysbox_0.2.1-0.ubuntu-focal_amd64.deb -y
 rm sysbox_0.2.1-0.ubuntu-focal_amd64.deb
 
+# Install Certbot
+# https://certbot.eff.org/lets-encrypt/ubuntufocal-nginx
+sudo snap install core; sudo snap refresh core
+sudo snap install --classic certbot
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+# Get star cert
+# https://marcincuber.medium.com/lets-encrypt-generating-wildcard-ssl-certificate-using-certbot-ae1c9484c101
+# https://www.digitalocean.com/community/tutorials/how-to-acquire-a-let-s-encrypt-certificate-using-dns-validation-with-acme-dns-certbot-on-ubuntu-18-04
+certbot certonly --manual \
+  --preferred-challenges=dns \
+  --email felixchen1998@gmail.com \
+  --server https://acme-v02.api.letsencrypt.org/directory \
+  --agree-tos \
+  -d *.markl.tk
 
 # Git login and clone
 git clone https://github.com/UTSCC09/project-calcifer.git
