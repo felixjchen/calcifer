@@ -44,6 +44,8 @@ services:
 
   ssh:
     build: ssh/.
+    depends_on:
+      - ssh_redis
     ports:
       - "8000"
     environment:
