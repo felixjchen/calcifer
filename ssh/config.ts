@@ -2,7 +2,7 @@ export const production = process.env.PRODUCTION === "TRUE";
 console.log({ production });
 
 // Prod can take port from environment vars
-export const PORT = process.env.PORT || 8000;
+export const PORT = process.env.VIRTUAL_PORT || 8000;
 
 // Need cors for dev work (different ports)
 export const socketio_options = production ? {} : { cors: { origin: "*" } };

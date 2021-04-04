@@ -2,9 +2,8 @@ import * as express from "express";
 import * as body_parser from "body-parser";
 import { db_init } from "./lib/db";
 import { load_routers, pull_playground_images } from "./lib/util";
-import { production } from "./config";
+import { production, PORT } from "./config";
 
-const port = 8080;
 const app = express();
 app.use(body_parser.json());
 
@@ -21,8 +20,8 @@ const init = async () => {
   // Load all endpoints
   await load_routers(app, models);
 
-  app.listen(port, "0.0.0.0", () => {
-    console.log(`api server at http://localhost:${port}`);
+  app.listen(PORT, "0.0.0.0", () => {
+    console.log(`api server at http://localhost:${PORT}`);
   });
 };
 
