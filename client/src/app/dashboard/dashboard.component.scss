@@ -22,6 +22,7 @@ $large: 1400px;
   }
 
   img {
+    filter: invert(0.6);
     object-fit: contain;
     width: 40%;
   }

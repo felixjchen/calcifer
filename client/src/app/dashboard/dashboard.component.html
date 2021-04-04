@@ -6,7 +6,7 @@
       matTooltip="{{ button.label }}"
       matTooltipClass="dashboard-labels"
       [matTooltipShowDelay]="50"
-      mat-raised-button
+      mat-stroked-button
       *ngFor="let button of playgroundButtons"
       (click)="createDashboard(button.type)"
     >
