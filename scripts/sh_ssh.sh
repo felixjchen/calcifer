@@ -1,1 +1,0 @@
-docker exec -it project-calcifer_ssh_1 sh

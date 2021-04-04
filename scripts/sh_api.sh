@@ -1,1 +1,0 @@
-docker exec -it project-calcifer_api_1 sh

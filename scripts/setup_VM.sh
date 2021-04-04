@@ -1,4 +1,4 @@
-# For Ubuntu 18.04 VM
+# For Ubuntu 18.04/20.04 VM 
 
 # Install Git
 # https://www.digitalocean.com/community/tutorials/how-to-install-git-on-ubuntu-18-04-quickstart
@@ -20,6 +20,7 @@ sudo chmod 666 /var/run/docker.sock
 sudo curl -L "https://github.com/docker/compose/releases/download/1.28.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 
+# IF 18.04 
 # Need Kernel 5+ for sysbox requirements
 # https://github.com/nestybox/sysbox/blob/master/docs/distro-compat.md
 # sudo apt update
@@ -47,13 +48,13 @@ certbot certonly --manual \
   --email felixchen1998@gmail.com \
   --server https://acme-v02.api.letsencrypt.org/directory \
   --agree-tos \
-  -d *.markl.tk \
-  -d markl.tk
+  -d *.project-calcifer.ml \
+  -d project-calcifer.ml
 
-# copy certs
+# copy certs, to where docker volume will be mounted
 mkdir ~/certs 
-cp /etc/letsencrypt/live/markl.tk/privkey.pem markl.tk.key 
-cp /etc/letsencrypt/live/markl.tk/fullchain.pem markl.tk.crt
+cp /etc/letsencrypt/live/project-calcifer.ml/privkey.pem ~/certs/project-calcifer.ml.key 
+cp /etc/letsencrypt/live/project-calcifer.ml/fullchain.pem ~/certs/project-calcifer.ml.crt
 
 # Git login and clone
 git clone https://github.com/UTSCC09/project-calcifer.git
