@@ -43,6 +43,8 @@ services:
 
   ssh:
     build: ssh/.
+    depends_on:
+      - ssh_redis
     ports:
       - "8000"
     environment:
@@ -69,7 +71,7 @@ services:
     restart: on-failure
 
   client:
-    image: felixchen1998/calcifer-client:markl
+    image: felixchen1998/calcifer-client:latest
     ports:
       - "3000"
     environment:
