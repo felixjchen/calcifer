@@ -23,11 +23,4 @@
 
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/deploy.yml/badge.svg) -->
 
-## Certs
-
-https://tools.letsdebug.net/cert-search?m=domain&q=project-calcifer.ml&d=168
-
-## Network Diagram
-
-![d](https://user-images.githubusercontent.com/31393977/113252785-4a0a4680-9292-11eb-9a10-a191f7ebd5a7.png)
 
