@@ -1,5 +1,6 @@
-## Links
+## Hosts
 [production](https://project-calcifer.ml/)
+
 [staging](https://markl.tk/)
 
 ## Services
