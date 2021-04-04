@@ -12,6 +12,15 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
     restart: on-failure
 
+  client:
+    image: felixchen1998/calcifer-client:latest
+    ports:
+      - "3000"
+    environment:
+      - VIRTUAL_PORT=3000
+      - VIRTUAL_PATH=/
+      - VIRTUAL_HOST=markl.tk
+
   api:
     build: api/.
     privileged: true
@@ -53,12 +62,3 @@ services:
       - VIRTUAL_PATH=/docsync/
       - VIRTUAL_HOST=markl.tk
     restart: on-failure
-
-  client:
-    image: felixchen1998/calcifer-client:latest
-    ports:
-      - "3000"
-    environment:
-      - VIRTUAL_PORT=3000
-      - VIRTUAL_PATH=/
-      - VIRTUAL_HOST=markl.tk

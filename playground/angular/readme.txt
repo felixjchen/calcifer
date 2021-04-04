@@ -6,3 +6,5 @@ NOTE: Given this current url, anyone can see this environment. Therefore please 
 
 Try:
 ng new my-app
+cd my-app 
+ng serve --port 80 --host "0.0.0.0" --public-host {id}.project-calcifer.ml

@@ -1,8 +1,4 @@
-# For Ubuntu 18.04/20.04 VM 
-
-# Install Git
-# https://www.digitalocean.com/community/tutorials/how-to-install-git-on-ubuntu-18-04-quickstart
-sudo apt update && sudo apt install git
+# For Ubuntu 20.04 VM 
 
 # Install docker
 # https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04
@@ -20,18 +16,12 @@ sudo chmod 666 /var/run/docker.sock
 sudo curl -L "https://github.com/docker/compose/releases/download/1.28.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 
-# IF 18.04 
-# Need Kernel 5+ for sysbox requirements
-# https://github.com/nestybox/sysbox/blob/master/docs/distro-compat.md
-# sudo apt update
-# sudo apt-get install -y linux-headers-$(uname -r)
-# sudo apt-get install linux-image-5.4.0-66-generic
 
 # Install sysbox
 # https://github.com/nestybox/sysbox
 wget https://github.com/nestybox/sysbox/releases/download/v0.3.0/sysbox-ce_0.3.0-0.ubuntu-focal_amd64.deb
-sudo apt-get install ./sysbox_0.2.1-0.ubuntu-focal_amd64.deb -y
-rm sysbox_0.2.1-0.ubuntu-focal_amd64.deb
+sudo apt-get install ./sysbox-ce_0.3.0-0.ubuntu-focal_amd64.deb -y
+rm sysbox-ce_0.3.0-0.ubuntu-focal_amd64.deb 
 
 # Install Certbot
 # https://certbot.eff.org/lets-encrypt/ubuntufocal-nginx
@@ -57,7 +47,8 @@ cp /etc/letsencrypt/live/project-calcifer.ml/privkey.pem ~/certs/project-calcife
 cp /etc/letsencrypt/live/project-calcifer.ml/fullchain.pem ~/certs/project-calcifer.ml.crt
 
 # Git login and clone
+cd ~
 git clone https://github.com/UTSCC09/project-calcifer.git
 # Add nginx submodule
-cd project-calfier
+cd project-calcifer
 git submodule update --init --recursive

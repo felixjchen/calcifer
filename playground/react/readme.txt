@@ -6,3 +6,6 @@ NOTE: Given this current url, anyone can see this environment. Therefore please 
 
 Try:
 npx create-react-app my-app
+cd my-app
+PORT=80 npm run start
+* go see the service link

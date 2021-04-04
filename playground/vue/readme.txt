@@ -6,3 +6,6 @@ NOTE: Given this current url, anyone can see this environment. Therefore please 
 
 Try:
 vue create hello-world
+cd hello-world
+echo "module.exports = {devServer: {disableHostCheck: true}}" > vue.config.js
+npm run serve -- --port 80
