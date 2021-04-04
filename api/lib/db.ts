@@ -22,7 +22,7 @@ const db_init = async () => {
       `${mongo_protocol}://${mongo_user}:${mongo_password}@${mongo_uri}/${mongo_database}?retryWrites=true&w=majority`,
       mongo_options
     );
-    console.log(`MongoDB connect successful`);
+    console.log(`connected to MongoDB`);
   } catch (error) {
     console.error(error);
   }
