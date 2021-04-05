@@ -1,7 +1,8 @@
-## Hosts
-[production](https://project-calcifer.ml/)
+📓 [Documentation](https://github.com/UTSCC09/project-calcifer/wiki)
 
-[staging](https://markl.tk/)
+🌐 [project-calcifer.ml](https://project-calcifer.ml/)
+
+⚠️ [markl.tk (STAGE)](https://markl.tk/)
 
 ## Github Actions
 ### Services
