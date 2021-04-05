@@ -26,8 +26,8 @@ export const adapter = async (socket, history) => {
         // no need to await this
         history.append(host, data);
       });
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      socket.emit("backendError", err.messages);
       return socket.emit("ssh_error_connecting");
     }
   } else {
@@ -35,83 +35,106 @@ export const adapter = async (socket, history) => {
     socket.emit("data", await history.get(host));
   }
 
-  // File System Events
-  socket.on("getVisibleDirectoryLists", async (directoryPaths: string[]) => {
-    const directoryPromises = [];
-    (directoryPaths ?? []).forEach((directoryPath) =>
-      directoryPromises.push(sftp.readDirectoryByPath(directoryPath))
-    );
-
-    const files = await Promise.all(directoryPromises);
-    const directoryFiles = directoryPaths.map((path, index) => ({
-      path,
-      files: files[index],
-    }));
-
-    socket.emit("visibleDirectoryLists", directoryFiles);
-  });
-
-  socket.on("getDirectoryList", async () => {
-    let list = await sftp.readDirectoryByPath("/root");
-    socket.emit("directoryList", list);
-  });
-
-  socket.on("getDirectoryChildren", async (path: string) => {
-    let children;
-    try {
-      children = await sftp.readDirectoryByPath(path);
-    } catch {
-      // todo: error handling
-      return;
-    }
-    socket.emit("directoryChildren", children);
-  });
-
   // Shell Events
   socket.on("data", (data) => {
-    shells[host].write(data);
+    try {
+      shells[host].write(data);
+    } catch (err) {
+      socket.emit("backendErrorMessage", err.message);
+    }
   });
 
-  // File System Explorer events
+  // File Explorer Diff Tree events
+  socket.on("getVisibleDirectoryLists", async (directoryPaths: string[]) => {
+    try {
+      const directoryPromises = [];
+      (directoryPaths ?? []).forEach((directoryPath) =>
+        directoryPromises.push(sftp.readDirectoryByPath(directoryPath))
+      );
+      const files = await Promise.all(directoryPromises);
+      const directoryFiles = directoryPaths.map((path, index) => ({
+        path,
+        files: files[index],
+      }));
+      socket.emit("visibleDirectoryLists", directoryFiles);
+    } catch (err) {
+      socket.emit("backendError", err.messages);
+    }
+  });
+  socket.on("getDirectoryList", async () => {
+    try {
+      const list = await sftp.readDirectoryByPath("/root");
+      socket.emit("directoryList", list);
+    } catch (err) {
+      socket.emit("backendError", err.messages);
+    }
+  });
+  socket.on("getDirectoryChildren", async (path: string) => {
+    try {
+      const children = await sftp.readDirectoryByPath(path);
+      socket.emit("directoryChildren", children);
+    } catch (err) {
+      socket.emit("backendError", err.messages);
+    }
+  });
+
+  // File System events
   // https://github.com/mscdex/ssh2-streams/blob/master/SFTPStream.md
   socket.on("getFile", async (file) => {
-    let content;
     try {
-      content = await sftp.readfile(file.path);
-    } catch (e) {
-      console.log(e);
-      console.log({ file });
+      let content = await sftp.readfile(file.path);
+      socket.emit("sendFile", { node: file, content });
+    } catch (err) {
+      socket.emit("backendErrorMessage", err.message);
     }
-    socket.emit("sendFile", { node: file, content });
   });
   socket.on("writeFile", (path, content) => {
-    sftp.writefile(path, content);
+    try {
+      sftp.writefile(path, content);
+    } catch (err) {
+      socket.emit("backendErrorMessage", err.message);
+    }
   });
   socket.on("deleteFile", (path) => {
-    sftp.unlink(path);
+    try {
+      sftp.unlink(path);
+    } catch (err) {
+      socket.emit("backendErrorMessage", err.message);
+    }
   });
   socket.on("renameFile", async ({ path, newPath }) => {
-    await sftp.rename(path, newPath);
+    try {
+      sftp.rename(path, newPath);
+    } catch (err) {
+      socket.emit("backendErrorMessage", err.message);
+    }
   });
   socket.on("makeDir", (path) => {
-    sftp.mkdir(path);
+    try {
+      sftp.mkdir(path);
+    } catch (err) {
+      socket.emit("backendErrorMessage", err.message);
+    }
   });
   socket.on("deleteDir", (path) => {
-    sftp.rmdir(path);
+    try {
+      sftp.rmdir(path);
+    } catch (err) {
+      socket.emit("backendErrorMessage", err.message);
+    }
   });
 
   // Search Events
-  socket.on("searchByKeyword", (keyword) => {
-    ssh.exec(`grep -rnw './' -e '.*${keyword}.*'`).then((response) => {
-      try {
-        const payload = {
-          matches: response.split("\n").filter((s) => s.length > 0),
-        };
-        socket.emit("searchResult", payload);
-      } catch {
-        socket.emit("searchResult", "");
-      }
-    });
+  socket.on("searchByKeyword", async (keyword) => {
+    try {
+      let grep = await ssh.exec(`grep -rnw './' -e '.*${keyword}.*'`);
+      const payload = {
+        matches: grep.split("\n").filter((s) => s.length > 0),
+      };
+      socket.emit("searchResult", payload);
+    } catch (err) {
+      socket.emit("backendErrorMessage", err.message);
+    }
   });
 
   // Close events

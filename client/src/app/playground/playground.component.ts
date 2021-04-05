@@ -6,9 +6,12 @@ import { FileStoreService } from './services/file-store.service';
 import { RouteParamStoreService } from './services/route-param-store.service';
 import { ActivatedRoute } from '@angular/router';
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { FileDataSource, FileFlatNode } from './ide/file-system-explorer/file-data-source';
+import {
+  FileDataSource,
+  FileFlatNode,
+} from './ide/file-system-explorer/file-data-source';
 import { timer } from 'rxjs';
-import { threadId } from 'node:worker_threads';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-playground',
@@ -61,8 +64,9 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
     private _route: ActivatedRoute,
     private _routeParamStore: RouteParamStoreService,
     private _socketService: SocketioService,
-    private _fileStore: FileStoreService
-  ) { }
+    private _fileStore: FileStoreService,
+    private _snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this._route.params.subscribe((params) => {
@@ -70,42 +74,60 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
       this._routeParamStore.playgroundId$.next(_id);
 
       this._socketService.init(_id);
+      this._fileStore.init();
 
       this._socketService.once('directoryList', (files: FileNode[]) => {
         this.dataSource.update(files);
       });
 
-      this._socketService.emit('getDirectoryList')
+      this._socketService.emit('getDirectoryList');
 
-      this._socketService.on('searchResult', (result: { matches: string[] }) => {
-        this.matches = result.matches;
-      });
+      this._socketService.on(
+        'searchResult',
+        (result: { matches: string[] }) => {
+          this.matches = result.matches;
+        }
+      );
 
-      this._fileStore.init();
-
-        // Although polling is inefficient, it will provide a better user experience, especially when the OS is changing the FS on its on, causing no updates to be pushed out.
+      // Although polling is inefficient, it will provide a better user experience, especially when the OS is changing the FS on its on, causing no updates to be pushed out.
       timer(0, 2000).subscribe(() => {
         this.refresh();
       });
 
-      this._socketService.on('visibleDirectoryLists', (res: { path: string, files: FileNode[] }[] = []) => {
-        res.forEach(({ path, files }) => {
-          if (path === '/root') {
-            this.dataSource.updateRootChildren(files);
-            return;
-          }
+      this._socketService.on(
+        'visibleDirectoryLists',
+        (res: { path: string; files: FileNode[] }[] = []) => {
+          res.forEach(({ path, files }) => {
+            if (path === '/root') {
+              this.dataSource.updateRootChildren(files);
+              return;
+            }
 
-          const node = this.dataSource.data.find(flatNode => flatNode.path === path);
-          if (node) {
-            this.dataSource.updateNodeChildren(node, files);
-          }
+            const node = this.dataSource.data.find(
+              (flatNode) => flatNode.path === path
+            );
+            if (node) {
+              this.dataSource.updateNodeChildren(node, files);
+            }
+          });
+        }
+      );
+
+      // Error snack bar
+      this._socketService.on('backendErrorMessage', (error_message: string) => {
+        this._snackBar.open(error_message, 'Close', {
+          duration: 5 * 1000,
+          horizontalPosition: 'right',
+          verticalPosition: 'top',
         });
-      })
+      });
     });
   }
-  
+
   refresh(): void {
-    this._socketService.emit('getVisibleDirectoryLists', [...this._fileStore.expandedDirectories]);
+    this._socketService.emit('getVisibleDirectoryLists', [
+      ...this._fileStore.expandedDirectories,
+    ]);
   }
 
   ngOnDestroy(): void {
