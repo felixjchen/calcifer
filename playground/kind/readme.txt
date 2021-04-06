@@ -1,16 +1,17 @@
-This playground has kubectl, vim, git and openssh.
-
-The kube context for your Kuberenetes in Docker can be found in ~/.kube/, but the kubectl should already recognize this (~/.profile).
+Alpine container with kubectl, vim, git and curl. Port 80 on your playground is reverse proxied from https://{id}.project-calcifer.ml, see the share tab.
 
 Your K8s cluster contains:
   - A kubectl container, with address {id}
-  - A master node, with address {id}-cluster-master
-  - A worker node, with address {id}-cluster-worker-0
-  - A worker node, with address {id}-cluster-worker-1
-  - A worker node, with address {id}-cluster-worker-2
+  - Worker node 0, with address {id}-cluster-worker-0
+  - Worker node 1, with address {id}-cluster-worker-1
+  - Worker node 2, with address {id}-cluster-worker-2
+  - A master node
 
-NOTE: Given this current url, anyone can see this environment. Therefore please do not put any credentials on this service. 
-NETWORK: Worker nodes have their port 30000 reverse proxied from {id}-cluster-worker-{i}.project-calcifer.ml, for NodePorts
+The kube context for your Kuberenetes in Docker can be found in ~/.kube/, but kubectl should already recognize this (~/.profile).
+
+NETWORK: Worker nodes have their port 30000 reverse proxied from {id}-cluster-worker-{i}.project-calcifer.ml for NodePorts
+
+WARNING: Given the edit link, anyone can see this environment, please do not put any credentials on this service. 
 
 Try:
 

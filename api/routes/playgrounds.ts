@@ -10,7 +10,6 @@ export const get_router = (models) => {
   const { Playgrounds } = models;
 
   router.post("/playgrounds", async (req, res) => {
-    let _id;
     const { type } = req.body;
     if (type === undefined) {
       return res.status(400).json({ failure: "req.body.type must be defined" });
@@ -18,11 +17,12 @@ export const get_router = (models) => {
 
     try {
       // Generate name
-      _id = get_playground_id();
+      let _id = get_playground_id();
       // Create document in MongoDB, we let mongoose check if its valid type for us :)
       await Playgrounds.create({ _id, type });
       // Start client containers
       await start_playground(_id, type);
+      return res.json({ _id });
     } catch (err) {
       if (err instanceof Error.ValidationError) {
         return res.status(400).json({ failure: err.message });
@@ -30,7 +30,6 @@ export const get_router = (models) => {
         return res.status(500).json({ failure: err.message });
       }
     }
-    res.json({ _id });
   });
 
   router.get("/playgrounds/:_id", async (req, res) => {

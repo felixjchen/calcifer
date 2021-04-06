@@ -1,5 +1,4 @@
 import { production, domain } from "../config";
-// https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback
 import { exec } from "./util";
 
 // Most playgrounds are simple and can be started in one line

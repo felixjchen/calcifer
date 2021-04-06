@@ -14,19 +14,18 @@ export const get_router = (sharedb) => {
       });
     }
 
-    let response_message: string;
     try {
+      let response_message: string;
       const connection = sharedb.connect();
       const doc = connection.get(collection, documentID);
       response_message = await set_doc_content(doc, content);
+      return res.json({ success: response_message });
     } catch (err) {
       console.error(err);
       return res.status(500).json({
         failure: err,
       });
     }
-
-    return res.json({ success: response_message });
   });
 
   return router;
