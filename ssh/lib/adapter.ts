@@ -25,6 +25,16 @@ export const adapter = async (socket, history) => {
         namespace.emit("shellData", data.toString());
         history.append(host, data);
       });
+
+      // Close events
+      shells[host].on("close", (e) => {
+        console.log("ssh closed for host", host);
+        ssh.close();
+      });
+      shells[host].on("error", (e) => {
+        console.log("ssh closed for host", host, e);
+        ssh.close();
+      });
     } else {
       // Not first, give user history from Redis
       socket.emit("shellData", await history.get(host));
@@ -136,15 +146,5 @@ export const adapter = async (socket, history) => {
     } catch (err) {
       socket.emit("backendErrorMessage", err.message);
     }
-  });
-
-  // Close events
-  shells[host].on("close", (e) => {
-    console.log("ssh closed for host", host);
-    ssh.close();
-  });
-  shells[host].on("error", (e) => {
-    console.log("ssh closed for host", host, e);
-    ssh.close();
   });
 };
