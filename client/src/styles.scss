@@ -31,8 +31,13 @@ $blog-theme: mat-dark-theme($blog-primary, $blog-accent, $blog-warn);
   a {
     display: flex;
     padding-left: 1.2rem;
+
+    .divider {
+      margin: 6px 0;
+    }
+
     span {
-      padding-left: 5px;
+      padding-left: 8px;
     }
   }
 }

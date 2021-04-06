@@ -4,6 +4,8 @@
   cdkDropList
   id="filetree"
   cdkDropListConnectedTo="editor-tabs"
+  [contextMenu]="rootMenu"
+  [contextMenuSubject]="rootNode"
 >
   <cdk-tree-node
     *cdkTreeNodeDef="let node"
@@ -16,7 +18,7 @@
       [class.active]="fileStore.isSelectedFile(node)"
       [style.padding-left]="12 + 16 * node.level + 'px'"
       (click)="onNodeClick(node)"
-      [contextMenu]="basicMenu"
+      [contextMenu]="nestedMenu"
       [contextMenuSubject]="node"
     >
       <span
@@ -38,7 +40,7 @@
       class="directory"
       [style.padding-left]="5 + 14 * node.level + 'px'"
       (click)="onNodeClick(node)"
-      [contextMenu]="basicMenu"
+      [contextMenu]="nestedMenu"
       [contextMenuSubject]="node"
     >
       <mat-icon class="mat-icon-rtl-mirror">
@@ -49,11 +51,11 @@
   </cdk-tree-node>
 </cdk-tree>
 
-<context-menu>
+<context-menu #nestedMenu>
   <ng-template
     contextMenuItem
     [visible]="isDirectoryContextMenu"
-    (execute)="startCreateFile($event.item)"
+    (execute)="startNewFile($event.item)"
   >
     <mat-icon inline="true"> note_add </mat-icon>
     <span>New File</span>
@@ -61,7 +63,7 @@
   <ng-template
     contextMenuItem
     [visible]="isDirectoryContextMenu"
-    (execute)="startCreateFolder($event.item)"
+    (execute)="startNewFolder($event.item)"
   >
     <mat-icon inline="true"> create_new_folder </mat-icon>
     <span>New Folder</span>
@@ -78,5 +80,16 @@
   <ng-template contextMenuItem (execute)="delete($event.item)">
     <mat-icon inline="true"> delete </mat-icon>
     <span>Delete</span>
+  </ng-template>
+</context-menu>
+
+<context-menu #rootMenu>
+  <ng-template contextMenuItem (execute)="startNewFile($event.item)">
+    <mat-icon inline="true"> note_add </mat-icon>
+    <span>New File</span>
+  </ng-template>
+  <ng-template contextMenuItem (execute)="startNewFolder($event.item)">
+    <mat-icon inline="true"> create_new_folder </mat-icon>
+    <span>New Folder</span>
   </ng-template>
 </context-menu>

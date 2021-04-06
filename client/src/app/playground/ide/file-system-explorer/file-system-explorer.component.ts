@@ -21,12 +21,16 @@ declare const FileIcons: any;
   styleUrls: ['./file-system-explorer.component.scss'],
 })
 export class FileSystemExplorerComponent {
-  @ViewChild(ContextMenuComponent) basicMenu: ContextMenuComponent;
+  @ViewChild(ContextMenuComponent) nestedMenu: ContextMenuComponent;
+  @ViewChild(ContextMenuComponent) rootMenu: ContextMenuComponent;
   @Input() treeControl: FlatTreeControl<FileFlatNode>;
   @Input() dataSource: FileDataSource;
   @Output() selectFile = new EventEmitter<FileNode>();
-
   fileIcons = FileIcons;
+  rootNode = {
+    path: '/root',
+  };
+
   constructor(
     private socketService: SocketioService,
     public fileStore: FileStoreService,
@@ -51,6 +55,7 @@ export class FileSystemExplorerComponent {
 
   // Context Menu events
   startRename(file: FileFlatNode): void {
+    console.log(file);
     const dialogRef = this._dialog.open(DialogComponent, {
       width: '500px',
       data: {
@@ -71,7 +76,7 @@ export class FileSystemExplorerComponent {
     });
   }
 
-  startCreateFile(file: FileFlatNode) {
+  startNewFile(file: FileFlatNode) {
     const dialogRef = this._dialog.open(DialogComponent, {
       width: '500px',
       data: {
@@ -91,7 +96,7 @@ export class FileSystemExplorerComponent {
     });
   }
 
-  startCreateFolder(file: FileFlatNode) {
+  startNewFolder(file: FileFlatNode) {
     const dialogRef = this._dialog.open(DialogComponent, {
       width: '500px',
       data: {
@@ -114,5 +119,9 @@ export class FileSystemExplorerComponent {
     } else {
       this.socketService.emit('deleteFile', file.path);
     }
+  }
+
+  test(e: any) {
+    console.log(e);
   }
 }
