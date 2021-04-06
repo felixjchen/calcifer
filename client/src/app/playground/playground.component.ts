@@ -75,9 +75,7 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
       let { _id } = params;
 
       // Bump MongoDB
-      this._playgroundService.bump(_id).subscribe((result) => {
-        console.log(result);
-      });
+      this._playgroundService.bump(_id).subscribe(() => {});
       // Other components need this route ID
       this._routeParamStore.playgroundId$.next(_id);
       this._socketService.init(_id);

@@ -20,7 +20,6 @@ export class PlaygroundService {
   }
 
   bump(id: string): Observable<any> {
-    console.log(4);
     return this._httpClient.put(
       `${environment.api_url}/playgrounds/${id}/bump`,
       {}
