@@ -2,15 +2,10 @@
 
 cdk-tree {
   display: block;
-  height: 100%;
 }
 
 .collapsed-node {
   display: none;
-}
-
-.example-tree-node {
-  display: block;
 }
 
 .tree-node {
@@ -49,7 +44,7 @@ cdk-tree {
   height: 100%;
   overflow-x: auto;
   white-space: nowrap;
-  padding: 1rem 0 0;
+  padding: 0.6rem 0 0;
 }
 
 .file-icon {

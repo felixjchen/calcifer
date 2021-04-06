@@ -14,7 +14,7 @@
     <div
       class="file"
       [class.active]="fileStore.isSelectedFile(node)"
-      [style.padding-left]="20 + 16 * node.level + 'px'"
+      [style.padding-left]="12 + 16 * node.level + 'px'"
       (click)="onNodeClick(node)"
       [contextMenu]="basicMenu"
       [contextMenuSubject]="node"
@@ -36,13 +36,13 @@
     <div
       [class.active]="fileStore.isSelectedFile(node)"
       class="directory"
-      [style.padding-left]="14 + 16 * node.level + 'px'"
+      [style.padding-left]="5 + 14 * node.level + 'px'"
       (click)="onNodeClick(node)"
       [contextMenu]="basicMenu"
       [contextMenuSubject]="node"
     >
       <mat-icon class="mat-icon-rtl-mirror">
-        {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }}
+        {{ treeControl.isExpanded(node) ? "arrow_drop_down" : "arrow_right" }}
       </mat-icon>
       {{ node.filename }}
     </div>
@@ -56,7 +56,7 @@
     (execute)="startCreateFile($event.item)"
   >
     <mat-icon inline="true"> note_add </mat-icon>
-    New File
+    <span>New File</span>
   </ng-template>
   <ng-template
     contextMenuItem
@@ -64,7 +64,7 @@
     (execute)="startCreateFolder($event.item)"
   >
     <mat-icon inline="true"> create_new_folder </mat-icon>
-    New Folder
+    <span>New Folder</span>
   </ng-template>
   <ng-template
     contextMenuItem
@@ -73,10 +73,10 @@
   ></ng-template>
   <ng-template contextMenuItem (execute)="startRename($event.item)">
     <mat-icon inline="true"> edit </mat-icon>
-    Rename
+    <span>Rename</span>
   </ng-template>
   <ng-template contextMenuItem (execute)="delete($event.item)">
     <mat-icon inline="true"> delete </mat-icon>
-    Delete
+    <span>Delete</span>
   </ng-template>
 </context-menu>

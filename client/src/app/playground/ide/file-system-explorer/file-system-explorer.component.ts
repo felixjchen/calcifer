@@ -25,22 +25,13 @@ export class FileSystemExplorerComponent {
   @Input() treeControl: FlatTreeControl<FileFlatNode>;
   @Input() dataSource: FileDataSource;
   @Output() selectFile = new EventEmitter<FileNode>();
-  rootNode: any;
 
   fileIcons = FileIcons;
   constructor(
     private socketService: SocketioService,
     public fileStore: FileStoreService,
     private _dialog: MatDialog
-  ) {
-    this.rootNode = {
-      filename: '/root',
-      level: 0,
-      path: '/root',
-      isDirectory: true,
-      expandable: true,
-    };
-  }
+  ) {}
 
   isDirectory = (_: number, node: any) => node.isDirectory;
   isDirectoryContextMenu = (node: any) => node.isDirectory;

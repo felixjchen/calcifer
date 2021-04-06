@@ -1,19 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { 
-    height: 100%;
-    overscroll-behavior: none;
-    overflow-x: hidden;
- }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+  overscroll-behavior: none;
+  overflow-x: hidden;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 * * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-@import '~@angular/material/theming';
+@import "~@angular/material/theming";
 @import "app-theme";
 
-@include mat-core(); 
+@include mat-core();
 
 $blog-primary: mat-palette($mat-green, 700, 600, 800);
 $blog-accent: mat-palette($mat-amber, 700, 600, 800);
@@ -22,3 +26,13 @@ $blog-theme: mat-dark-theme($blog-primary, $blog-accent, $blog-warn);
 
 @include angular-material-theme($blog-theme);
 @include calcifer-theme($blog-theme);
+
+.ngx-contextmenu .dropdown-menu {
+  a {
+    display: flex;
+    padding-left: 1.2rem;
+    span {
+      padding-left: 5px;
+    }
+  }
+}
