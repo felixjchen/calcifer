@@ -2,7 +2,7 @@
 
 🌐 [project-calcifer.ml](https://project-calcifer.ml/)
 
-⚠️ [markl.tk (STAGE)](https://markl.tk/)
+🏗️ [markl.tk (Staging Server)](https://markl.tk/)
 
 ## Github Actions
 ### Services
