@@ -12,6 +12,7 @@ import {
 } from './ide/file-system-explorer/file-data-source';
 import { timer } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { PlaygroundService } from '../services/playground.service';
 
 @Component({
   selector: 'app-playground',
@@ -61,6 +62,7 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
   }
 
   constructor(
+    private _playgroundService: PlaygroundService,
     private _route: ActivatedRoute,
     private _routeParamStore: RouteParamStoreService,
     private _socketService: SocketioService,
@@ -71,8 +73,13 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this._route.params.subscribe((params) => {
       let { _id } = params;
-      this._routeParamStore.playgroundId$.next(_id);
 
+      // Bump MongoDB
+      this._playgroundService.bump(_id).subscribe((result) => {
+        console.log(result);
+      });
+      // Other components need this route ID
+      this._routeParamStore.playgroundId$.next(_id);
       this._socketService.init(_id);
       this._fileStore.init();
 

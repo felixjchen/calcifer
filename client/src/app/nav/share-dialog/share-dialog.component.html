@@ -1,14 +1,32 @@
 <p>Editing link</p>
 <div>
   <pre><div>{{ editLink }}</div> <button mat-icon-button [cdkCopyToClipboard]="editLink">
-    <mat-icon> content_copy </mat-icon>
-  </button>
-</pre>
+    <mat-icon> content_copy </mat-icon></button>
+  </pre>
 </div>
 <p>Service link (reverse proxied to port 80)</p>
 <div>
   <pre><div>{{ serviceLink }}</div> <button mat-icon-button [cdkCopyToClipboard]="serviceLink">
-    <mat-icon> content_copy </mat-icon>
-  </button>
-</pre>
+    <mat-icon> content_copy </mat-icon></button>
+  </pre>
+</div>
+<div *ngIf="type === 'kind'">
+  <p>Worker 0 Link</p>
+  <div>
+    <pre><div>{{ worker0Link }}</div> <button mat-icon-button [cdkCopyToClipboard]="serviceLink">
+    <mat-icon> content_copy </mat-icon></button>
+    </pre>
+  </div>
+  <p>Worker 1 Link</p>
+  <div>
+    <pre><div>{{ worker1Link }}</div> <button mat-icon-button [cdkCopyToClipboard]="serviceLink">
+    <mat-icon> content_copy </mat-icon> </button>
+    </pre>
+  </div>
+  <p>Worker 2 Link</p>
+  <div>
+    <pre><div>{{ worker2Link }}</div> <button mat-icon-button [cdkCopyToClipboard]="serviceLink">
+    <mat-icon> content_copy </mat-icon></button>
+    </pre>
+  </div>
 </div>

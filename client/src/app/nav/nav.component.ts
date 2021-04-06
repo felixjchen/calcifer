@@ -12,7 +12,7 @@ export class NavComponent {
   _id: string;
   constructor(
     private _routeParamStore: RouteParamStoreService,
-    public dialog: MatDialog
+    private _dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -24,6 +24,6 @@ export class NavComponent {
   }
 
   openDialog() {
-    this.dialog.open(ShareDialogComponent, { data: this._id });
+    this._dialog.open(ShareDialogComponent, { data: this._id });
   }
 }

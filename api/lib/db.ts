@@ -27,6 +27,9 @@ const db_init = async () => {
     console.error(error);
   }
 
+  // Clear db on startup
+  await models.Playgrounds.deleteMany({});
+  console.log("reset mongo");
   // Return models
   return models;
 };

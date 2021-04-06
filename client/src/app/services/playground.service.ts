@@ -14,4 +14,16 @@ export class PlaygroundService {
       type,
     });
   }
+
+  get(id: string): Observable<any> {
+    return this._httpClient.get(`${environment.api_url}/playgrounds/${id}`);
+  }
+
+  bump(id: string): Observable<any> {
+    console.log(4);
+    return this._httpClient.put(
+      `${environment.api_url}/playgrounds/${id}/bump`,
+      {}
+    );
+  }
 }

@@ -16,8 +16,8 @@ export const adapter = async (socket, history) => {
 
   // Connect to ssh instance
   try {
-    // First to playground, create shell
     if (shells[host] === undefined) {
+      // First to playground, create shell
       // https://www.npmjs.com/package/ssh2 , search for Pseudo-TTY settings
       shells[host] = await ssh.shell({ cols: 150 });
       await history.init(host);
@@ -25,7 +25,6 @@ export const adapter = async (socket, history) => {
         namespace.emit("shellData", data.toString());
         history.append(host, data);
       });
-
       // Close events
       shells[host].on("close", (e) => {
         console.log("ssh closed for host", host);

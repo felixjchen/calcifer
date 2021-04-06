@@ -9,15 +9,6 @@ export const get_router = (models) => {
   const router = express.Router();
   const { Playgrounds } = models;
 
-  // router.get("/playgrounds", async (req, res) => {
-  //   try {
-  //     let playgrounds = await Playgrounds.find({}).limit(100);
-  //     return res.json(playgrounds);
-  //   } catch (e) {
-  //     return res.status(500).json({ failure: e.message });
-  //   }
-  // });
-
   router.post("/playgrounds", async (req, res) => {
     let _id;
     const { type } = req.body;
@@ -45,7 +36,7 @@ export const get_router = (models) => {
   router.get("/playgrounds/:_id", async (req, res) => {
     try {
       let { _id } = req.params;
-      let result = await Playgrounds.query({ _id });
+      let result = await Playgrounds.findOne({ _id });
       return res.send({ result });
     } catch (e) {
       return res.status(500).json({ failure: e.message });
