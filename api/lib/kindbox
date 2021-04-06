@@ -305,7 +305,7 @@ function k8s_workers_create() {
 
     [[ $VERBOSE ]] && printf "  - Creating node $node\n"
 
-    output=$(sh -c "docker run --runtime=sysbox-runc -d --rm --expose=30000 -e VIRTUAL_PORT=30000 -e VIRTUAL_HOST=${node}.project-calcifer.ml --network=$NET --name=${node} --hostname=${node} $IMAGE" 2>&1)
+    output=$(sh -c "docker run --runtime=sysbox-runc -d --rm --expose=30000 -e VIRTUAL_PORT=30000 -e VIRTUAL_HOST=${node}.markl.tk--network=$NET --name=${node} --hostname=${node} $IMAGE" 2>&1)
     if [[ $? -ne 0 ]]; then
       k8s_workers_destroy $start $(($i + 1))
       ERR="failed to deploy node $node: $output"
