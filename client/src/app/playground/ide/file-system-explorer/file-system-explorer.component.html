@@ -1,17 +1,46 @@
-<cdk-tree [dataSource]="dataSource" [treeControl]="treeControl" cdkDropList id="filetree"
-  cdkDropListConnectedTo="editor-tabs">
-  <cdk-tree-node *cdkTreeNodeDef="let node" class="tree-node" cdkDrag [cdkDragData]="node">
-    <div class="file" [class.active]="fileStore.isSelectedFile(node)" [style.padding-left]="20 + 10 * node.level + 'px'"
-      (click)="onNodeClick(node)" [contextMenu]="basicMenu" [contextMenuSubject]="node">
-      <span class="file-icon" [class]="fileIcons.getClassWithColor(node.filename)"></span>
+<cdk-tree
+  [dataSource]="dataSource"
+  [treeControl]="treeControl"
+  cdkDropList
+  id="filetree"
+  cdkDropListConnectedTo="editor-tabs"
+>
+  <cdk-tree-node
+    *cdkTreeNodeDef="let node"
+    class="tree-node"
+    cdkDrag
+    [cdkDragData]="node"
+  >
+    <div
+      class="file"
+      [class.active]="fileStore.isSelectedFile(node)"
+      [style.padding-left]="20 + 16 * node.level + 'px'"
+      (click)="onNodeClick(node)"
+      [contextMenu]="basicMenu"
+      [contextMenuSubject]="node"
+    >
+      <span
+        class="file-icon"
+        [class]="fileIcons.getClassWithColor(node.filename)"
+      ></span>
       {{ node.filename }}
     </div>
   </cdk-tree-node>
 
-  <cdk-tree-node *cdkTreeNodeDef="let node; when: isDirectory" class="tree-node" cdkDrag [cdkDragData]="node">
-    <div [class.active]="fileStore.isSelectedFile(node)" class="directory"
-      [style.padding-left]="14 + 10 * node.level + 'px'" (click)="onNodeClick(node)"
-      [contextMenu]="basicMenu" [contextMenuSubject]="node">
+  <cdk-tree-node
+    *cdkTreeNodeDef="let node; when: isDirectory"
+    class="tree-node"
+    cdkDrag
+    [cdkDragData]="node"
+  >
+    <div
+      [class.active]="fileStore.isSelectedFile(node)"
+      class="directory"
+      [style.padding-left]="14 + 16 * node.level + 'px'"
+      (click)="onNodeClick(node)"
+      [contextMenu]="basicMenu"
+      [contextMenuSubject]="node"
+    >
       <mat-icon class="mat-icon-rtl-mirror">
         {{ treeControl.isExpanded(node) ? "expand_more" : "chevron_right" }}
       </mat-icon>
@@ -21,16 +50,27 @@
 </cdk-tree>
 
 <context-menu>
-  <ng-template contextMenuItem [visible]="isDirectoryContextMenu" (execute)="showMessage('Hi, ' + $event.item.name)">
+  <ng-template
+    contextMenuItem
+    [visible]="isDirectoryContextMenu"
+    (execute)="startCreateFile($event.item)"
+  >
     <mat-icon inline="true"> note_add </mat-icon>
     New File
   </ng-template>
-  <ng-template contextMenuItem [visible]="isDirectoryContextMenu" (execute)="showMessage('Hi, ' + $event.item.name)">
+  <ng-template
+    contextMenuItem
+    [visible]="isDirectoryContextMenu"
+    (execute)="startCreateFolder($event.item)"
+  >
     <mat-icon inline="true"> create_new_folder </mat-icon>
     New Folder
   </ng-template>
-  <ng-template contextMenuItem [visible]="isDirectoryContextMenu" [divider]="true"></ng-template>
-
+  <ng-template
+    contextMenuItem
+    [visible]="isDirectoryContextMenu"
+    [divider]="true"
+  ></ng-template>
   <ng-template contextMenuItem (execute)="startRename($event.item)">
     <mat-icon inline="true"> edit </mat-icon>
     Rename

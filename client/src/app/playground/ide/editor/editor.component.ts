@@ -69,43 +69,46 @@ export class EditorComponent implements OnInit {
   // https://github.com/microsoft/monaco-editor/issues/432
   // https://github.com/atularen/ngx-monaco-editor/issues/133
   onInitEditor(editor: any) {
-    if (this.file.node && this.id) {
-      // Create sharedb document, if this is the first time
-      const collection = this.id;
-      const documentID = this.file.node.path;
-      const content = this.file.content;
+    try {
+      if (this.file.node && this.id) {
+        // Create sharedb document, if this is the first time
+        const collection = this.id;
+        const documentID = this.file.node.path;
+        const content = this.file.content;
 
-      // Create doc in docsync service
-      this._shareDbService
-        .create(collection, documentID, content)
-        .subscribe(() => {
-          // If previous binding.. close
-          if (this.sharedbBinding) {
-            this.sharedbBinding.close();
-          }
+        // Create doc in docsync service
+        this._shareDbService
+          .create(collection, documentID, content)
+          .subscribe(() => {
+            // If previous binding.. close
+            if (this.sharedbBinding) {
+              this.sharedbBinding.close();
+            }
 
-          // New two way Monaco binding
-          const options = {
-            namespace: this.id,
-            id: this.file.node.path,
-            wsurl: environment.docsync_ws_url,
-          };
-          this.sharedbBinding = new ShareDBMonaco(options);
-          this.sharedbBinding.on('ready', () => {
-            this.sharedbBinding.add(editor, 'content');
+            // New two way Monaco binding
+            const options = {
+              namespace: this.id,
+              id: this.file.node.path,
+              wsurl: environment.docsync_ws_url,
+            };
+            this.sharedbBinding = new ShareDBMonaco(options);
+            this.sharedbBinding.on('ready', () => {
+              this.sharedbBinding.add(editor, 'content');
+            });
           });
-        });
+      }
+    } catch (err) {
+      console.log('shareDB error', err);
     }
     editor.onDidChangeModelContent((e: any) => {
       // Only trigger if user types, not if JS loads
       if (!e.isFlush) {
         // Save to file on editor change
         const content = editor.getModel().getValue();
-        this._socketService.socket.emit(
-          'writeFile',
-          this.file.node.path,
-          content
-        );
+        this._socketService.socket.emit('writeFile', {
+          path: this.file.node.path,
+          content,
+        });
       }
     });
   }

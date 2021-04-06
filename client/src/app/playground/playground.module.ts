@@ -21,7 +21,8 @@ import { EditorTabsComponent } from './ide/editor/editor-tabs/editor-tabs.compon
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatInputModule } from '@angular/material/input';
-import { RenameDialogComponent } from './ide/file-system-explorer/rename-dialog/rename-dialog.component';
+
+import { DialogComponent } from './ide/file-system-explorer/dialog/dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
@@ -35,7 +36,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     FileSearchComponent,
     SettingsComponent,
     EditorTabsComponent,
-    RenameDialogComponent,
+    DialogComponent,
   ],
   imports: [
     CommonModule,
@@ -50,7 +51,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     ContextMenuModule.forRoot(),
     DragDropModule,
     MatInputModule,
-    MatDialogModule
+    MatDialogModule,
   ],
 })
-export class PlaygroundModule { }
+export class PlaygroundModule {}

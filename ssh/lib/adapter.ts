@@ -1,38 +1,37 @@
 import SSH2Promise from "ssh2-promise";
 import mySFTP from "./sftp";
 
-// Each namespace shares a shell
+// Each namespace shares the same backing shell
 const shells = {};
 
-// Socket listens to one client
-// Broadcast across namespace, namespace per SSH target host
+// socket to ssh / sftp adapter
 export const adapter = async (socket, history) => {
   let namespace = socket.nsp;
   let { host, username, password } = socket.handshake.query;
   let config = { host, username, password };
-  console.log(config);
+  console.log(`creating adapter for ${host}`);
 
   let ssh = new SSH2Promise(config);
   let sftp = new mySFTP(ssh);
 
-  if (shells[host] === undefined) {
-    // First to playground
-    try {
+  // Connect to ssh instance
+  try {
+    // First to playground, create shell
+    if (shells[host] === undefined) {
       // https://www.npmjs.com/package/ssh2 , search for Pseudo-TTY settings
       shells[host] = await ssh.shell({ cols: 150 });
       await history.init(host);
       shells[host].on("data", (data) => {
         namespace.emit("data", data.toString());
-        // no need to await this
         history.append(host, data);
       });
-    } catch (err) {
-      socket.emit("backendError", err.messages);
-      return socket.emit("ssh_error_connecting");
+    } else {
+      // Not first, give user history from Redis
+      socket.emit("data", await history.get(host));
     }
-  } else {
-    // Not first, give user history
-    socket.emit("data", await history.get(host));
+  } catch (err) {
+    socket.emit("backendError", err.messages);
+    return socket.emit("ssh_error_connecting");
   }
 
   // Shell Events
@@ -88,7 +87,7 @@ export const adapter = async (socket, history) => {
       socket.emit("backendErrorMessage", err.message);
     }
   });
-  socket.on("writeFile", (path, content) => {
+  socket.on("writeFile", ({ path, content }) => {
     try {
       sftp.writefile(path, content);
     } catch (err) {
@@ -103,6 +102,7 @@ export const adapter = async (socket, history) => {
     }
   });
   socket.on("renameFile", async ({ path, newPath }) => {
+    console.log(path, newPath);
     try {
       sftp.rename(path, newPath);
     } catch (err) {

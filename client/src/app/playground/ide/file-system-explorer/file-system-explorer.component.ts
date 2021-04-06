@@ -4,7 +4,6 @@ import {
   Input,
   ViewChild,
   Output,
-  OnInit,
 } from '@angular/core';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { FileDataSource, FileFlatNode } from './file-data-source';
@@ -12,10 +11,8 @@ import { FileNode } from 'src/app/interfaces/file-node';
 import { SocketioService } from '../../services/socketio.service';
 import { ContextMenuComponent } from 'ngx-contextmenu';
 import { FileStoreService } from '../../services/file-store.service';
-import { timer, Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { RenameDialogComponent } from './rename-dialog/rename-dialog.component';
-
+import { DialogComponent } from './dialog/dialog.component';
 declare const FileIcons: any;
 
 @Component({
@@ -28,9 +25,22 @@ export class FileSystemExplorerComponent {
   @Input() treeControl: FlatTreeControl<FileFlatNode>;
   @Input() dataSource: FileDataSource;
   @Output() selectFile = new EventEmitter<FileNode>();
+  rootNode: any;
 
   fileIcons = FileIcons;
-  constructor(private socketService: SocketioService, public fileStore: FileStoreService, private _dialog: MatDialog) {}
+  constructor(
+    private socketService: SocketioService,
+    public fileStore: FileStoreService,
+    private _dialog: MatDialog
+  ) {
+    this.rootNode = {
+      filename: '/root',
+      level: 0,
+      path: '/root',
+      isDirectory: true,
+      expandable: true,
+    };
+  }
 
   isDirectory = (_: number, node: any) => node.isDirectory;
   isDirectoryContextMenu = (node: any) => node.isDirectory;
@@ -40,7 +50,7 @@ export class FileSystemExplorerComponent {
       if (this.treeControl.isExpanded(node)) {
         this.treeControl.collapse(node);
         this.fileStore.expandedDirectories.delete(node.path);
-        return
+        return;
       }
       this.treeControl.expand(node);
     } else {
@@ -50,9 +60,12 @@ export class FileSystemExplorerComponent {
 
   // Context Menu events
   startRename(file: FileFlatNode): void {
-    const dialogRef = this._dialog.open(RenameDialogComponent, {
+    const dialogRef = this._dialog.open(DialogComponent, {
       width: '500px',
-      data: { file },
+      data: {
+        prompt: file.filename,
+        submitPrompt: 'Rename',
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -67,14 +80,48 @@ export class FileSystemExplorerComponent {
     });
   }
 
+  startCreateFile(file: FileFlatNode) {
+    const dialogRef = this._dialog.open(DialogComponent, {
+      width: '500px',
+      data: {
+        prompt: 'filename',
+        submitPrompt: 'Create',
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        const path = file.path.split('/');
+        path.push(result);
+        this.socketService.emit('writeFile', {
+          path: path.join('/'),
+          content: '',
+        });
+      }
+    });
+  }
+
+  startCreateFolder(file: FileFlatNode) {
+    const dialogRef = this._dialog.open(DialogComponent, {
+      width: '500px',
+      data: {
+        prompt: 'filename',
+        submitPrompt: 'Create',
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        const path = file.path.split('/');
+        path.push(result);
+        this.socketService.emit('makeDir', path.join('/'));
+      }
+    });
+  }
+
   delete(file: FileFlatNode): void {
     if (file.isDirectory) {
       this.socketService.emit('deleteDir', file.path);
     } else {
       this.socketService.emit('deleteFile', file.path);
     }
-  }
-  showMessage(message: any) {
-    console.log(message);
   }
 }

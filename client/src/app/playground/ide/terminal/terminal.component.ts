@@ -4,7 +4,6 @@ import {
   OnInit,
   ViewChild,
   ElementRef,
-  ViewEncapsulation,
   OnDestroy,
   NgZone,
 } from '@angular/core';

@@ -2,6 +2,7 @@
 
 cdk-tree {
   display: block;
+  height: 100%;
 }
 
 .collapsed-node {
@@ -56,5 +57,5 @@ cdk-tree {
 }
 
 .cdk-drag-placeholder {
-  background-color: color.scale(red,  $alpha: -85%);
+  background-color: color.scale(red, $alpha: -85%);
 }
