@@ -80,7 +80,7 @@ export class FileSystemExplorerComponent {
     const dialogRef = this._dialog.open(DialogComponent, {
       width: '500px',
       data: {
-        prompt: 'filename',
+        prompt: 'file',
         submitPrompt: 'Create',
       },
     });
@@ -100,7 +100,7 @@ export class FileSystemExplorerComponent {
     const dialogRef = this._dialog.open(DialogComponent, {
       width: '500px',
       data: {
-        prompt: 'filename',
+        prompt: 'folder',
         submitPrompt: 'Create',
       },
     });

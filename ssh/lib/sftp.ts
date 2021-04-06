@@ -10,7 +10,8 @@ export default class mySFTP extends SFTP {
     let list = await this.readdir(path);
     list.forEach((file: any) => {
       file.path = `${path}/${file.filename}`;
-    })
+    });
+    list.sort((a, b) => (a.filename > b.filename ? 1 : -1));
     return list;
   }
 
