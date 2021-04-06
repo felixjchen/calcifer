@@ -22,12 +22,12 @@ export const adapter = async (socket, history) => {
       shells[host] = await ssh.shell({ cols: 150 });
       await history.init(host);
       shells[host].on("data", (data) => {
-        namespace.emit("data", data.toString());
+        namespace.emit("shellData", data.toString());
         history.append(host, data);
       });
     } else {
       // Not first, give user history from Redis
-      socket.emit("data", await history.get(host));
+      socket.emit("shellData", await history.get(host));
     }
   } catch (err) {
     socket.emit("backendError", err.messages);
@@ -35,7 +35,7 @@ export const adapter = async (socket, history) => {
   }
 
   // Shell Events
-  socket.on("data", (data) => {
+  socket.on("shellData", (data) => {
     try {
       shells[host].write(data);
     } catch (err) {
@@ -60,6 +60,7 @@ export const adapter = async (socket, history) => {
       socket.emit("backendError", err.messages);
     }
   });
+
   socket.on("getDirectoryList", async () => {
     try {
       const list = await sftp.readDirectoryByPath("/root");

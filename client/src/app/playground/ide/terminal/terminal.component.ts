@@ -56,11 +56,11 @@ export class TerminalComponent implements OnInit, OnDestroy {
       this.term.write('\r\n*** ssh connected ***\r\n');
     });
     this.term.onData((data) => {
-      socket.emit('data', data);
+      socket.emit('shellData', data);
     });
 
     // Backend -> Browser
-    socket.on('data', (data: string) => {
+    socket.on('shellData', (data: string) => {
       this.term.write(data);
     });
     socket.on('disconnect', () => {
