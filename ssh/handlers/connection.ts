@@ -23,7 +23,7 @@ export const connectionHandler = async (socket, shells, shell_history) => {
       // Shell -> Clients
       shell.on("data", (data) => {
         namespace.emit("shellData", data.toString());
-        shell_history.append(host, data);
+        shell_history.append(host, data.toString());
       });
       // Close events
       shell.on("close", () => {
