@@ -36,7 +36,13 @@ export const get_router = (models) => {
     try {
       let { _id } = req.params;
       let result = await Playgrounds.findOne({ _id });
-      return res.send({ result });
+      if (result === null) {
+        return res.status(404).json({ failure: `No such playground ${_id}` });
+      } else {
+        let { type, createdAt, updatedAt } = result;
+        result = { type, createdAt, updatedAt };
+        return res.send(result);
+      }
     } catch (e) {
       return res.status(500).json({ failure: e.message });
     }
@@ -46,9 +52,15 @@ export const get_router = (models) => {
   router.put("/playgrounds/:_id/bump", async (req, res) => {
     try {
       let { _id } = req.params;
-      let r = await Playgrounds.updateOne({ _id }, { updatedAt: Date.now() });
-      let success = r.nModified === 1;
-      return res.send({ success });
+      let result = await Playgrounds.updateOne(
+        { _id },
+        { updatedAt: Date.now() }
+      );
+      if (result.nModified === 0) {
+        return res.status(404).json({ failure: `No such playground ${_id}` });
+      } else {
+        return res.send({ success: "true" });
+      }
     } catch (e) {
       return res.status(500).json({ failure: e.message });
     }
@@ -72,8 +84,7 @@ export const get_router = (models) => {
         console.log(`Killed ${_id}`);
         success = success && remove.n === 1;
       });
-
-      res.send({ success });
+      res.send({ success, nDeleted: stale.length });
     } catch (err) {
       return res.status(500).json({ failure: err.message });
     }
