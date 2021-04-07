@@ -18,6 +18,9 @@ cdk-tree {
     font-size: $icon-size;
     height: $icon-size;
     width: $icon-size;
+
+    // Center svg
+    transform: translate(-3.5px, 0px);
   }
 
   .file,
@@ -26,7 +29,6 @@ cdk-tree {
     align-items: center;
     background-color: transparent;
     width: 100%;
-    padding: 0 0 0 1rem;
     height: 27px;
 
     &:hover {

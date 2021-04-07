@@ -16,13 +16,13 @@
     <div
       class="file"
       [class.active]="fileStore.isSelectedFile(node)"
-      [style.padding-left]="12 + 14 * node.level + 'px'"
+      [style.padding-left]="12 + 16 * node.level + 'px'"
       (click)="onNodeClick(node)"
       [contextMenu]="nestedMenu"
       [contextMenuSubject]="node"
     >
       <span
-        class="file-icon"
+        class="file-icon text-icon"
         [class]="fileIcons.getClassWithColor(node.filename)"
       ></span>
       {{ node.filename }}
@@ -38,7 +38,7 @@
     <div
       [class.active]="fileStore.isSelectedFile(node)"
       class="directory"
-      [style.padding-left]="12 + 14 * node.level + 'px'"
+      [style.padding-left]="12 + 16 * node.level + 'px'"
       (click)="onNodeClick(node)"
       [contextMenu]="nestedMenu"
       [contextMenuSubject]="node"
