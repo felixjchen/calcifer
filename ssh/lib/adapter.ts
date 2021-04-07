@@ -112,7 +112,6 @@ export const adapter = async (socket, history) => {
     }
   });
   socket.on("renameFile", async ({ path, newPath }) => {
-    console.log(path, newPath);
     try {
       sftp.rename(path, newPath);
     } catch (err) {
