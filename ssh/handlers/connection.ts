@@ -18,6 +18,8 @@ export const connectionHandler = async (socket, shells, shell_history) => {
 
       // https://www.npmjs.com/package/ssh2 , search for Pseudo-TTY settings
       shell = await ssh.shell({ cols: 150 });
+      await shell_history.initKey(host);
+
       // Shell -> Clients
       shell.on("data", (data) => {
         namespace.emit("shellData", data.toString());

@@ -21,7 +21,7 @@ export class History {
   }
 
   // Set redis[key] = ""
-  private async initKey(key: string): Promise<string> {
+  async initKey(key: string): Promise<string> {
     return new Promise((resolve, reject) => {
       this.redis.set(key, "", (err, res) => {
         if (err) {
@@ -40,11 +40,6 @@ export class History {
         if (err) {
           reject(err);
         } else {
-          // First time
-          if (res === null) {
-            await this.initKey(key);
-            res = "";
-          }
           const new_value = res + str;
           this.redis.set(key, new_value, (err, res) => {
             if (err) {
