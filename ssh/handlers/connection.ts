@@ -32,6 +32,8 @@ export const connectionHandler = async (socket, shells, shell_history) => {
         socket.emit("ssh_error_connecting");
         ssh.close();
       });
+
+      // Store shell in memory
       shells[host] = shell;
     } else {
       // Not first, give user shell_history from Redis
@@ -42,7 +44,7 @@ export const connectionHandler = async (socket, shells, shell_history) => {
     // Client -> Shell
     socket.on("shellData", (data) => {
       try {
-        shells[host].write(data);
+        shell.write(data);
       } catch (err) {
         socket.emit("backendErrorMessage", err.message);
       }
