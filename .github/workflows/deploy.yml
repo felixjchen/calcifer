@@ -1,37 +1,35 @@
-# name: deploy to vm
+name: deploy to vm
 
-# # https://stackoverflow.com/questions/62750603/github-actions-trigger-another-action-after-one-action-is-completed
-# on:
-#   workflow_run:
-#     workflows:
-#       [
-#         "ci calcifer-api",
-#         "ci calcifer-client",
-#         "ci calcifer-dind-playground",
-#         "ci calcifer-kind-playground",
-#         "ci calcifer-ssh",
-#         "ci calcifer-nginx-proxy",
-#       ]
-#     types:
-#       - completed
+# https://stackoverflow.com/questions/62750603/github-actions-trigger-another-action-after-one-action-is-completed
+on:
+  workflow_run:
+    workflows:
+      [
+        "ci calcifer-api",
+        "ci calcifer-client",
+        "ci calcifer-ssh",
+        "ci calcifer-nginx-proxy",
+      ]
+    types:
+      - completed
 
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-#     steps:
-#       - uses: ahmadnassri/action-workflow-run-wait@v1
+    steps:
+      - uses: ahmadnassri/action-workflow-run-wait@v1
 
-#       - name: executing remote ssh commands using password
-#         uses: appleboy/ssh-action@master
-#         with:
-#           host: ${{ secrets.HOST }}
-#           username: ${{ secrets.USERNAME }}
-#           password: ${{ secrets.PASSWORD }}
-#           port: ${{ secrets.PORT }}
-#           script: cd ~/project-calcifer ;
-#             docker-compose down ;
-#             docker container rm $(docker container ls -aq) -f ;
-#             ./scripts/delete_docker_images.sh ;
-#             git pull https://felixjchen:${{ secrets.PAT }}@github.com/UTSCC09/project-calcifer.git  --recurse-submodules;
-#             docker-compose -f docker-compose-prod.yml up -d
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: cd ~/project-calcifer ;
+            docker-compose down ;
+            docker container rm $(docker container ls -aq) -f ;
+            ./scripts/delete_docker_images.sh ;
+            git pull https://felixjchen:${{ secrets.PAT }}@github.com/UTSCC09/project-calcifer.git  --recurse-submodules;
+            docker-compose -f docker-compose-prod.yml up -d

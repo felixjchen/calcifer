@@ -17,6 +17,12 @@ const init = async () => {
   pull_playground_images();
   // Init DB
   const models = await db_init();
+  if (!production) {
+    // Clear db on startup
+    await models.Playgrounds.deleteMany({});
+    console.log("reset mongo");
+  }
+
   // Load all endpoints
   await load_routers(app, models);
 

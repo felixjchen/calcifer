@@ -83,6 +83,7 @@ const kill_simple_playground = async (id) => {
 };
 
 export const kill_playground = async (id, type) => {
+  console.log(`Killing ${id} of type ${id}`);
   try {
     if (type === "kind") {
       kill_kind_playground(id);

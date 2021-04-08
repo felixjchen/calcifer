@@ -18,10 +18,10 @@ export const get_router = (models) => {
     try {
       // Generate name
       let _id = get_playground_id();
-      // Create document in MongoDB, we let mongoose check if its valid type for us :)
-      await Playgrounds.create({ _id, type });
       // Start client containers
       await start_playground(_id, type);
+      // Create document in MongoDB, we let mongoose check if its valid type for us :)
+      await Playgrounds.create({ _id, type });
       return res.json({ _id });
     } catch (err) {
       if (err instanceof Error.ValidationError) {
@@ -32,37 +32,70 @@ export const get_router = (models) => {
     }
   });
 
-  router.get("/playgrounds/:_id", async (req, res) => {
+  // Middleware to check if playground with _id exists, if it does cache it in request
+  const playground_id_check = async (req, res, next) => {
     try {
       let { _id } = req.params;
       let result = await Playgrounds.findOne({ _id });
       if (result === null) {
+        // no playground with _id
         return res.status(404).json({ failure: `No such playground ${_id}` });
       } else {
-        let { type, createdAt, updatedAt } = result;
-        result = { type, createdAt, updatedAt };
-        return res.send(result);
+        // cache
+        req.playground = result;
+        next();
       }
-    } catch (e) {
-      return res.status(500).json({ failure: e.message });
+    } catch (err) {
+      return res.status(500).json({ failure: err.message });
     }
+  };
+
+  router.get("/playgrounds/:_id", playground_id_check, async (req, res) => {
+    let { type, createdAt, updatedAt } = req.playground;
+    return res.send({ type, createdAt, updatedAt });
   });
 
   // Bump
-  router.put("/playgrounds/:_id/bump", async (req, res) => {
+  router.put(
+    "/playgrounds/:_id/bump",
+    playground_id_check,
+    async (req, res) => {
+      try {
+        let { _id } = req.params;
+        let result = await Playgrounds.updateOne(
+          { _id },
+          { updatedAt: Date.now() }
+        );
+        if (result.nModified === 0) {
+          // Our middleware guarentees this playground exists... so this must be a server error
+          return res.status(500).json({ failure: `Something went wrong` });
+        } else {
+          return res.send({ success: "true" });
+        }
+      } catch (e) {
+        return res.status(500).json({ failure: e.message });
+      }
+    }
+  );
+
+  // Delete a playground
+  router.delete("/playgrounds/:_id", playground_id_check, async (req, res) => {
     try {
-      let { _id } = req.params;
-      let result = await Playgrounds.updateOne(
-        { _id },
-        { updatedAt: Date.now() }
-      );
-      if (result.nModified === 0) {
-        return res.status(404).json({ failure: `No such playground ${_id}` });
+      let { _id, type } = req.playground;
+
+      // Docker kill
+      await kill_playground(_id, type);
+      // Remove from DB
+      let result = await Playgrounds.remove({ _id });
+
+      if (result.n === 0) {
+        // Our middleware guarentees this playground exists... so this must be a server error
+        return res.status(500).json({ failure: `Something went wrong` });
       } else {
         return res.send({ success: "true" });
       }
-    } catch (e) {
-      return res.status(500).json({ failure: e.message });
+    } catch (err) {
+      return res.status(500).json({ failure: err.message });
     }
   });
 
