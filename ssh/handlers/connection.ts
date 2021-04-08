@@ -28,11 +28,11 @@ export const connectionHandler = async (socket, shells, shell_history) => {
       });
       // Shell close events
       shell.on("close", () => {
-        socket.emit("ssh_error_connecting");
+        namespace.emit("destroy");
         ssh.close();
       });
       shell.on("error", () => {
-        socket.emit("ssh_error_connecting");
+        namespace.emit("destroy");
         ssh.close();
       });
 
@@ -56,7 +56,12 @@ export const connectionHandler = async (socket, shells, shell_history) => {
     // Destroyed playground
     socket.on("destroy", () => {
       try {
+        // Kick everyone
         namespace.emit("destroy");
+        // Close shell and history
+        shell_history.initKey(host);
+        shells[host].close();
+        delete shells[host];
       } catch (err) {
         socket.emit("backendErrorMessage", err.message);
       }
