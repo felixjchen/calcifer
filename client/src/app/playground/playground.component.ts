@@ -4,7 +4,7 @@ import { MenuButton } from '../interfaces/menu-button';
 import { SocketioService } from './services/socketio.service';
 import { FileStoreService } from './services/file-store.service';
 import { RouteParamStoreService } from './services/route-param-store.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import {
   FileDataSource,
@@ -13,7 +13,7 @@ import {
 import { timer } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PlaygroundService } from '../services/playground.service';
-
+import { environment } from '../../environments/environment';
 @Component({
   selector: 'app-playground',
   templateUrl: './playground.component.html',
@@ -67,6 +67,7 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
     private _routeParamStore: RouteParamStoreService,
     private _socketService: SocketioService,
     private _fileStore: FileStoreService,
+    private _router: Router,
     private _snackBar: MatSnackBar
   ) {}
 
@@ -76,6 +77,15 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
 
       // Bump MongoDB
       this._playgroundService.bump(_id).subscribe(() => {});
+      this._playgroundService.get(_id).subscribe(
+        () => {},
+        (error) => {
+          this.openErrorSnackBar(error.error.failure);
+          if (environment.production) {
+            this._router.navigate(['/dashboard']);
+          }
+        }
+      );
 
       // Other components need this route ID
       this._routeParamStore.playgroundId$.next(_id);
@@ -121,14 +131,18 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
 
       // Error snack bar
       this._socketService.on('backendErrorMessage', (error_message: string) => {
-        this._snackBar.open(error_message, 'Close', {
-          duration: 5 * 1000,
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-        });
+        this.openErrorSnackBar(error_message);
       });
     });
   }
+
+  private openErrorSnackBar = (message: string) => {
+    this._snackBar.open(message, 'Close', {
+      duration: 5 * 1000,
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+    });
+  };
 
   refresh(): void {
     this._socketService.emit('getVisibleDirectoryLists', [
