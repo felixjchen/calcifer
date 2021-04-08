@@ -80,7 +80,7 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
       this._playgroundService.get(_id).subscribe(
         () => {},
         (error) => {
-          this.openErrorSnackBar(error.error.failure);
+          this.openSnackBar(error.error.failure);
           if (environment.production) {
             this._router.navigate(['/dashboard']);
           }
@@ -131,12 +131,18 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
 
       // Error snack bar
       this._socketService.on('backendErrorMessage', (error_message: string) => {
-        this.openErrorSnackBar(error_message);
+        this.openSnackBar(error_message);
+      });
+
+      // Destroy
+      this._socketService.on('destroy', () => {
+        this.openSnackBar('Playground deleted');
+        this._router.navigate(['/dashboard']);
       });
     });
   }
 
-  private openErrorSnackBar = (message: string) => {
+  private openSnackBar = (message: string) => {
     this._snackBar.open(message, 'Close', {
       duration: 5 * 1000,
       horizontalPosition: 'right',

@@ -52,6 +52,15 @@ export const connectionHandler = async (socket, shells, shell_history) => {
         socket.emit("backendErrorMessage", err.message);
       }
     });
+
+    // Destroyed playground
+    socket.on("destroy", () => {
+      try {
+        namespace.emit("destroy");
+      } catch (err) {
+        socket.emit("backendErrorMessage", err.message);
+      }
+    });
   } catch (err) {
     socket.emit("backendError", err.messages);
     return socket.emit("ssh_error_connecting");

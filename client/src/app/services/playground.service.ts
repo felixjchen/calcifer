@@ -15,6 +15,10 @@ export class PlaygroundService {
     });
   }
 
+  delete(id: string): Observable<any> {
+    return this._httpClient.delete(`${environment.api_url}/playgrounds/${id}`);
+  }
+
   get(id: string): Observable<any> {
     return this._httpClient.get(`${environment.api_url}/playgrounds/${id}`);
   }
