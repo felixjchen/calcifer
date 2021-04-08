@@ -168,19 +168,12 @@ export class FileDataSource extends DataSource<FileFlatNode> {
     });
 
     // now we can push the new nodes in
+    const siblings = this.data.filter((node) => node.level === 0);
     newNodes.forEach((node) => {
-      currentData.splice(0, 0, node);
+      insertNodeIntoFlatTree(node, currentData, currentChildrenIndexes, siblings);
     });
 
-    this._fileFlatNodeDiffer.removedFiles.forEach((removed) => {
-      if (currentChildrenIndexes[removed.path] === undefined) {
-        console.warn('Tried to remove file thats already gone');
-        return;
-      }
-
-      currentData.splice(currentChildrenIndexes[removed.path], 1);
-      this.flatNodeByPath.delete(removed.path);
-    });
+    this._removeFiles(currentData, currentChildrenIndexes);
 
     // todo: optimize this
     currentData.forEach((flatNode) =>
@@ -199,6 +192,7 @@ export class FileDataSource extends DataSource<FileFlatNode> {
 
     let currentChildren = getFlatNodeChildren(foundIndex, this.data);
     let currentChildrenIndexes: any = {};
+    const currentData = this.data;
 
     currentChildren.forEach((c) => {
       const foundIndex = this.data.findIndex(
@@ -212,12 +206,28 @@ export class FileDataSource extends DataSource<FileFlatNode> {
     const flatFiles = this._treeFlattener.flattenNodes(children);
     flatFiles.forEach((file) => (file.level = node.level + 1));
 
+    currentChildren = this._updateWithDiff(currentChildren, flatFiles);
+
+    this._rearrangeOldFilesAndAddNewFiles(currentChildren, currentData, currentChildrenIndexes, () => getFlatNodeChildren(foundIndex, this.data))
+        ._removeFiles(currentData, currentChildrenIndexes);
+
+    node.original.children = currentChildren.map((c) => c.original);
+
+    // todo: optimize this
+    currentData.forEach((flatNode) =>
+      this.flatNodeByPath.set(flatNode.path, flatNode)
+    );
+    this.flattenedData.next(currentData);
+  }
+
+  private _updateWithDiff(currentChildren: FileFlatNode[], flatFiles: FileFlatNode[]): FileFlatNode[] {
     this._fileFlatNodeDiffer.updateWithDiff(currentChildren, flatFiles);
-    currentChildren = currentChildren.filter(
+    return currentChildren.filter(
       (fileFlatNode) => fileFlatNode !== null
     );
+  }
 
-    const currentData = this.data;
+  private _rearrangeOldFilesAndAddNewFiles(currentChildren: FileFlatNode[], currentData: FileFlatNode[], currentChildrenIndexes: { [path: string]: number }, getSiblings: Function): this {
     let newNodes: any[] = [];
 
     currentChildren.forEach((child) => {
@@ -231,27 +241,37 @@ export class FileDataSource extends DataSource<FileFlatNode> {
     });
 
     // now we can push the new nodes in
-    newNodes.forEach((node) => {
-      currentData.splice(foundIndex + 1, 0, node);
-    });
+    newNodes.forEach((node) => insertNodeIntoFlatTree(node, currentData, currentChildrenIndexes, getSiblings()));
+    return this;
+  }
 
-    this._fileFlatNodeDiffer.removedFiles.forEach((removed) => {
-      if (currentChildrenIndexes[removed.path] === undefined) {
+  private _removeFiles(currentData: FileFlatNode[], currentChildrenIndexes: { [path: string]: number }): this {
+    this._fileFlatNodeDiffer.removedFiles.forEach((fileToRemove) => {
+      if (currentChildrenIndexes[fileToRemove.path] === undefined) {
         console.warn('Tried to remove file thats already gone');
         return;
       }
+  
+      if (currentData[currentChildrenIndexes[fileToRemove.path]].path === fileToRemove.path) {
+        const indexOfNodeToRemove = currentChildrenIndexes[fileToRemove.path];
+        this._removeFile(indexOfNodeToRemove, currentData);
 
-      currentData.splice(currentChildrenIndexes[removed.path], 1);
-      this.flatNodeByPath.delete(removed.path);
+        // todo: optimize this by recursively removing paths;
+        this.flatNodeByPath.delete(fileToRemove.path);
+      }
     });
+    return this;
+  }
 
-    node.original.children = currentChildren.map((c) => c.original);
+  private _removeFile(indexOfNodeToRemove: number, flatNodes: FileFlatNode[]): void {
+    const nodeToRemove = flatNodes[indexOfNodeToRemove]
+    let ptr = indexOfNodeToRemove;
 
-    // todo: optimize this
-    currentData.forEach((flatNode) =>
-      this.flatNodeByPath.set(flatNode.path, flatNode)
-    );
-    this.flattenedData.next(currentData);
+    flatNodes.splice(ptr, 1);
+    // todo: optimize to splice entire range;
+    while (flatNodes[ptr] !== undefined && flatNodes[ptr].level >= nodeToRemove.level + 1 && flatNodes[ptr].path.startsWith(nodeToRemove.path)) {
+      flatNodes.splice(ptr, 1);
+    }
   }
 
   disconnect(): void {
@@ -265,8 +285,9 @@ const getFlatNodeChildren = (flatNodeIndex: number, nodes: FileFlatNode[]) => {
   const flatNode = nodes[flatNodeIndex];
   let ptr = flatNodeIndex + 1;
 
+  // todo: optimize
   while (nodes[ptr] !== undefined && nodes[ptr].level > flatNode.level) {
-    if (nodes[ptr].level === flatNode.level + 1) {
+    if (nodes[ptr].level === flatNode.level + 1 && nodes[ptr].path.startsWith(flatNode.path)) {
       res.push(nodes[ptr]);
     }
     ptr++;
@@ -274,3 +295,38 @@ const getFlatNodeChildren = (flatNodeIndex: number, nodes: FileFlatNode[]) => {
 
   return res;
 };
+
+const insertNodeIntoFlatTree = (flatNode: FileFlatNode, sortedFlatNodes: FileFlatNode[], siblingIndexMap: { [path: string]: number }, siblings: FileFlatNode[]) => {
+  // If new node has no siblings we don't have to bother with sorting logic
+  if (siblings.length === 0) {
+    const parentPath = flatNode.path.slice(0, flatNode.path.length - flatNode.filename.length - 1);
+    const parentIndex = sortedFlatNodes.findIndex(nodeToFind => nodeToFind.path === parentPath);
+    if (parent) {
+      sortedFlatNodes.splice(parentIndex + 1, 0, flatNode);
+    }
+    return;
+  }
+
+  // If new node has siblings we need to determine where to insert the new node
+
+  for (const sibling of siblings) {
+    if (flatNode.filename < sibling.filename) {
+      // insert above sibling
+      const siblingIndex = siblingIndexMap[sibling.path];
+      sortedFlatNodes.splice(siblingIndex, 0, flatNode);
+      return;
+    }
+  }
+
+  // At this point we can be sure that our new node is at the bottom of the sibling list lexicographically.
+  // insert below lowest sibling
+  const siblingIndex = siblingIndexMap[siblings[siblings.length - 1].path];
+  
+  // Slide pointer down if lowest sibling is expanded and has chidlren
+  let ptr = siblingIndex + 1;
+  while (sortedFlatNodes[ptr] !== undefined && sortedFlatNodes[ptr].level > flatNode.level) {
+    ptr++;
+  }
+
+  sortedFlatNodes.splice(ptr, 0, flatNode);
+}

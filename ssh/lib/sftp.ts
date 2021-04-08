@@ -6,13 +6,14 @@ export default class mySFTP extends SFTP {
     super(ssh);
   }
 
-  async readDirectoryByPath(path: string): Promise<object[]> {
-    let list = await this.readdir(path);
-    list.forEach((file: any) => {
-      file.path = `${path}/${file.filename}`;
+  async readDirectoryByPath(path: string): Promise<{ path: string; files: any[] }> {
+    return this.readdir(path).then((files) => {
+      files.forEach((file: any) => {
+        file.path = `${path}/${file.filename}`;
+      });
+      files.sort((a, b) => (a.filename > b.filename ? 1 : -1));
+      return { path,  files };
     });
-    list.sort((a, b) => (a.filename > b.filename ? 1 : -1));
-    return list;
   }
 
   // use read stream, more efficient, especially for larger files

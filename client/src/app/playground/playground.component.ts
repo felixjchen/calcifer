@@ -10,10 +10,12 @@ import {
   FileDataSource,
   FileFlatNode,
 } from './ide/file-system-explorer/file-data-source';
-import { timer } from 'rxjs';
+import { Subject } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PlaygroundService } from '../services/playground.service';
 import { environment } from '../../environments/environment';
+import { debounceTime } from 'rxjs/operators';
+
 @Component({
   selector: 'app-playground',
   templateUrl: './playground.component.html',
@@ -45,6 +47,8 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
     (node) => node.isDirectory
   );
   dataSource = new FileDataSource(this.treeControl, this._fileStore);
+
+  refresh$ = new Subject<void>();
 
   handleMenuSelection(menu: MenuButton): void {
     this.activeMenu = menu;
@@ -105,8 +109,7 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
         }
       );
 
-      // Although polling is inefficient, it will provide a better user experience, especially when the OS is changing the FS on its on, causing no updates to be pushed out.
-      timer(0, 2000).subscribe(() => {
+      this.refresh$.pipe(debounceTime(2000)).subscribe(() => {
         this.refresh();
       });
 
@@ -126,8 +129,10 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
               this.dataSource.updateNodeChildren(node, files);
             }
           });
+          this.refresh$.next();
         }
       );
+      this.refresh$.next();
 
       // Error snack bar
       this._socketService.on('backendErrorMessage', (error_message: string) => {
