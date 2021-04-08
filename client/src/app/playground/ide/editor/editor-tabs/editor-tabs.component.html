@@ -2,7 +2,7 @@
     <div class="tabs" cdkDropList id="editor-tabs" cdkDropListOrientation="horizontal" [cdkDropListAutoScrollDisabled]="true" (cdkDropListDropped)="drop($event)">
         <button 
             *ngFor="let tab of fileStore.fileTabs$ | async" mat-flat-button disableRipple class="tab"
-            [class.selected]="fileStore.isSelectedFile(tab)" (click)="fileStore.selectedFile = tab"
+            [class.selected]="fileStore.isSelectedFile(tab)" (click)="openTab(tab)"
             cdkDrag
         >
             <span [class]="fileIcons.getClassWithColor(tab.node.filename)"></span>

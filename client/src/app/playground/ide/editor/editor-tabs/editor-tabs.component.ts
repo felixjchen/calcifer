@@ -29,6 +29,10 @@ export class EditorTabsComponent {
     return breadcrumbs;
   }
 
+  openTab(file: File): void {
+    this._socketService.socket.emit('getFile', file.node);
+  }
+
   drop(event: CdkDragDrop<File[]>): void {
     if (event.previousContainer === event.container) {
       moveItemInArray(
