@@ -53,7 +53,7 @@ export class TerminalComponent implements OnInit, OnDestroy {
     let { socket } = this.socketService;
 
     socket.on('connect', () => {
-      this.term.write('\r\n*** SSH connected ***\r\n');
+      // this.term.write('\r\n*** SSH connected ***\r\n');
     });
     this.term.onData((data) => {
       socket.emit('shellData', data);
@@ -64,7 +64,7 @@ export class TerminalComponent implements OnInit, OnDestroy {
       this.term.write(data);
     });
     socket.on('disconnect', () => {
-      this.term.write('\r\n*** SSH disconnected  ***\r\n');
+      // this.term.write('\r\n*** SSH disconnected  ***\r\n');
     });
 
     this.resizeObserver = new ResizeObserver(() =>

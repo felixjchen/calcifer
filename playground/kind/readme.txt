@@ -1,4 +1,4 @@
-Alpine container with kubectl, vim, git and curl. Port 80 on your playground is reverse proxied from https://{id}.project-calcifer.ml, see the share tab.
+Alpine container with kubectl, docker, vim, git and curl. Port 80 on your playground is reverse proxied from https://{id}.project-calcifer.ml, see the share tab.
 
 Your K8s cluster contains:
   - A kubectl container, with address {id}

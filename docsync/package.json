@@ -15,7 +15,6 @@
     "http": "^0.0.1-security",
     "query-string": "^7.0.0",
     "sharedb": "^1.7.1",
-    "ssh2-promise": "^0.1.7",
     "ws": "^7.4.4"
   },
   "devDependencies": {},

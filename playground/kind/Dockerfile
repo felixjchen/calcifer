@@ -2,7 +2,7 @@ FROM alpine:3.13
 
 # Quality of life
 # https://platformengineer.com/install-vi-bash-curl-on-alpine-linux/
-RUN apk --update add --no-cache curl vim git 
+RUN apk --update add --no-cache curl vim git docker
 
 # Kubectl
 # https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-kubectl-binary-with-curl-on-linux

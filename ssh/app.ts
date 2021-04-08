@@ -1,4 +1,3 @@
-import express from "express";
 import http from "http";
 import { Server } from "socket.io";
 import { History } from "./lib/history";
@@ -6,8 +5,7 @@ import { socketio_options, socketio_namespace_regex, PORT } from "./config";
 
 import { connectionHandler } from "./handlers/connection";
 
-const app = express();
-const server = http.createServer(app);
+const server = http.createServer();
 const io = new Server(server, socketio_options);
 
 // Redis shell history for subsequent clients
