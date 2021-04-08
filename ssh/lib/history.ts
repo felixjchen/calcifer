@@ -34,23 +34,8 @@ export class History {
   }
 
   // Append redis[key] += str
-  async append(key: string, str: string) {
-    return new Promise((resolve, reject) => {
-      this.redis.get(key, async (err, res) => {
-        if (err) {
-          reject(err);
-        } else {
-          const new_value = res + str;
-          this.redis.set(key, new_value, (err, res) => {
-            if (err) {
-              reject(err);
-            } else {
-              resolve(res);
-            }
-          });
-        }
-      });
-    });
+  append(key: string, str: string) {
+    this.redis.append(key, str);
   }
 
   // Get redis[key]

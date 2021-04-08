@@ -22,10 +22,11 @@ export const connectionHandler = async (socket, shells, shell_history) => {
 
       // Shell -> Clients
       shell.on("data", (data) => {
-        namespace.emit("shellData", data.toString());
-        shell_history.append(host, data.toString());
+        data = data.toString();
+        shell_history.append(host, data);
+        namespace.emit("shellData", data);
       });
-      // Close events
+      // Shell close events
       shell.on("close", () => {
         socket.emit("ssh_error_connecting");
         ssh.close();
