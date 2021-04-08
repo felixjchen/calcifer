@@ -10,28 +10,28 @@ export const registerDiffTreeEvents = (socket, ssh) => {
       (directoryPaths ?? []).forEach((directoryPath) =>
         directoryPromises.push(sftp.readDirectoryByPath(directoryPath))
       );
-      const files = await Promise.all(directoryPromises);
-      const directoryFiles = directoryPaths.map((path, index) => ({
-        path,
-        files: files[index],
-      }));
+
+      let directoryFiles = await Promise.allSettled(directoryPromises)
+        .then((results) => results.filter(result => result.status === 'fulfilled'))
+        .then((results) => results.map(result => (result as any).value));
+
       socket.emit("visibleDirectoryLists", directoryFiles);
     } catch (err) {
-      socket.emit("backendError", err.messages);
+      socket.emit("backendError", err);
     }
   });
   socket.on("getDirectoryList", async () => {
     try {
-      const list = await sftp.readDirectoryByPath("/root");
-      socket.emit("directoryList", list);
+      const { files } = await sftp.readDirectoryByPath("/root");
+      socket.emit("directoryList", files);
     } catch (err) {
       socket.emit("backendError", err.messages);
     }
   });
   socket.on("getDirectoryChildren", async (path: string) => {
     try {
-      const children = await sftp.readDirectoryByPath(path);
-      socket.emit("directoryChildren", children);
+      const { files } = await sftp.readDirectoryByPath(path);
+      socket.emit("directoryChildren", files);
     } catch (err) {
       socket.emit("backendError", err.messages);
     }
