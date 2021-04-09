@@ -10,7 +10,7 @@ services:
     volumes:
       - ~/certs:/etc/nginx/certs:ro
       - /var/run/docker.sock:/tmp/docker.sock:ro
-    restart: on-failure
+    restart: always
 
   client:
     image: felixchen1998/calcifer-client:latest
@@ -20,7 +20,7 @@ services:
       - VIRTUAL_PORT=3000
       - VIRTUAL_PATH=/
       - VIRTUAL_HOST=project-calcifer.ml
-    restart: on-failure
+    restart: always
 
   api:
     build: api/.
@@ -35,7 +35,7 @@ services:
       - VIRTUAL_PORT=8080
       - VIRTUAL_PATH=/api/
       - VIRTUAL_HOST=project-calcifer.ml
-    restart: on-failure
+    restart: always
 
   ssh:
     build: ssh/.
@@ -48,10 +48,10 @@ services:
       - VIRTUAL_PORT=8000
       - VIRTUAL_PATH=/ssh/
       - VIRTUAL_HOST=project-calcifer.ml
-    restart: on-failure
+    restart: always
   ssh_redis:
     image: redis
-    restart: on-failure
+    restart: always
 
   docsync:
     build: docsync/.
@@ -62,4 +62,4 @@ services:
       - VIRTUAL_PORT=9000
       - VIRTUAL_PATH=/docsync/
       - VIRTUAL_HOST=project-calcifer.ml
-    restart: on-failure
+    restart: always
