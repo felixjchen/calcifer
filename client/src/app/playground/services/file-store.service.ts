@@ -47,6 +47,16 @@ export class FileStoreService {
     return fileEqual(file as File, this.selectedFile);
   }
 
+  removeDirectory(directory: FileNode): void {
+    const { path } = directory;
+    let tabs = this.fileTabs$.value;
+    tabs.forEach(tab => {
+      if (tab.node.path.startsWith(path)) {
+        this.removeFile(tab);
+      }
+    });
+  }
+
   removeFile(file: File): void {
     let tabs = this.fileTabs$.value;
     const fileToRemoveIndex = tabs.findIndex((foundFile) =>

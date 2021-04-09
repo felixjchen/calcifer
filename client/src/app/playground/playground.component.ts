@@ -15,6 +15,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { PlaygroundService } from '../services/playground.service';
 import { environment } from '../../environments/environment';
 import { debounceTime } from 'rxjs/operators';
+import { File } from '../interfaces/file';
 
 @Component({
   selector: 'app-playground',
@@ -118,7 +119,7 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
         (res: { path: string; files: FileNode[] }[] = []) => {
           res.forEach(({ path, files }) => {
             if (path === '/root') {
-              this.dataSource.updateRootChildren(files);
+              this._cleanUpDeletedTabs(this.dataSource.updateRootChildren(files) ?? []);
               return;
             }
 
@@ -126,13 +127,15 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
               (flatNode) => flatNode.path === path
             );
             if (node) {
-              this.dataSource.updateNodeChildren(node, files);
+              this._cleanUpDeletedTabs(this.dataSource.updateNodeChildren(node, files) ?? []);
             }
           });
           this.refresh$.next();
         }
       );
       this.refresh$.next();
+
+      this._socketService.on('fileNotFound', (file: any) => this._fileStore.removeFile({ content: '', node: file } as File));
 
       // Error snack bar
       this._socketService.on('backendErrorMessage', (error_message: string) => {
@@ -144,6 +147,16 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
         this.openSnackBar('Playground deleted');
         this._router.navigate(['/dashboard']);
       });
+    });
+  }
+
+  private _cleanUpDeletedTabs(removedFiles: FileFlatNode[]): void {
+    removedFiles.forEach(file => {
+      if (file.isDirectory) {
+        this._fileStore.removeDirectory(file.original);
+      } else {
+        this._fileStore.removeFile({ content: '', node: file.original } as File);
+      }
     });
   }
 

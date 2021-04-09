@@ -9,6 +9,7 @@ export const registerFileHandlers = (socket, ssh) => {
       let content = await sftp.readfile(file.path);
       socket.emit("sendFile", { node: file, content });
     } catch (err) {
+      socket.emit('fileNotFound', file);
       socket.emit("backendErrorMessage", err.message);
     }
   });

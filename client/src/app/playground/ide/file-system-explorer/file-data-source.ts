@@ -149,7 +149,7 @@ export class FileDataSource extends DataSource<FileFlatNode> {
     return nodeIndexes;
   }
 
-  updateRootChildren(children: any): void {
+  updateRootChildren(children: any): FileFlatNode[] {
     let currentChildren = this.data.filter((node) => node.level === 0);
     let currentChildrenIndexes: any = {};
     const currentData = this.data;
@@ -175,14 +175,16 @@ export class FileDataSource extends DataSource<FileFlatNode> {
       this.flatNodeByPath.set(flatNode.path, flatNode)
     );
     this.flattenedData.next(currentData);
+
+    return this._fileFlatNodeDiffer.removedFiles;
   }
 
-  updateNodeChildren(node: FileFlatNode, children: any): void {
+  updateNodeChildren(node: FileFlatNode, children: any): FileFlatNode[] {
     const foundIndex = this.data.findIndex(
       (nodeToFind) => nodeToFind.path === node.path
     );
     if (foundIndex === -1) {
-      return;
+      return [];
     }
 
     let currentChildren = getFlatNodeChildren(foundIndex, this.data);
@@ -213,6 +215,8 @@ export class FileDataSource extends DataSource<FileFlatNode> {
       this.flatNodeByPath.set(flatNode.path, flatNode)
     );
     this.flattenedData.next(currentData);
+
+    return this._fileFlatNodeDiffer.removedFiles;
   }
 
   private _updateWithDiff(currentChildren: FileFlatNode[], flatFiles: FileFlatNode[]): FileFlatNode[] {
