@@ -14,7 +14,7 @@
     routerLinkActive="active"
     [routerLink]="['/edit/', _id]"
     [routerLinkActiveOptions]="{ exact: true }"
-    *ngIf="_id !== undefined"
+    *ngIf="_id !== null"
   >
     <mat-icon> code </mat-icon>
     <span> {{ _id }} </span>
@@ -23,7 +23,7 @@
     mat-button
     class="playgroundButton noShrink"
     (click)="openDialog()"
-    *ngIf="_id !== undefined"
+    *ngIf="_id !== null"
   >
     <mat-icon> share </mat-icon>
     <span> Share </span>

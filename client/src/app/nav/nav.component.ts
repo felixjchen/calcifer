@@ -9,7 +9,7 @@ import { ShareDialogComponent } from './share-dialog/share-dialog.component';
   styleUrls: ['./nav.component.scss'],
 })
 export class NavComponent {
-  _id: string;
+  _id: string | null;
   constructor(
     private _routeParamStore: RouteParamStoreService,
     private _dialog: MatDialog
@@ -17,9 +17,7 @@ export class NavComponent {
 
   ngOnInit(): void {
     this._routeParamStore.playgroundId$.subscribe((_id) => {
-      if (_id !== null) {
-        this._id = _id;
-      }
+      this._id = _id;
     });
   }
 

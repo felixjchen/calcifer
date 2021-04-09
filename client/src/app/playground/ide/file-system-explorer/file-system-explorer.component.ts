@@ -55,7 +55,6 @@ export class FileSystemExplorerComponent {
 
   // Context Menu events
   startRename(file: FileFlatNode): void {
-    console.log(file);
     const dialogRef = this._dialog.open(DialogComponent, {
       width: '500px',
       data: {

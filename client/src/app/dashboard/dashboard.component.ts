@@ -2,6 +2,9 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { PlaygroundService } from '../services/playground.service';
 
+// For clearing state
+import { RouteParamStoreService } from './../playground/services/route-param-store.service';
+import { FileStoreService } from './../playground/services/file-store.service';
 interface PlaygroundButton {
   imageSrc: string;
   type: string;
@@ -72,9 +75,18 @@ export class DashboardComponent {
   ];
 
   constructor(
+    private _fileStoreService: FileStoreService,
+    private _routeParamService: RouteParamStoreService,
     private _playgroundService: PlaygroundService,
     private _router: Router
-  ) {}
+  ) {
+    // Reset state
+    // Route param
+    this._routeParamService.playgroundId$.next(null);
+    // Tabs + selected tab
+    this._fileStoreService.fileTabs$.next([]);
+    this._fileStoreService.selectedFile$.next(null);
+  }
 
   createDashboard(type: string): void {
     this.loading = true;

@@ -6,6 +6,7 @@ export const PORT = process.env.VIRTUAL_PORT || 8000;
 
 // Need cors for dev work (different ports)
 export const socketio_options = production ? {} : { cors: { origin: "*" } };
+console.log({ socketio_options });
 // Playgrounds use "adjective-animal" ids in prod, but in dev we use as a normal ssh client
 export const socketio_namespace_regex = production ? /[a-zA-Z-_]+$/ : /.+$/;
 

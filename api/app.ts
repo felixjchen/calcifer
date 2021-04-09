@@ -10,6 +10,9 @@ app.use(body_parser.json());
 if (!production) {
   const cors = require("cors");
   app.use(cors());
+  console.log("cors on");
+} else {
+  console.log("cors off");
 }
 
 const init = async () => {
