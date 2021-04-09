@@ -4,7 +4,7 @@ RUN npm i -g create-react-app
 
 # Quality of life
 # https://platformengineer.com/install-vi-bash-curl-on-alpine-linux/
-RUN apk --update add --no-cache curl vim git 
+RUN apk --update add --no-cache curl vim git docker
 
 # SSH
 # https://github.com/arvindr226/alpine-ssh/blob/master/Dockerfile
