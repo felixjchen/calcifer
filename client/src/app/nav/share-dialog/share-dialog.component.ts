@@ -26,7 +26,6 @@ export class ShareDialogComponent {
     this.worker1Link = `https://${_id}-cluster-worker-1.${window.location.hostname}`;
     this.worker2Link = `https://${_id}-cluster-worker-2.${window.location.hostname}`;
     this._playgroundService.get(_id).subscribe(({ type }) => {
-      console.log({ type });
       this.type = type;
     });
   }
