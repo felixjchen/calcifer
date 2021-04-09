@@ -179,35 +179,16 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
   }
 
   selectFromExistingFiles(path: string): void {
-    const file = searchFileSystemTree(this.files, `/root${path.slice(1)}`);
+    const file = this.dataSource.data.find(nodeToFind => nodeToFind.path === `/root${path.slice(1)}`)
     if (!file) {
       console.warn('could not find file at path ' + path);
       return;
     }
 
-    this.selectFile(file);
+    this.selectFile(file.original);
   }
 
   selectFile(file: FileNode): void {
     this._socketService.emit('getFile', file);
   }
 }
-
-const searchFileSystemTree = (
-  files: FileNode[] = [],
-  path: string
-): FileNode | null => {
-  // todo(aleksanderbodurri): optimize this traversal
-  for (const file of files) {
-    if (file.path === path) {
-      return file;
-    }
-
-    const found = searchFileSystemTree(file.children, path);
-    if (found) {
-      return found;
-    }
-  }
-
-  return null;
-};
