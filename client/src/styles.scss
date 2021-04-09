@@ -45,8 +45,7 @@ $blog-theme: mat-dark-theme($blog-primary, $blog-accent, $blog-warn);
 
 // Dialog
 .cdk-overlay-container mat-dialog-container {
-  padding: 1rem;
-  padding-top: 1.5rem;
+  padding: 1.5rem 2rem 1rem;
 
   ng-component {
     align-items: center;
