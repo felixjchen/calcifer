@@ -81,7 +81,7 @@ export class FileStoreService {
     if (this.selectedFile && fileEqual(fileToRemove, this.selectedFile)) {
       const newFileToSelect =
         tabs[fileToRemoveIndex] || tabs[Math.min(fileToRemoveIndex - 1, 0)];
-      this.selectedFile = newFileToSelect;
+      this._socketService.emit('getFile', newFileToSelect.node);
     }
 
     this.fileTabs$.next(tabs);
