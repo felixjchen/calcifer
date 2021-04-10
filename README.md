@@ -2,7 +2,7 @@
 
 🌐 [project-calcifer.ml](https://project-calcifer.ml/)
 
-🎥 [Video](https://www.youtube.com/watch?v=_QGjAQiZ6rw)
+🎥 [Video](https://www.youtube.com/watch?v=vN3YOh_K1lo)
 
 ## Other Stuff
 
