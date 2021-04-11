@@ -6,12 +6,9 @@
 
 🎥 [Video](https://www.youtube.com/watch?v=Ln0unSDQWt0)
 
-## Other Stuff
+### Development
 
 🏗️ [markl.tk (Staging Server)](https://markl.tk/)
-
-
-### Builds
 
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/ssh-service.yml/badge.svg)
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/docsync-service.yml/badge.svg)
