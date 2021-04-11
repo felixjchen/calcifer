@@ -2,22 +2,20 @@
 
 🌐 [project-calcifer.ml](https://project-calcifer.ml/)
 
-🎥 [Video](https://www.youtube.com/watch?v=vN3YOh_K1lo)
+🎥 [Video](https://www.youtube.com/watch?v=Ln0unSDQWt0)
 
 ## Other Stuff
 
 🏗️ [markl.tk (Staging Server)](https://markl.tk/)
 
-## Github Actions
-### Services
+
+### Builds
 
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/ssh-service.yml/badge.svg)
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/docsync-service.yml/badge.svg)
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/api-service.yml/badge.svg)
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/client-service.yml/badge.svg)
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/nginx-proxy.yml/badge.svg)
-
-### Playgrounds
 
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/kind-playground.yml/badge.svg)
 ![Docker Build](https://github.com/UTSCC09/project-calcifer/actions/workflows/dind-playground.yml/badge.svg)
