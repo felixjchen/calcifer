@@ -6,6 +6,11 @@
 
 🎥 [Video](https://www.youtube.com/watch?v=Ln0unSDQWt0)
 
+### Credits
+- File Icons from https://github.com/file-icons/atom
+- Material Icons from https://material-ui.com/components/material-icons
+- Playground Icons from https://icons.coreui.io
+
 ### Development
 
 🏗️ [markl.tk (Staging Server)](https://markl.tk/)
