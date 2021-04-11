@@ -1,6 +1,8 @@
-📓 [Documentation](https://github.com/UTSCC09/project-calcifer/wiki)
 
-🌐 [project-calcifer.ml](https://project-calcifer.ml/)
+
+🌐 [Application](https://project-calcifer.ml/)
+
+📓 [Documentation](https://github.com/UTSCC09/project-calcifer/wiki)
 
 🎥 [Video](https://www.youtube.com/watch?v=Ln0unSDQWt0)
 
