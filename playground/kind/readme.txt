@@ -17,7 +17,7 @@ WARNING: Given the edit link, anyone can see this environment, please do not put
 Try:
 
 Deploying containers with a deployment and NodePort service
-https://github.com/UTSCC09/project-calcifer/wiki/Kubernetes-NodePort
+https://github.com/felixjchen/calcifer/wiki/Kubernetes-NodePort
 
 Deploying Kubernetes Dashboard and creating a ServiceAccount 
-https://github.com/UTSCC09/project-calcifer/wiki/Kubernetes-Dashboard
+https://github.com/felixjchen/calcifer/wiki/Kubernetes-Dashboard

@@ -48,7 +48,7 @@ cp /etc/letsencrypt/live/project-calcifer.ml/fullchain.pem ~/certs/project-calci
 
 # Git login and clone
 cd ~
-git clone https://github.com/UTSCC09/project-calcifer.git
+git clone https://github.com/felixjchen/calcifer.git
 # Add nginx submodule
 cd project-calcifer
 git submodule update --init --recursive
