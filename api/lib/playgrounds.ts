@@ -6,10 +6,10 @@ const start_simple_playground = async (id: string, type: string) => {
   try {
     let command: string;
     if (production) {
-      command = `docker run --runtime=sysbox-runc -d --network project-calcifer_default --name=${id} --network-alias=${id} -e VIRTUAL_HOST=${id}.${domain} felixchen1998/calcifer-playground:${type}`;
+      command = `docker run --runtime=sysbox-runc -d --network calcifer_default --name=${id} --network-alias=${id} -e VIRTUAL_HOST=${id}.${domain} felixchen1998/calcifer-playground:${type}`;
     } else {
       // Development is slightly different, we use virtual pathes
-      command = `docker run --privileged -d --network project-calcifer_default --name=${id} --network-alias=${id} --env VIRTUAL_PATH=/${id} felixchen1998/calcifer-playground:${type}`;
+      command = `docker run --privileged -d --network calcifer_default --name=${id} --network-alias=${id} --env VIRTUAL_PATH=/${id} felixchen1998/calcifer-playground:${type}`;
     }
     await exec(command);
   } catch (err) {
@@ -21,11 +21,11 @@ const start_simple_playground = async (id: string, type: string) => {
 const start_kind_playground = async (id: string) => {
   try {
     // Kubectl container
-    let command = `docker run --runtime=sysbox-runc -d --network project-calcifer_default --name=${id} --network-alias=${id} -e VIRTUAL_HOST=${id}.${domain} felixchen1998/calcifer-playground:kind`;
+    let command = `docker run --runtime=sysbox-runc -d --network calcifer_default --name=${id} --network-alias=${id} -e VIRTUAL_HOST=${id}.${domain} felixchen1998/calcifer-playground:kind`;
     console.log("creating kubectl container");
     await exec(command);
     // K8s cluster
-    command = `lib/kindbox create --num-workers=3 --net=project-calcifer_default ${id}-cluster`;
+    command = `lib/kindbox create --num-workers=3 --net=calcifer_default ${id}-cluster`;
     console.log("creating KIND cluster");
     await exec(command);
 

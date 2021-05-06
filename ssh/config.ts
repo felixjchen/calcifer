@@ -11,6 +11,4 @@ console.log({ socketio_options });
 export const socketio_namespace_regex = production ? /[a-zA-Z-_]+$/ : /.+$/;
 
 // Redis settings
-export const redis_host = production
-  ? "project-calcifer_ssh_redis_1"
-  : "0.0.0.0";
+export const redis_host = production ? "calcifer_ssh_redis_1" : "0.0.0.0";
