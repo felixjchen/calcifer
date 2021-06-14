@@ -1,8 +1,7 @@
-FROM rust:alpine3.13
+FROM alpine:3.13
 
 # Quality of life
-# https://platformengineer.com/install-vi-bash-curl-on-alpine-linux/
-RUN apk --update add --no-cache curl vim git docker
+RUN apk --update add --no-cache rust cargo curl vim git docker
 
 # SSH
 # https://github.com/arvindr226/alpine-ssh/blob/master/Dockerfile
