@@ -10,7 +10,7 @@ import {
   FileDataSource,
   FileFlatNode,
 } from './ide/file-system-explorer/file-data-source';
-import { Subject } from 'rxjs';
+import { Subject, interval, Subscription } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PlaygroundService } from '../services/playground.service';
 import { environment } from '../../environments/environment';
@@ -49,7 +49,7 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
   );
   dataSource = new FileDataSource(this.treeControl, this._fileStore);
 
-  refresh$ = new Subject<void>();
+  // refresh$ = new Subject<void>();
 
   handleMenuSelection(menu: MenuButton): void {
     this.activeMenu = menu;
@@ -100,7 +100,6 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
       this._socketService.once('directoryList', (files: FileNode[]) => {
         this.dataSource.update(files);
       });
-
       this._socketService.emit('getDirectoryList');
 
       this._socketService.on(
@@ -110,7 +109,10 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
         }
       );
 
-      this.refresh$.pipe(debounceTime(2000)).subscribe(() => {
+      // this.refresh$.pipe(debounceTime(2000)).subscribe(() => {
+      //   this.refresh();
+      // });
+      interval(5000).subscribe(() => {
         this.refresh();
       });
 
@@ -119,7 +121,9 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
         (res: { path: string; files: FileNode[] }[] = []) => {
           res.forEach(({ path, files }) => {
             if (path === '/root') {
-              this._cleanUpDeletedTabs(this.dataSource.updateRootChildren(files) ?? []);
+              this._cleanUpDeletedTabs(
+                this.dataSource.updateRootChildren(files) ?? []
+              );
               return;
             }
 
@@ -127,15 +131,19 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
               (flatNode) => flatNode.path === path
             );
             if (node) {
-              this._cleanUpDeletedTabs(this.dataSource.updateNodeChildren(node, files) ?? []);
+              this._cleanUpDeletedTabs(
+                this.dataSource.updateNodeChildren(node, files) ?? []
+              );
             }
           });
-          this.refresh$.next();
+          // this.refresh$.next();
         }
       );
-      this.refresh$.next();
+      // this.refresh$.next();
 
-      this._socketService.on('fileNotFound', (file: any) => this._fileStore.removeFile({ content: '', node: file } as File));
+      this._socketService.on('fileNotFound', (file: any) =>
+        this._fileStore.removeFile({ content: '', node: file } as File)
+      );
 
       // Error snack bar
       this._socketService.on('backendErrorMessage', (error_message: string) => {
@@ -151,11 +159,14 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
   }
 
   private _cleanUpDeletedTabs(removedFiles: FileFlatNode[]): void {
-    removedFiles.forEach(file => {
+    removedFiles.forEach((file) => {
       if (file.isDirectory) {
         this._fileStore.removeDirectory(file.original);
       } else {
-        this._fileStore.removeFile({ content: '', node: file.original } as File);
+        this._fileStore.removeFile({
+          content: '',
+          node: file.original,
+        } as File);
       }
     });
   }
@@ -179,7 +190,9 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
   }
 
   selectFromExistingFiles(path: string): void {
-    const file = this.dataSource.data.find(nodeToFind => nodeToFind.path === `/root${path.slice(1)}`)
+    const file = this.dataSource.data.find(
+      (nodeToFind) => nodeToFind.path === `/root${path.slice(1)}`
+    );
     if (!file) {
       console.warn('could not find file at path ' + path);
       return;
