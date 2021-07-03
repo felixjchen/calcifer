@@ -14,6 +14,8 @@
 
 ## Architecture
 
+- Basically a collaborative SSH + SFTP client with a text editor
+
 ![](https://user-images.githubusercontent.com/31393977/113656798-970f6380-966a-11eb-800f-80d76786e91b.png)
 
 ## Development
