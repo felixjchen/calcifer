@@ -18,7 +18,6 @@
 
 ## Development
 
-🏗️ [markl.tk (Staging Server)](https://markl.tk/)
 
 ![Docker Build](https://github.com/felixjchen/calcifer/actions/workflows/ssh-service.yml/badge.svg)
 ![Docker Build](https://github.com/felixjchen/calcifer/actions/workflows/docsync-service.yml/badge.svg)
