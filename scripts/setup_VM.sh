@@ -43,8 +43,8 @@ certbot certonly --manual \
 
 # copy certs, to where docker volume will be mounted
 mkdir ~/certs 
-cp /etc/letsencrypt/live/project-calcifer.ml/privkey.pem ~/certs/project-calcifer.ml.key 
-cp /etc/letsencrypt/live/project-calcifer.ml/fullchain.pem ~/certs/project-calcifer.ml.crt
+ln /etc/letsencrypt/archive/project-calcifer.ml/cert1.pem ~/certs/project-calcifer.ml.key 
+ln /etc/letsencrypt/archive/project-calcifer.ml/fullchain1.pem  ~/certs/project-calcifer.ml.crt
 
 # Git login and clone
 cd ~
