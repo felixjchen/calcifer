@@ -1,1 +1,1 @@
-docker exec -it project-calcifer_nginx-proxy_1 sh
+docker exec -it calcifer_nginx-proxy_1 sh
