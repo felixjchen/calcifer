@@ -112,6 +112,7 @@ export class PlaygroundComponent implements OnInit, OnDestroy {
       // this.refresh$.pipe(debounceTime(2000)).subscribe(() => {
       //   this.refresh();
       // });
+      this.refresh();
       interval(5000).subscribe(() => {
         this.refresh();
       });

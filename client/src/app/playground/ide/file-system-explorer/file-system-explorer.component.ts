@@ -119,8 +119,4 @@ export class FileSystemExplorerComponent {
       this.socketService.emit('deleteFile', file.path);
     }
   }
-
-  test(e: any) {
-    console.log(e);
-  }
 }
