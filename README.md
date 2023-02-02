@@ -1,10 +1,11 @@
 ## Deliverables
 
-🌐 [Application](https://project-calcifer.ml/)
+🎥 [Video](https://www.youtube.com/watch?v=Ln0unSDQWt0)
+
+🌐 [Application](https://project-calcifer.ml/) (OFFLINE)
 
 📓 [Documentation](https://github.com/felixjchen/calcifer/wiki)
 
-🎥 [Video](https://www.youtube.com/watch?v=Ln0unSDQWt0)
 
 ## Credits
 
